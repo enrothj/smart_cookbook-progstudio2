@@ -5,7 +5,15 @@ import scala.collection.mutable.Buffer
 import java.io.File
 import java.io.PrintWriter
 
-class Aine(val nimi: String, val ainesosat: Vector[Tuple3[String, Int, Int]], val allergeenit: Vector[String], val kuvaus: String) {
+/*
+ * 
+ */
+
+class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
+    var allergeenit: Array[String],
+    var kuvaus: String,
+    var tiheys: Double, var määrä: Double,
+    var mittayksikkö: String) {
 
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
