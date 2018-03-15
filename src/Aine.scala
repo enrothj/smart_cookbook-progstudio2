@@ -15,6 +15,18 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
     var tiheys: Double, var määrä: Double,
     var mittayksikkö: String) {
 
+  
+  /*
+   * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan reseptin mittayksikössä, jos aineen raaka-aineet
+   * pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita, jotka sisältävät raaka-aineen, sen määrän ja käytettävän
+   * mittayksikön.
+   * 
+   */
+  
+  def aineetYhteensä: Vector[Tuple3[Aine, Double, String]] = {
+    ???
+  }
+  
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
    * Ensimmäiselle riville tulee Aineen nimi, seuraaville riveille tulevat ainesosat, jokainen omalle rivilleen. Ainesosien jälkeen
@@ -45,6 +57,10 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
 
 // Kumppaniolio, jolla helpotetaan Aine-olioiden luomista, ja jolla voidaan luoda uusia Aine-olioita lukemalla niitä tekstitiedostoista.
 object Aine {
+  
+  /*
+   * Tehdasmetodi, jolla helpotetaan uusien Aine-olioiden luomista.
+   */
   
   def apply(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Array[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String) = {
