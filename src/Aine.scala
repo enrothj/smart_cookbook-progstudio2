@@ -46,8 +46,10 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
 // Kumppaniolio, jolla helpotetaan Aine-olioiden luomista, ja jolla voidaan luoda uusia Aine-olioita lukemalla niitä tekstitiedostoista.
 object Aine {
   
-  def apply(nimi: String, ainesosat: Vector[Tuple3[String, Int, Int]], allergeenit: Vector[String], kuvaus: String) = {
-    new Aine(nimi: String, ainesosat: Vector[Tuple3[String, Int, Int]], allergeenit: Vector[String], kuvaus: String)
+  def apply(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Array[String], kuvaus: String,
+      tiheys: Double, määrä: Double, mittayksikkö: String) = {
+    new Aine(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Array[String], kuvaus: String,
+      tiheys: Double, määrä: Double, mittayksikkö: String)
   }
   
   
