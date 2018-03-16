@@ -2,10 +2,14 @@ package Smart_Cookbook
 
 
 /*
- * 
+ * Hakukone etsii ohjelman tiedoista halutuilla kriteereillä aineita. Kriteerejä ovat mm. allergeenit,
+ * aineen määrä varastossa ja nimi.
  */
 
 object Hakukone {
+  
+  //TODO: Luo erilaisia hae-metodeja, jotka täyttävät tarvittavan hakutoiminnallisuuden.
+  //TODO: Luo metodeja, joilla voi suodattaa tietyillä kriteereillä.
   
   /*
    * Metodi hae käy läpi Varaston listan Aine-olioista ja palauttaa listan niistä, jotka täyttävät
