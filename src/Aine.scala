@@ -27,6 +27,16 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
     ???
   }
   
+  // muutaYksikkö muuttaa aineen oletusmittayksikön halutuksi. TODO: x pitää olla tunnistettu mittayksikkö.
+  def muutaYksikkö(x: String) = this.mittayksikkö = x
+  
+  // muutaTiheys muuttaa aineen tiheyden halutuksi
+  def muutaTiheys(x: Double) = this.tiheys = x
+  
+  // muutaKuvaus muuttaa aineen kuvausta
+  def muutaKuvaus(s: String) = this.kuvaus = s
+  
+  
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
    * Ensimmäiselle riville tulee Aineen nimi, seuraaville riveille tulevat ainesosat, jokainen omalle rivilleen. Ainesosien jälkeen
