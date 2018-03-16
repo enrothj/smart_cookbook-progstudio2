@@ -10,7 +10,7 @@ import java.io.PrintWriter
  */
 
 class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
-    var allergeenit: Array[String],
+    var allergeenit: Buffer[String],
     var kuvaus: String,
     var tiheys: Double, var määrä: Double,
     var mittayksikkö: String) {
@@ -33,9 +33,20 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
   // muutaTiheys muuttaa aineen tiheyden halutuksi
   def muutaTiheys(x: Double) = this.tiheys = x
   
-  // muutaKuvaus muuttaa aineen kuvausta
-  def muutaKuvaus(s: String) = this.kuvaus = s
+  // muutaMäärä muuttaa määrän, joka syntyy ainetta valmistettaessa
+  def muutaMäärä(x: Double) = this.määrä = x
   
+  // muutaKuvaus muuttaa aineen kuvausta
+  def muutaKuvaus(x: String) = this.kuvaus = x
+  
+  /*
+   * Näillä metodeilla voidaan muuttaa Aineen allergeenilistaa.
+   */
+  def lisääAllergeeni(x: String) = ???
+  
+  def poistaAllergeeni(x: String) = ???
+  
+  def uudetAllergeenit(Array[String]) = ???
   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
@@ -72,13 +83,13 @@ object Aine {
    * Tehdasmetodi, jolla helpotetaan uusien Aine-olioiden luomista.
    */
   
-  def apply(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Array[String], kuvaus: String,
+  def apply(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String) = {
-    new Aine(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Array[String], kuvaus: String,
+    new Aine(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String)
   }
   
-  
+  // TODO: SIIRRÄ "IO"-OBJEKTIIN ja lisää uudet muutokset
   // metodi lukee tekstitiedoston ja luo tietojen perusteella uuden Aine-olion
   def lue(tiedostonimi: String): Aine = {
     
