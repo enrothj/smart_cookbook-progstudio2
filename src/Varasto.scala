@@ -5,18 +5,18 @@ import scala.io.Source
 import java.io.File
 import java.io.PrintWriter
 
-object Jaakaappi {
+object Varasto {
 
-  var varasto: Map[String, Double] = Map() // Muuttuja tallentaa kaikki jääkaapin sisältämät aineet ja niiden määrän.
+  var varasto: Map[Aine, Double] = Map() // Muuttuja tallentaa kaikki jääkaapin sisältämät aineet ja niiden määrän.
   
-  def uusiAine(nimi: String, maara: Double) = varasto(nimi) = maara
+  def uusiAine(aine: Aine, maara: Double) = varasto(aine) = maara
   
-  def lisaaAinetta(nimi: String, maara: Double) = varasto(nimi) = varasto.get(nimi).getOrElse(0.0) + maara
+  def lisaaAinetta(aine: Aine, maara: Double) = varasto(aine) = varasto.get(aine).getOrElse(0.0) + maara
   
-  def vahennaAinetta(nimi: String, maara: Double) = {
+  def vahennaAinetta(aine: Aine, maara: Double) = {
     
-    if (maara < varasto.get(nimi).getOrElse(0.0)) varasto(nimi) = varasto.get(nimi).getOrElse(0.0) - maara
-    else varasto -= nimi
+    if (maara < varasto.get(aine).getOrElse(0.0)) varasto(aine) = varasto.get(aine).getOrElse(0.0) - maara
+    else varasto -= aine
       
   }
   
