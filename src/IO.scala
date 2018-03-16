@@ -7,6 +7,8 @@ import java.io.PrintWriter
 
 object IO {
   
+  //TODO: korjaa metodit
+  
   
   def kirjoita() = {
     
