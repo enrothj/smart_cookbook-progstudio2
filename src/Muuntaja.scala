@@ -20,5 +20,10 @@ object Muuntaja {
   
   def suhde = ???
   
+  // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
+  def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = ???
+  
+  // muunna käyttää laske-metodia, mutta saa tiheyden ja aloitusmittayksikön annetulta Aine-oliolta.
+  def muunna(aine: Aine, määrä: Double, yksikkö: String): Double = ???
   
 }
