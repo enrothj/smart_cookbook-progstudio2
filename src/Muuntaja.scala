@@ -26,6 +26,19 @@ package Smart_Cookbook
 object Muuntaja {
   
   /*
+   * Metodit tunnistaX ottavat parametreinaan mittayksikön (String) ja muuttavat sen Muuntajan käyttämään perusmittayksikköön (ml tai g).
+   */
+  private def tunnistaMassa(s: String): Double = {
+    val massaGrammoina = match s {
+      case "g"    => 1.0
+      case "kg"   => 1000.0
+      case "lb"   => 453.6
+      case "oz"   => 28.4
+      case _ => throw new Exception() //TODO: Metodin tulisi käsitellä poikkeukset, jolloin sille annetaan vääränlainen parametri (muu mittayksikkö tai kirjoitusvirhe tjsp).
+    }
+  }
+  
+  /*
    * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen.
    */
   
