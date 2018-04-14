@@ -1,5 +1,11 @@
 package Smart_Cookbook
 
+/*
+ * Muuntaja käsittelee ohjelman mittayksikkömuunnokset. Ohjelma tunnistaa ja käsittelee mittayksiköitä String-muodossa.
+ */
+
+
+
 object Muuntaja {
   
   /*
