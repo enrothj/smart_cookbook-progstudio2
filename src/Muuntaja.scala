@@ -29,7 +29,7 @@ object Muuntaja {
    * Metodit tunnistaX ottavat parametreinaan mittayksikön (String) ja muuttavat sen Muuntajan käyttämään perusmittayksikköön (ml tai g).
    */
   private def tunnistaMassa(s: String): Double = {
-    val massaGrammoina = match s {
+    val massaGrammoina = s match {
       case "g"    => 1.0
       case "kg"   => 1000.0
       case "lb"   => 453.6
@@ -40,7 +40,7 @@ object Muuntaja {
   }
   
   private def tunnistaTilavuus(s: String): Double = {
-    val massaMillilitroina = match s {
+    val massaMillilitroina = s match {
       case "ml"   => 1.0
       case "dl"   => 100.0
       case "l"    => 1000.0
