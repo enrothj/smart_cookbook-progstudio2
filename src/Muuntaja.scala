@@ -36,6 +36,21 @@ object Muuntaja {
       case "oz"   => 28.4
       case _ => throw new Exception() //TODO: Metodin tulisi käsitellä poikkeukset, jolloin sille annetaan vääränlainen parametri (muu mittayksikkö tai kirjoitusvirhe tjsp).
     }
+    massaGrammoina
+  }
+  
+  private def tunnistaTilavuus(s: String): Double = {
+    val massaMillilitroina = match s {
+      case "ml"   => 1.0
+      case "dl"   => 100.0
+      case "l"    => 1000.0
+      case "tl"   => 5.0
+      case "rkl"  => 15.0
+      case "cup"  => 240.0
+      case "pint" => 470.0
+      case _ => throw new Exception() // TODO
+    }
+    massaMillilitroina
   }
   
   /*
@@ -48,9 +63,7 @@ object Muuntaja {
   
   // suhdeTilavuus laskee kahden tilavuuden yksikön suhteen (esim. l / dl = 10)
   
-  def suhdeTilavuus(a: String, b: String): Double = {
-    ???
-  }
+  def suhdeTilavuus(a: String, b: String): Double = tunnistaTilavuus(a) / tunnistaTilavuus(b)
   
   def suhde = ???
   
