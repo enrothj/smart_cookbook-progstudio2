@@ -44,9 +44,7 @@ object Muuntaja {
   
   // suhdeMassa laskee kahden massayksikön suhteen (esim kg / g = 1000)
   
-  def suhdeMassa(a: String, b: String): Double = {
-    ???
-  }
+  def suhdeMassa(a: String, b: String): Double = tunnistaMassa(a) / tunnistaMassa(b)
   
   // suhdeTilavuus laskee kahden tilavuuden yksikön suhteen (esim. l / dl = 10)
   
