@@ -25,6 +25,11 @@ package Smart_Cookbook
 
 object Muuntaja {
   
+  
+  // Muuttujat massat ja tilavuudet sisältävät ohjelman tuntemat mittayksiköt.
+  private val massat: Array[String] = Array("g", "kg", "lb", "oz")
+  private val tilavuudet: Array[String] = Array("ml", "dl", "l", "tl", "rkl", "cup", "pint")
+  
   /*
    * Metodit tunnistaX ottavat parametreinaan mittayksikön (String) ja muuttavat sen Muuntajan käyttämään perusmittayksikköön (ml tai g).
    */
@@ -65,7 +70,12 @@ object Muuntaja {
   
   def suhdeTilavuus(a: String, b: String): Double = tunnistaTilavuus(a) / tunnistaTilavuus(b)
   
-  def suhde = ???
+  // metodi suhde tunnistaa onko kyseessä massa- vai tilavuusmuunnos, ja käyttää sopivaa metodia palauttaakseen mittayksiköiden suhteen.
+  def suhde(a: String, b: String): Double = {
+    if (massat.contains(a) && massat.contains(b)) suhdeMassa(a, b)                  // Jos parametrit a ja b löytyvät massayksiköiden listasta, käytetään suhdeMassat-metodia.
+    else if (tilavuudet.contains(a) && tilavuudet.contains(b)) suhdeTilavuus(a, b)  // Samoin tilavuuksien puolesta. Jos a ja b eivät täytä näitä ehtoja, heitetään poikkeus.
+    else throw new Exception() //TODO: väärien parametrien käsittely
+  }
   
   // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
   def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = ???
