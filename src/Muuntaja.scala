@@ -65,7 +65,7 @@ object Muuntaja {
   private def onkoMassa(s: String): Boolean = if (massat.contains(s)) true else if (tilavuudet.contains(s)) false else throw new Exception() // TODO: poikkeuksen käsittely
   
   /*
-   * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen.
+   * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen. Käytännössä parametri a on aloitusmittayksikkö, josta pyritään kohdeyksikköön b.
    */
   
   // suhdeMassa laskee kahden massayksikön suhteen (esim kg / g = 1000)
@@ -86,12 +86,26 @@ object Muuntaja {
   /*
    * Metodit massaMassa, tilavuusTilavuus, massaTilavuus ja tilavuusMassa laskevat yksikkömuunnokset omissa kategorioissaan. Metodit toimivat kaavan 
    * tiheys = massa / tilavuus (d = m / V) perusteella. Metodit massaMassa ja tilavuusTilavuus eivät tarvitse tiheyttä; ainoastaan mittayksiköiden
-   * suhteen suhde-metodeilta.
+   * suhteen suhde-metodeilta. Tiheys on ohjelmassa aina mittayksikössä g/ml.
    */
   
   def massaMassa(a: String, b: String, m: Double): Double = m * suhdeMassa(a, b)
   
   def tilavuusTilavuus(a: String, b: String, v: Double): Double = v * suhdeTilavuus(a, b)
+  
+  /*
+   *  massaTilavuus ottaa parametreinaan aineen tiheyden d, massan mittayksikön a, halutun mittayksikön b ja aineen massan m. Palautusarvo on tilavuus mittayksikössä b.
+   *  Metodilla voidaan tehdä muunnos massayksiköistä tilavuuden yksiköihin, aineen massan ja tiheyden avulla. Esimerkiksi jos annetaan m=1kg vettä (tiheys 1000g/1000ml => d = 1.00) ja 
+   *  kohdeyksiköksi b="dl": metodi laskee vastaukseksi 10 (dl).
+   */
+  
+  def massaTilavuus(d: Double, massayksikkö: String, tilavuusyksikkö: String, m: Double): Double = {
+    
+    val perustilavuus = d / (m * suhdeMassa(massayksikkö, "g")) // Muuttujaan perustilavuus lasketaan aineen tilavuus ohjelman perusyksikössä "ml",
+    val kohdetilavuus = tilavuusTilavuus("ml", b)               // josta se muutetaan kohdemittayksikköön b.
+    
+    kohdetilavuus
+  }
   
   
   // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
