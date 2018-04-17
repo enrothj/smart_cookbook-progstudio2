@@ -83,6 +83,15 @@ object Muuntaja {
     else throw new Exception() //TODO: väärien parametrien käsittely
   }
   
+  /*
+   * Metodit massaMassa, tilavuusTilavuus, massaTilavuus ja tilavuusMassa laskevat yksikkömuunnokset omissa kategorioissaan. Metodit toimivat kaavan 
+   * tiheys = massa / tilavuus (d = m / V) perusteella. Metodit massaMassa ja tilavuusTilavuus eivät tarvitse tiheyttä; ainoastaan mittayksiköiden
+   * suhteen suhde-metodeilta.
+   */
+  
+  def massaMassa(a: String, b: String, m: Double): Double = m * suhdeMassa(a, b)
+  
+  
   // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
   def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = {
     // muunnostyyppi määrittää onko kyseessä 1. massa->massa 2. tilavuus->tilavuus 3. massa->tilavuus 4. tilavuus->massa -muunnos.
