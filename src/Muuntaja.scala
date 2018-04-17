@@ -139,6 +139,6 @@ object Muuntaja {
   }
   
   // muunna käyttää laske-metodia, mutta saa tiheyden ja aloitusmittayksikön annetulta Aine-oliolta.
-  def muunna(aine: Aine, määrä: Double, yksikkö: String): Double = ???
+  def muunna(aine: Aine, määrä: Double, yksikkö: String): Double = laske(aine.tiheys, aine.mittayksikkö, määrä, yksikkö)
   
 }
