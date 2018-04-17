@@ -117,17 +117,25 @@ object Muuntaja {
   }
   
   
-  // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
+  /*
+   * Metodi laske ottaa parametreinaan aineen tiheyden d (yksikössä g/ml), aloitusmittayksikön, aineen määrän tässä mittayksikössä sekä kohdemittayksikön. Metodi palauttaa aineen määrän kohdemittayksikössä.
+   * Esimerkiksi jos halutaan selvittää kuinka monta desilitraa yksi kilo vettä on, syötetään d = 1.00 (1kg/l = 1g/ml), yksikkö1 = "kg", määrä = 1.0, yksikkö2 = "dl". Metodi selvittää
+   * ensin if-lauseilla metodia onkoMassa hyödyntäen, että kyseessä on muunnos massasta tilavuuteen, ja syöttää tarvittavat arvot massaTilavuus-metodiin, jolta se saa tulokseksi 10.0.
+   */
   def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = {
-    // muunnostyyppi määrittää onko kyseessä 1. massa->massa 2. tilavuus->tilavuus 3. massa->tilavuus 4. tilavuus->massa -muunnos.
-    val muunnostyyppi = {
-      if (onkoMassa(yksikkö1) && onkoMassa(yksikkö2)) 1
-      else if (!onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) 2
-      else if (onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) 3
-      else 4
+    
+    /*
+     *  Muuttujaan uusiMäärä lasketaan tarvittava muunnos. Ensin selvitetään onko kyseessä 1. massa->massa 2. tilavuus->tilavuus 3. massa->tilavuus 4. tilavuus->massa -muunnos.
+     *  Uuden arvon laskemiseen käytetään xX-metodeita (esim. massaMassa).
+     */
+    val uusiMäärä = {
+      if (onkoMassa(yksikkö1) && onkoMassa(yksikkö2)) massaMassa(yksikkö1, yksikkö2, määrä)                  // Jos sekä aloitusmittayksikkö että kohdemittayksikkö ovat massan yksiköitä, käytetään
+      else if (!onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) tilavuusTilavuus(yksikkö1, yksikkö2, määrä)     // metodia massaMassa. Muut osat toimivat samalla periaatteella.
+      else if (onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) massaTilavuus(d, yksikkö1, yksikkö2, määrä)
+      else tilavuusMassa(d, yksikkö1, yksikkö2, määrä)                                                       // Jos edellisiä kolmea ehtoa ei ole täytetty, kyseessä on tilavuus->massa -muunnos.
     }
     
-    
+    uusiMäärä
   }
   
   // muunna käyttää laske-metodia, mutta saa tiheyden ja aloitusmittayksikön annetulta Aine-oliolta.
