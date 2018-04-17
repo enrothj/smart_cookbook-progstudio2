@@ -78,8 +78,8 @@ object Muuntaja {
   
   // metodi suhde tunnistaa onko kyseessä massa- vai tilavuusmuunnos, ja käyttää sopivaa metodia palauttaakseen mittayksiköiden suhteen.
   def suhde(a: String, b: String): Double = {
-    if (massat.contains(a) && massat.contains(b)) suhdeMassa(a, b)                  // Jos parametrit a ja b löytyvät massayksiköiden listasta, käytetään suhdeMassat-metodia.
-    else if (tilavuudet.contains(a) && tilavuudet.contains(b)) suhdeTilavuus(a, b)  // Samoin tilavuuksien puolesta. Jos a ja b eivät täytä näitä ehtoja, heitetään poikkeus.
+    if (onkoMassa(a) && onkoMassa(b)) suhdeMassa(a, b)                  // Jos parametrit a ja b löytyvät massayksiköiden listasta, käytetään suhdeMassat-metodia.
+    else if (!onkoMassa(a) && !onkoMassa(b)) suhdeTilavuus(a, b)  // Samoin tilavuuksien puolesta. Jos a ja b eivät täytä näitä ehtoja, heitetään poikkeus.
     else throw new Exception() //TODO: väärien parametrien käsittely
   }
   
