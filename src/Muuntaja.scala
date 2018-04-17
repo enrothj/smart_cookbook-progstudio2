@@ -94,17 +94,26 @@ object Muuntaja {
   def tilavuusTilavuus(a: String, b: String, v: Double): Double = v * suhdeTilavuus(a, b)
   
   /*
-   *  massaTilavuus ottaa parametreinaan aineen tiheyden d, massan mittayksikön a, halutun mittayksikön b ja aineen massan m. Palautusarvo on tilavuus mittayksikössä b.
+   *  massaTilavuus ottaa parametreinaan aineen tiheyden d, massan mittayksikön, halutun tilavuusyksikön ja aineen massan m. Palautusarvo on tilavuus anettussa tilavuusyksikössä.
    *  Metodilla voidaan tehdä muunnos massayksiköistä tilavuuden yksiköihin, aineen massan ja tiheyden avulla. Esimerkiksi jos annetaan m=1kg vettä (tiheys 1000g/1000ml => d = 1.00) ja 
-   *  kohdeyksiköksi b="dl": metodi laskee vastaukseksi 10 (dl).
+   *  kohdeyksiköksi "dl": metodi laskee vastaukseksi 10.0 (dl).
    */
   
   def massaTilavuus(d: Double, massayksikkö: String, tilavuusyksikkö: String, m: Double): Double = {
     
     val perustilavuus = d / (m * suhdeMassa(massayksikkö, "g")) // Muuttujaan perustilavuus lasketaan aineen tilavuus ohjelman perusyksikössä "ml",
-    val kohdetilavuus = tilavuusTilavuus("ml", b)               // josta se muutetaan kohdemittayksikköön b.
+    val kohdetilavuus = tilavuusTilavuus("ml", tilavuusyksikkö) // josta se muutetaan kohdemittayksikköön.
     
     kohdetilavuus
+  }
+  
+  // tilavuusMassa toimii samalla periaatteella kuin massaTilavuus, mutta lasketaan kaavalla m = d * V.
+  def tilavuusMassa(d: Double, tilavuusyksikkö: String, massayksikkö: String, v: Double): Double = {
+    
+    val perusmassa = d * v * suhdeTilavuus(tilavuusyksikkö, "ml") // Muuttujaan perusmassa lasketaan aineen massa ohjelman perusyksikössä "g",
+    val kohdemassa = massaMassa("g", massayksikkö)                // josta se muutetaan kohdemittayksikköön.
+    
+    kohdemassa
   }
   
   
