@@ -91,6 +91,8 @@ object Muuntaja {
   
   def massaMassa(a: String, b: String, m: Double): Double = m * suhdeMassa(a, b)
   
+  def tilavuusTilavuus(a: String, b: String, v: Double): Double = v * suhdeTilavuus(a, b)
+  
   
   // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
   def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = {
