@@ -84,7 +84,17 @@ object Muuntaja {
   }
   
   // laske ottaa aineen tiheyden, aloitusmittayksikön ja määrän, ja palauttaa määrän halutussa mittayksikössä.
-  def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = ???
+  def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = {
+    // muunnostyyppi määrittää onko kyseessä 1. massa->massa 2. tilavuus->tilavuus 3. massa->tilavuus 4. tilavuus->massa -muunnos.
+    val muunnostyyppi = {
+      if (onkoMassa(yksikkö1) && onkoMassa(yksikkö2)) 1
+      else if (!onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) 2
+      else if (onkoMassa(yksikkö1) && !onkoMassa(yksikkö2)) 3
+      else 4
+    }
+    
+    
+  }
   
   // muunna käyttää laske-metodia, mutta saa tiheyden ja aloitusmittayksikön annetulta Aine-oliolta.
   def muunna(aine: Aine, määrä: Double, yksikkö: String): Double = ???
