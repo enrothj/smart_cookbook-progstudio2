@@ -24,7 +24,20 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
    */
   
   def aineetYhteensä: Vector[Tuple3[Aine, Double, String]] = {
-    ???
+    
+    var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()
+    
+    /*
+     * Metodi käy rekursiivisesti läpi jokaisen ainesosan raaka-aineet, eli kutsuu metodin aineetYhteensä jokaiselle ainesosalle. Jos ainesosalla ei ole enää omia raaka-aineita,
+     * 
+     */
+    
+    if (!ainesosat.isEmpty) {
+      for (aine <- this.ainesosat) {
+        aine.aineetYhteensä
+      }
+    }
+    
   }
   
   // muutaYksikkö muuttaa aineen oletusmittayksikön halutuksi. TODO: x pitää olla tunnistettu mittayksikkö.
