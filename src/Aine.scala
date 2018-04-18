@@ -16,6 +16,8 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
     var mittayksikkö: String) {
 
   
+  
+  
   /*
    * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan reseptin mittayksikössä, jos aineen raaka-aineet
    * pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita, jotka sisältävät raaka-aineen, sen määrän ja käytettävän
@@ -23,20 +25,28 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
    * 
    */
   
-  def aineetYhteensä: Vector[Tuple3[Aine, Double, String]] = {
+  def aineetYhteensä: Array[Array[Aine, Double, String]] = {
     
-    var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()
+    var aineet: Buffer[Array[Aine, Double, String]] = Buffer[Array[Aine, Double, String]]()
     
     /*
      * Metodi käy rekursiivisesti läpi jokaisen ainesosan raaka-aineet, eli kutsuu metodin aineetYhteensä jokaiselle ainesosalle. Jos ainesosalla ei ole enää omia raaka-aineita,
      * 
      */
     
-    if (!ainesosat.isEmpty) {
-      for (aine <- this.ainesosat) {
-        aine.aineetYhteensä
+    if (!ainesosat.isEmpty) {                                    // Jos ainesosat-muuttuja ei ole tyhjä, aineella on raaka-aineita
+      for (aine <- this.ainesosat) {                             // Tällöin kutsutaan aineetYhteensä-metodia jokaiselle raaka-aineelle
+        for (x <- aine.aineetYhteensä) {                         // Jokainen metodin tuottama taulukko lisätään aineet-muuttujaan.
+          aineet += x
+        }
+      } else {                                                   // Jos aineella ei ole raaka-aineita, aineet-muuttujan sisältö on sama kuin ainesosat-muuttujan.
+        for (osat <- this.ainesosat) {
+          aineet += osat
+        }
       }
     }
+    
+    aineet.toArray
     
   }
   
