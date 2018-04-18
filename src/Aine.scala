@@ -9,7 +9,7 @@ import java.io.PrintWriter
  * 
  */
 
-class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
+class Aine(val nimi: String, var ainesosat: Array[Tuple3[Aine, Double, String]],
     var allergeenit: Buffer[String],
     var kuvaus: String,
     var tiheys: Double, var määrä: Double,
@@ -25,9 +25,9 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
    * 
    */
   
-  def aineetYhteensä: Array[Array[Aine, Double, String]] = {
+  def aineetYhteensä: Array[Tuple3[Aine, Double, String]] = {
     
-    var aineet: Buffer[Array[Aine, Double, String]] = Buffer[Array[Aine, Double, String]]()
+    var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()
     
     /*
      * Metodi käy rekursiivisesti läpi jokaisen ainesosan raaka-aineet, eli kutsuu metodin aineetYhteensä jokaiselle ainesosalle. Jos ainesosalla ei ole enää omia raaka-aineita,
@@ -36,7 +36,7 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
     
     if (!ainesosat.isEmpty) {                                    // Jos ainesosat-muuttuja ei ole tyhjä, aineella on raaka-aineita
       for (aine <- this.ainesosat) {                             // Tällöin kutsutaan aineetYhteensä-metodia jokaiselle raaka-aineelle
-        for (x <- aine.aineetYhteensä) {                         // Jokainen metodin tuottama taulukko lisätään aineet-muuttujaan.
+        for (x <- aine._1.aineetYhteensä) {                         // Jokainen metodin tuottama taulukko lisätään aineet-muuttujaan.
           aineet += x
         }
       } else {                                                   // Jos aineella ei ole raaka-aineita, aineet-muuttujan sisältö on sama kuin ainesosat-muuttujan.
@@ -53,14 +53,14 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
   }
   
   /*
-   *  Metodilla muunnaAinesosa voidaan muuttaa ainesosia haluttuun mittayksikköön samalla muuttaen määrä vastaavaksi. Esimerkiksi vehnäjauho 1 dl -> vehnäjauho 70 g.
+   *  Metodilla muunnaAinesosa voidaan muuttaa ainesosa-monikoita haluttuun mittayksikköön samalla muuttaen määrä vastaavaksi. Esimerkiksi vehnäjauho 1 dl -> vehnäjauho 70 g.
    *  Metodi kutsuu Muuntaja-objektin laske-metodeita muunnokseen.
    */
-  private def muunnaAinesosa(ainesosa: Array[Aine, Double, String], kohdeyksikkö: String): Array[Aine, Double, String] = {
-    val aine = ainesosa(0) // tallennetaan ainesosaa vastaava Aine-olio muuttujaan helpompaa koodin yksinkertaistamiseksi.
+  private def muunnaAinesosa(ainesosa: Tuple3[Aine, Double, String], kohdeyksikkö: String): Tuple3[Aine, Double, String] = {
+    val aine = ainesosa._1 // tallennetaan ainesosaa vastaava Aine-olio muuttujaan helpompaa koodin yksinkertaistamiseksi.
     
-    val uusiAines = Array(x(0),                                                                   // Aine-olio pysyy samana.
-                          Muuntaja.laske(aine.tiheys, ainesosa(2), ainesosa(1), kohdeyksikkö),    // Muuntajan laske-metodiin syötetään tiheys, aloitusyksikkö, määrä ja kohdemittayksikkö.
+    val uusiAines = Tuple3(ainesosa._1,                                                                   // Aine-olio pysyy samana.
+                          Muuntaja.laske(aine.tiheys, ainesosa._3, ainesosa._2, kohdeyksikkö),    // Muuntajan laske-metodiin syötetään tiheys, aloitusyksikkö, määrä ja kohdemittayksikkö.
                           kohdeyksikkö)                                                           // Uudeksi mittayksiköksi annetaan parametrina annettu kohdeyksikkö.
                           
     uusiAines
@@ -85,7 +85,7 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
   
   def poistaAllergeeni(x: String) = ???
   
-  def uudetAllergeenit(Array[String]) = ???
+  def uudetAllergeenit(x: Array[String]) = ???
   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
@@ -122,9 +122,9 @@ object Aine {
    * Tehdasmetodi, jolla helpotetaan uusien Aine-olioiden luomista.
    */
   
-  def apply(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
+  def apply(nimi: String, ainesosat: Array[Tuple3[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String) = {
-    new Aine(nimi: String, ainesosat: Array[Array[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
+    new Aine(nimi: String, ainesosat: Array[Tuple3[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String)
   }
   
