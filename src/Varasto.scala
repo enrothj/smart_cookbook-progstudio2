@@ -24,8 +24,9 @@ object Varasto {
   
   
   // Tällä metodilla voidaan asettaa tietty arvo tietyn aineen määrälle (>= 0.0)
-  def asetaMäärä(aine: Aine, maara: Double) = if (maara < 0.0) throw new Exception("Annettu määrä oli alle 0.0", maara) else varasto(aine) = maara
+  def asetaMäärä(aine: Aine, maara: Double) = if (maara < 0.0) throw new Exception("Annettu määrä oli alle 0.0") else varasto(aine) = maara
   
-  
+  // Tämä metodi asettaa kaikkien varaston aineiden määräksi 0.0
+  def nollaa() = varasto.foreach(x => x._2 * 0.0)
   
 }
