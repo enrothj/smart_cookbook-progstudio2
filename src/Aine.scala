@@ -39,10 +39,10 @@ class Aine(val nimi: String, var ainesosat: Array[Tuple3[Aine, Double, String]],
         for (x <- aine._1.aineetYhteensä) {                         // Jokainen metodin tuottama taulukko lisätään aineet-muuttujaan.
           aineet += x
         }
-      } else {                                                   // Jos aineella ei ole raaka-aineita, aineet-muuttujan sisältö on sama kuin ainesosat-muuttujan.
-        for (osat <- this.ainesosat) {
-          aineet += osat
-        }
+      } 
+    } else {                                                   // Jos aineella ei ole raaka-aineita, aineet-muuttujan sisältö on sama kuin ainesosat-muuttujan.
+      for (osat <- this.ainesosat) {
+        aineet += osat
       }
     }
     
