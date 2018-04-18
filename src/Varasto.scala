@@ -23,4 +23,9 @@ object Varasto {
   def vahennaAinetta(aine: Aine, maara: Double) = varasto(aine) = if (varasto(aine) > maara) varasto(aine) - maara else 0.0 // Jos vähennettävä määrä on suurempi kuin varastoitu, varastoon jää 0.0
   
   
+  // Tällä metodilla voidaan asettaa tietty arvo tietyn aineen määrälle (>= 0.0)
+  def asetaMäärä(aine: Aine, maara: Double) = if (maara < 0.0) throw new Exception("Annettu määrä oli alle 0.0", maara) else varasto(aine) = maara
+  
+  
+  
 }
