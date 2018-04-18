@@ -46,8 +46,24 @@ class Aine(val nimi: String, var ainesosat: Array[Array[Aine, Double, String]],
       }
     }
     
+    
+    
     aineet.toArray
     
+  }
+  
+  /*
+   *  Metodilla muunnaAinesosa voidaan muuttaa ainesosia haluttuun mittayksikköön samalla muuttaen määrä vastaavaksi. Esimerkiksi vehnäjauho 1 dl -> vehnäjauho 70 g.
+   *  Metodi kutsuu Muuntaja-objektin laske-metodeita muunnokseen.
+   */
+  private def muunnaAinesosa(ainesosa: Array[Aine, Double, String], kohdeyksikkö: String): Array[Aine, Double, String] = {
+    val aine = ainesosa(0) // tallennetaan ainesosaa vastaava Aine-olio muuttujaan helpompaa koodin yksinkertaistamiseksi.
+    
+    val uusiAines = Array(x(0),                                                                   // Aine-olio pysyy samana.
+                          Muuntaja.laske(aine.tiheys, ainesosa(2), ainesosa(1), kohdeyksikkö),    // Muuntajan laske-metodiin syötetään tiheys, aloitusyksikkö, määrä ja kohdemittayksikkö.
+                          kohdeyksikkö)                                                           // Uudeksi mittayksiköksi annetaan parametrina annettu kohdeyksikkö.
+                          
+    uusiAines
   }
   
   // muutaYksikkö muuttaa aineen oletusmittayksikön halutuksi. TODO: x pitää olla tunnistettu mittayksikkö.
