@@ -10,6 +10,12 @@ object IO {
   //TODO: korjaa metodit
   
   
+  /*
+   * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
+   * Ensimmäiselle riville tulee Aineen nimi, seuraaville riveille tulevat ainesosat, jokainen omalle rivilleen. Ainesosien jälkeen
+   * seuraavalla rivillä on tähtimerkki ("*"), jonka jälkeen seuraavalla rivillä on Aineen allergeenit. Viimeisillä riveillä on
+   * Aineen kuvaus. 
+   */
   def kirjoita() = {
     
     val tiedosto = new PrintWriter("reseptit/" + this.nimi + ".txt")
@@ -47,6 +53,8 @@ object IO {
   }
     
     
+  // TODO: SIIRRÄ "IO"-OBJEKTIIN ja lisää uudet muutokset
+  // metodi lukee tekstitiedoston ja luo tietojen perusteella uuden Aine-olion
   def lue(tiedostonimi: String): Aine = {
     
     var nimi: String = ""; var kuvaus: String = ""
