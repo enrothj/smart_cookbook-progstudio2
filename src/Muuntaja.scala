@@ -102,7 +102,7 @@ object Muuntaja {
   def massaTilavuus(d: Double, massayksikkö: String, tilavuusyksikkö: String, m: Double): Double = {
     
     val perustilavuus = d / (m * suhdeMassa(massayksikkö, "g")) // Muuttujaan perustilavuus lasketaan aineen tilavuus ohjelman perusyksikössä "ml",
-    val kohdetilavuus = tilavuusTilavuus("ml", tilavuusyksikkö) // josta se muutetaan kohdemittayksikköön.
+    val kohdetilavuus = tilavuusTilavuus("ml", tilavuusyksikkö, perustilavuus) // josta se muutetaan kohdemittayksikköön.
     
     kohdetilavuus
   }
@@ -111,7 +111,7 @@ object Muuntaja {
   def tilavuusMassa(d: Double, tilavuusyksikkö: String, massayksikkö: String, v: Double): Double = {
     
     val perusmassa = d * v * suhdeTilavuus(tilavuusyksikkö, "ml") // Muuttujaan perusmassa lasketaan aineen massa ohjelman perusyksikössä "g",
-    val kohdemassa = massaMassa("g", massayksikkö)                // josta se muutetaan kohdemittayksikköön.
+    val kohdemassa = massaMassa("g", massayksikkö, perusmassa)                // josta se muutetaan kohdemittayksikköön.
     
     kohdemassa
   }
