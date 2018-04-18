@@ -19,33 +19,43 @@ class Aine(val nimi: String, var ainesosat: Array[Tuple3[Aine, Double, String]],
   
   
   /*
-   * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan reseptin mittayksikössä, jos aineen raaka-aineet
-   * pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita, jotka sisältävät raaka-aineen, sen määrän ja käytettävän
-   * mittayksikön.
+   * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan, jos aineen raaka-aineet pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita,
+   * jotka sisältävät raaka-aineet, niiden määrän ja yksikön. Jos metodia kutsutaan raaka-aineelle, eli aineelle, jolla ei ole ainesosia, metodi palauttaa tyhjän 
+   * taulukon.
    * 
+   * Esimerkki:       Spaghetti bolognese
+   *                     /              \
+   *           spagetti 300g     kastike 800g
+   *                              /          \
+   *                     jauheliha 400g     tomaattikastike 3 dl
+   * 
+   * Tässä esimerkissä "Spagetti bolognese"-olio.aineetYhteensä palauttaisi Array( (spagetti,300,"g"), (jauheliha,400,"g"), (tomaattikastike,3,"dl") ).
+   * 
+   * spagetti.aineetYhteensä puolestaan palauttaisi Array(), koska sillä ei ole ainesosia (tämän esimerkin puitteissa).
    */
   
   def aineetYhteensä: Array[Tuple3[Aine, Double, String]] = {
     
-    var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()
+    var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()  // aineet-muuttujaan kootaan kaikki raaka-aineet
     
-    /*
-     * Metodi käy rekursiivisesti läpi jokaisen ainesosan raaka-aineet, eli kutsuu metodin aineetYhteensä jokaiselle ainesosalle. Jos ainesosalla ei ole enää omia raaka-aineita,
-     * 
-     */
     
-    if (!ainesosat.isEmpty) {                                    // Jos ainesosat-muuttuja ei ole tyhjä, aineella on raaka-aineita
-      for (aine <- this.ainesosat) {                             // Tällöin kutsutaan aineetYhteensä-metodia jokaiselle raaka-aineelle
-        for (x <- aine._1.aineetYhteensä) {                         // Jokainen metodin tuottama taulukko lisätään aineet-muuttujaan.
-          aineet += x
+    if (!this.ainesosat.isEmpty) {                             // Jos ainesosat-muuttuja ei ole tyhjä, aineella on raaka-aineita
+
+      
+      for (aine <- this.ainesosat) {                           // Käydään läpi ainesosat.
+        
+        if (aine._1.ainesosat.isEmpty) {                       // Jos ainesosalla ei ole raaka-aineita,
+          aineet += aine                                       // lisätään aineet-muuttujaan reseptissä mainittu ainesosa-alkio (aine, määrä, yksikkö).
+        } 
+        
+        else {
+          aine._1.aineetYhteensä                               // Jos aineella on omat ainesosansa, kutsutaan rekursiivisesti tätä metodia ainesosalle.
+          
         }
-      } 
-    } else {                                                   // Jos aineella ei ole raaka-aineita, aineet-muuttujan sisältö on sama kuin ainesosat-muuttujan.
-      for (osat <- this.ainesosat) {
-        aineet += osat
+        
       }
+      
     }
-    
     
     
     aineet.toArray
