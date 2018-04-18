@@ -20,29 +20,5 @@ object Varasto {
       
   }
   
-  def tallenna() = {
-    
-    val tiedosto = new PrintWriter("jaakaappi.txt")
-    
-    try {
-      
-      for (rivi <- varasto) {
-        tiedosto.println(rivi._1)
-        tiedosto.println(rivi._2.toString)
-        tiedosto.println("*")
-      }
-      
-    } finally {
-      tiedosto.close()
-    }    
-  }
-  
-  def lue() = {
-    
-    
-    
-  }
-  
-  
   
 }
