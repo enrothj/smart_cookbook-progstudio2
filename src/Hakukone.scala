@@ -63,6 +63,6 @@ object Hakukone {
   /*
    * Metodi onOlemassa tarkistaa onko ohjelmaan tallennettu parametrina annetun niminen aine.
    */
-  def onOlemassa(nimi: String): Boolean = ???
+  def onOlemassa(nimi: String): Boolean = Varasto.varasto.exists(_._1.nimi == nimi)
   
 }
