@@ -32,12 +32,20 @@ object Hakukone {
   }
   
   /*
-   * Metodi onValmiina tarkistaa onko varastossa annettun nimistä ainetta vähintään n määrä (aineen oletusmittayksikössä).
+   * Metodi onValmiina tarkistaa onko varastossa annettun nimistä ainetta vähintään n määrä annetussa mittayksikössä.
    */
-  def onValmiina(nimi: String, n: Double): Boolean = {
+  def onValmiina(nimi: String, n: Double, mitta: String): Boolean = {
     
-    Varasto.varasto.filter(_._1.nimi == nimi) // suodatetaan väärännimiset aineet pois
-                      .exists(_._2 >= n)      // tarkistetaan onko näiden joukossa ainetta, jonka määrä on vähintään n.
+    val oikeanniminen = Varasto.varasto.find(_._1.nimi == nimi) // etsitään haluttu aine
+    if (oikeanniminen == Option(None)) {                        // Jos sellaista ei ole, palautetaan false.
+      false
+    } else {
+      val aine = oikeanniminen.get._1
+      val määrä = oikeanniminen.get._2
+      
+      Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
+                                                 // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
+    }
     
   }
   
