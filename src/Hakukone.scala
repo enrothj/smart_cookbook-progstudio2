@@ -32,6 +32,16 @@ object Hakukone {
   }
   
   /*
+   * Metodi onValmiina tarkistaa onko varastossa annettun nimistä ainetta vähintään n määrä (aineen oletusmittayksikössä).
+   */
+  def onValmiina(nimi: String, n: Double): Boolean = {
+    
+    Varasto.varasto.filter(_._1.nimi == nimi) // suodatetaan väärännimiset aineet pois
+                      .exists(_._2 >= n)      // tarkistetaan onko näiden joukossa ainetta, jonka määrä on vähintään n.
+    
+  }
+  
+  /*
    * Metodi voiValmistaa ottaa parametrina Aine-olion ja tarkistaa riittävätkö varastossa olevat aineet
    * halutun aineen valmistamiseen.
    */

@@ -31,4 +31,7 @@ object Varasto {
   
   // Tämä metodi poistaa kaikki varaston tiedot
   def tyhjennä() = varasto.empty
+  
+  
+  // TODO: metodi jolla voidaan muuttaa tallennetun aineen mittayksikkö ja samalla määrä
 }
