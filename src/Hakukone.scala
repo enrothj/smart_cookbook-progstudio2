@@ -50,10 +50,15 @@ object Hakukone {
   }
   
   /*
-   * Metodi voiValmistaa ottaa parametrina Aine-olion ja tarkistaa riittävätkö varastossa olevat aineet
-   * halutun aineen valmistamiseen.
+   * Metodi voiValmistaa ottaa parametrina Aine-olion ja tarkistaa riittävätkö varastossa olevat aineet halutun aineen valmistamiseen.
+   * Metodi käy läpi aineen ainesosat ja tarkistaa onko niitä riittävästi aineen valmistukseen.
    */
-  def voiValmistaa(aine: Aine): Boolean = ???
+  def voiValmistaa(aine: Aine): Boolean = {
+    
+    // Tarkistetaan ovatko aineen ainesosat varastossa.                Tarkistetaan ovatko aineen perusraaka-aineet varastossa. 
+    aine.ainesosat.forall(x => onValmiina(x._1.nimi, x._2, x._3)) || aine.aineetYhteensä.forall(x => onValmiina(x._1.nimi, x._2, x._3))
+    
+  }
   
   /*
    * Metodi onOlemassa tarkistaa onko ohjelmaan tallennettu parametrina annetun niminen aine.
