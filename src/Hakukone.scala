@@ -54,11 +54,35 @@ object Hakukone {
    * Metodi käy läpi aineen ainesosat ja tarkistaa onko niitä riittävästi aineen valmistukseen.
    */
   def voiValmistaa(aine: Aine): Boolean = {
+    val ainekset: Buffer[(Aine, Double, String)] = aine.ainesosat.toBuffer     // Kokoelma aineen ainesosista
+    var valmistettavissa: Buffer[(Aine, Double, String)] = Buffer()            // Ainesosat, jotka voidaan valmistaa varaston aineista
+    var aineetRiittää: Boolean = false                                         
     
+    for (aines <- ainekset) {                                                        // Käydään läpi kaikki aineen ainesosat
+      if (onValmiina(aines._1.nimi, aines._2, aines._3)) valmistettavissa += aines   // Jos ainesosaa on valmiina varastossa, se lisätään valmistettavissa-muuttujaan
+      
+      else if (voiValmistaa(aines._1)) {                                             // Jos ei, metodia kutsutaan rekursiivisesti ainesosalle.
+        valmistettavissa += aines                                                    // Jos ainesosa voidaan valmistaa omista ainesosistaan, se lisätään valmistettavissa-muuttujaan.
+      }
+    }
+    
+    if (ainekset == valmistettavissa) aineetRiittää = true                     // Jos valmistettavissa-muuttujassa on kaikki samat ainesosat kuin ainekset-muuttujassa, se voidaan valmistaa.
+    
+    /* JÄTETTIIN VANHEMPI TOTEUTUS SÄILÖÖN
     // Tarkistetaan ovatko aineen ainesosat varastossa.                Tarkistetaan ovatko aineen perusraaka-aineet varastossa. 
-    aine.ainesosat.forall(x => onValmiina(x._1.nimi, x._2, x._3)) || aine.aineetYhteensä.forall(x => onValmiina(x._1.nimi, x._2, x._3))
+    if ( aine.ainesosat.forall(x => onValmiina(x._1.nimi, x._2, x._3)) ) {
+      aineetRiittää = true}
     
+    else if ( aine.aineetYhteensä.forall(x => onValmiina(x._1.nimi, x._2, x._3)) ) {aineetRiittää = true}
+    
+    else if (ainekset == valmistettavissa) {
+      true
+    }
+    */
+    
+    aineetRiittää
   }
+  
   
   /*
    * Metodi onOlemassa tarkistaa onko ohjelmaan tallennettu parametrina annetun niminen aine.
