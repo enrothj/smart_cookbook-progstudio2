@@ -18,11 +18,17 @@ object Hakukone {
    */
   def hae(n: Int): Vector[Aine] = {
     
-    var lista: Buffer[Aine] = Buffer[Aine]()
+    var lista: Buffer[Aine] = Buffer[Aine]()  // lista aineista, jotka ovat varastossa, tai voidaan valmistaa varaston aineksista
     
-    for (aine <- Varasto.varasto) {
+    for (aine <- Varasto.varasto.keys) {   // käydään läpi kaikki varaston aineet
+      val ainekset = aine.aineetYhteensä.map(x => x._1)
       
+      if (onValmiina(aine.nimi, 0.0, aine.mittayksikkö)) lista += aine  // Jos ainetta on jo valmiina, se lisätään listaan
       
+      else if (voiValmistaa(aine)) lista += aine // Jos ainetta voidaan valmistaa olemassa olevista aineksista, se lisätään listaan
+      
+      //  ainesten kokonaislkm -  valmistettavissa olevat ainekset  on oltava <=  sallittu määrä puuttuvia
+      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n) lista += aine // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
       
     }
     
