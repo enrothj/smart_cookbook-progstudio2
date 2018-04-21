@@ -87,7 +87,7 @@ object Hakukone {
     
     else if (ainekset == valmistettavissa) {
       true
-    }
+    }  TODO: Kun ainesta valmistetaan raaka-aineista, sitä voi tulla enemmän/vähemmän kuin resepti vaatii. Pitää siis verrata ainesmäärää aineksen omaan määrään.
     */
     
     aineetRiittää
