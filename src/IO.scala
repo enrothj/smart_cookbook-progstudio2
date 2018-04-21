@@ -61,7 +61,7 @@ object IO {
     try {
       
       for (rivi <- Varasto.varasto) {
-        tiedosto.println(rivi._1.nimi + ", " + rivi._2)
+        tiedosto.println(rivi._1.nimi + "," + rivi._2)
       }
       
     } finally {
@@ -125,6 +125,35 @@ object IO {
     
     new Aine(nimi, ainesosat.toArray, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
+  }
+  
+  
+  /*
+   * Metodi lataa hakee tiedot Varastolle tekstitiedostolta.
+   */
+  
+  def lataa() = {
+    
+    val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
+    
+    // "reseptit/" + aine.nimi + ".txt"
+    
+    try {
+      
+      val riveja = tiedosto.getLines().toVector
+      
+      for (rivi <- riveja) {                                  // käydään jokainen tekstitiedoston rivi läpi
+        
+        val tiedot = rivi.split(",")
+        
+        val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
+        val määrä    = tiedot(1).toDouble
+        
+        Varasto.uusiAine( lue(aineSijainti), määrä )          // Kutsutaan Varaston uusiAine-metodia, jolla lisätään aineSijainnin mukainen Aine-olio Varaston muistiin.
+        
+      }
+      
+    } // TODO: poikkeusten koppaaminen
   }
   
 }
