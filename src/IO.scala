@@ -12,28 +12,43 @@ object IO {
   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
-   * Ensimmäiselle riville tulee Aineen nimi, seuraaville riveille tulevat ainesosat, jokainen omalle rivilleen. Ainesosien jälkeen
-   * seuraavalla rivillä on tähtimerkki ("*"), jonka jälkeen seuraavalla rivillä on Aineen allergeenit. Viimeisillä riveillä on
-   * Aineen kuvaus. 
+   * Ensimmäiselle riville tulee Aineen nimi. Toiselle riville tulee aineen tiheys, määrä ja mittayksikkö. Seuraaville riveille tulevat ainesosat, 
+   * jokainen omalle rivilleen. Ainesosien jälkeen seuraavalla rivillä on tähtimerkki ("*") erottimena, jonka jälkeen seuraavalla rivillä on Aineen 
+   * allergeenit. Viimeisillä riveillä on Aineen kuvaus.
+   * 
+   * Esimerkki:
+   * Spagetti bolognese
+   * 0.0,4.0,kpl
+   * spagetti,300.0,g
+   * kastike,800.0,g
+   * *
+   * liha,tomaatti
+   * Spagetti bolognese, neljä annosta. Paista jauheliha... jne.
+   * 
    */
-  def kirjoita() = {
+  def kirjoita(aine: Aine) = {
     
-    val tiedosto = new PrintWriter("reseptit/" + this.nimi + ".txt")
+    val tiedosto = new PrintWriter("reseptit/" + aine.nimi + ".txt")
     
     try {
-      tiedosto.println(this.nimi)
+      tiedosto.println(aine.nimi)                                                // 1. rivi: aineen kuvaus
       
-      for (aine <- ainesosat) {
-        tiedosto.println(aine._1 + "," + aine._2 + "," + aine._3)
+      tiedosto.println(aine.tiheys + "," + aine.määrä + "," + aine.mittayksikkö) // 2. rivi: tiheys,määrä,mittayksikkö
+      
+      for (aines <- aine.ainesosat) {                                            // seuraavat rivit: ainesosa, sen määrä, sen mittayksikkö (jokainen omalla rivillään)
+        tiedosto.println(aines._1 + "," + aines._2 + "," + aines._3)
       }
-      tiedosto.println("*")
-      tiedosto.println(allergeenit.mkString(","))
-      tiedosto.println(this.kuvaus)
+      tiedosto.println("*")                                                      // ainesosien loppu erotetaan tähtimerkillä      
+      
+      tiedosto.println(aine.allergeenit.mkString(","))                           // allergeenit tähtimerkin jälkeen olevalle riville
+      
+      tiedosto.println(aine.kuvaus)                                              // Viimeiselle riville aineen kuvaus
+      
     } finally {
       tiedosto.close()
     }
     
-  }
+  }  // TODO: poikkeusten käsittely
     
   def tallenna() = {
     
@@ -93,7 +108,7 @@ object IO {
         
     }
     
-    apply(nimi, ainesosat.toVector, allergeenit, kuvaus) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
+    Aine(nimi, ainesosat.toVector, allergeenit, kuvaus) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
   }
   
