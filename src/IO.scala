@@ -78,8 +78,12 @@ object IO {
     
     val tiedosto = Source.fromFile(tiedostonimi)
     
-    var ainesosat: Buffer[Tuple3[String, Int, Int]] = Buffer()
-    var allergeenit: Vector[String] = Vector()
+    var tiheys: Double = 0.0
+    var määrä: Double = 0.0
+    var mittayksikkö: String = ""
+    
+    var ainesosat: Buffer[Tuple3[Aine, Double, String]] = Buffer()
+    var allergeenit: Buffer[String] = Buffer()
     
     try {
       
@@ -91,26 +95,35 @@ object IO {
       for (rivi <- riveja) {
         if (rivinro == 1) {nimi = rivi; rivinro += 1} // Ensimmäiseltä riviltä haetaan aineen nimi
         
-        else if (rivinro == 2 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) haetaan kaikki eri ainesosat, jotka kuuluvat aineeseen.
+        else if (rivinro == 2) {                       // Toiselta riviltä haetaan aineen tiheys, määrä ja mittayksikkö.
+          val tiedot = rivi.split(",").toVector
+          tiheys = tiedot(0).toDouble
+          määrä = tiedot(1).toDouble
+          mittayksikkö = tiedot(2)
+          
+          rivinro += 1
+        }
+        
+        else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) haetaan kaikki eri ainesosat, jotka kuuluvat aineeseen.
           
           val aines = rivi.split(",").toVector
-          ainesosat += Tuple3(aines(1), aines(2).toInt, aines(3).toInt)
+          ainesosat += Tuple3(Varasto.varasto.keys.find(_.nimi == aines(0)).get, aines(1).toDouble, aines(2))
           
-        } else if (rivinro == 2 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+        } else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
         
-        else if (rivinro == 3) { // Tältä riviltä löytyy lista Aineen sisältämistä allergeeneista.
-          allergeenit = rivi.split(",").toVector
+        else if (rivinro == 4) { // Tältä riviltä löytyy lista Aineen sisältämistä allergeeneista.
+          allergeenit = rivi.split(",").toBuffer
           rivinro += 1
         }
         
         else kuvaus = rivi // Viimeisillä riveillä on Aineen kuvaus.
         //TODO: Jos haluaa kuvauksen useammalle riville, tee muuttuja kuvaukselle ja lisää riveittäin
         
-      }
+      } // TODO: poikkeusten koppaaminen
         
     }
     
-    Aine(nimi, ainesosat.toVector, allergeenit, kuvaus) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
+    new Aine(nimi, ainesosat.toArray, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
   }
   
