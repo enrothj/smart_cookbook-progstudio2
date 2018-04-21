@@ -50,16 +50,18 @@ object IO {
     
   }  // TODO: poikkeusten käsittely
     
+  
+  /*
+   * Metodi tallenna tallentaa Varaston sisältämät tiedot tekstitiedostolle. Jokaselle riville tulee aineen nimi ja sen määrä, esim. "spagetti bolognese, 4.0".
+   */
   def tallenna() = {
     
     val tiedosto = new PrintWriter("jaakaappi.txt")
     
     try {
       
-      for (rivi <- varasto) {
-        tiedosto.println(rivi._1)
-        tiedosto.println(rivi._2.toString)
-        tiedosto.println("*")
+      for (rivi <- Varasto.varasto) {
+        tiedosto.println(rivi._1.nimi + ", " + rivi._2)
       }
       
     } finally {
@@ -68,7 +70,7 @@ object IO {
   }
     
     
-  // TODO: SIIRRÄ "IO"-OBJEKTIIN ja lisää uudet muutokset
+
   // metodi lukee tekstitiedoston ja luo tietojen perusteella uuden Aine-olion
   def lue(tiedostonimi: String): Aine = {
     
