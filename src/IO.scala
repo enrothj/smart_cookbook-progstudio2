@@ -119,8 +119,16 @@ object IO {
         else kuvaus = rivi // Viimeisillä riveillä on Aineen kuvaus.
         //TODO: Jos haluaa kuvauksen useammalle riville, tee muuttuja kuvaukselle ja lisää riveittäin
         
-      } // TODO: poikkeusten koppaaminen
+      }
         
+    } catch {
+      
+      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      
+      case e: VirheellinenData => println("Annettiin väärää dataa")
+      
+      case _: Throwable => println("Tapahtui odottamaton virhe")
+      
     }
     
     new Aine(nimi, ainesosat.toArray, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
@@ -159,7 +167,7 @@ object IO {
       
       case e: VirheellinenData => println("Annettiin väärää dataa")
       
-      case _ => println("Tapahtui odottamaton virhe")
+      case _: Throwable => println("Tapahtui odottamaton virhe")
       
     }
   }
