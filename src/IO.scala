@@ -6,9 +6,7 @@ import java.io.File
 import java.io.PrintWriter
 
 object IO {
-  
-  //TODO: korjaa metodit
-  
+    
   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
@@ -63,6 +61,14 @@ object IO {
       for (rivi <- Varasto.varasto) {
         tiedosto.println(rivi._1.nimi + "," + rivi._2)
       }
+      
+    } catch {
+      
+      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      
+      case e: VirheellinenData => println("Annettiin väärää dataa")
+      
+      case _: Throwable => println("Tapahtui odottamaton virhe")
       
     } finally {
       tiedosto.close()
