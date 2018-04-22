@@ -147,13 +147,21 @@ object IO {
         val tiedot = rivi.split(",")
         
         val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
-        val määrä    = tiedot(1).toDouble
+        val määrä        = tiedot(1).toDouble
         
         Varasto.uusiAine( lue(aineSijainti), määrä )          // Kutsutaan Varaston uusiAine-metodia, jolla lisätään aineSijainnin mukainen Aine-olio Varaston muistiin.
         
       }
       
-    } // TODO: poikkeusten koppaaminen
+    } catch {
+      
+      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      
+      case e: VirheellinenData => println("Annettiin väärää dataa")
+      
+      case _ => println("Tapahtui odottamaton virhe")
+      
+    }
   }
   
 }
