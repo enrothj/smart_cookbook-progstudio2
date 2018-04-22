@@ -62,7 +62,7 @@ object Muuntaja {
    *  Metodi onkoMassa palauttaa arvon true, jos annettu parametri s on ohjelman tunnistama massan mittayksikkö. Jos se on tilaavuden yksikkö, metodi palauttaa false.
    *  Jos annettu ei ole listattu muuttujissa massat tai tilavuudet, metodi heittää poikkeuksen.
    */
-  private def onkoMassa(s: String): Boolean = if (massat.contains(s)) true else if (tilavuudet.contains(s)) false else throw new Exception("Parametri ei ole tunnistettu mittayksikkö", s) // TODO: poikkeuksen käsittely
+  private def onkoMassa(s: String): Boolean = if (massat.contains(s)) true else if (tilavuudet.contains(s)) false else throw new Exception() // TODO: poikkeuksen käsittely
   
   /*
    * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen. Käytännössä parametri a on aloitusmittayksikkö, josta pyritään kohdeyksikköön b.
@@ -80,7 +80,7 @@ object Muuntaja {
   def suhde(a: String, b: String): Double = {
     if (onkoMassa(a) && onkoMassa(b)) suhdeMassa(a, b)                  // Jos parametrit a ja b löytyvät massayksiköiden listasta, käytetään suhdeMassat-metodia.
     else if (!onkoMassa(a) && !onkoMassa(b)) suhdeTilavuus(a, b)  // Samoin tilavuuksien puolesta. Jos a ja b eivät täytä näitä ehtoja, heitetään poikkeus.
-    else throw new Exception() //TODO: väärien parametrien käsittely
+    else throw new IllegalArgumentException("Parametrit olivat eri muotoa.")
   }
   
   /*
