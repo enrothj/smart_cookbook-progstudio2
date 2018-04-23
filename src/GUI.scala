@@ -1,5 +1,13 @@
+package Smart_Cookbook
+
+import scala.swing._
+import java.awt._
 
 
-class GUI {
+
+object GUI extends SimpleSwingApplication {
+  
+  
+  
   
 }
