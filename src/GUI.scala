@@ -1,3 +1,5 @@
+package Smart_Cookbook
+
 import scala.swing._
 
 
@@ -18,7 +20,7 @@ object GUI extends SimpleSwingApplication {
   val luoResepti  = new Button("Luo Resepti")
   val varHallinta = new Button("Varaston hallinta")
   
-     // TODO: lista ohjelman aineista jne.
+  // TODO: lista ohjelman aineista jne.  val ainelista = jokinlistakomponentti
   
   // Komponenttien asemointi
   val napit = new BoxPanel(Orientation.Horizontal)
