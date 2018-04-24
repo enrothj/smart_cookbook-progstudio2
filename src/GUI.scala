@@ -68,8 +68,26 @@ object GUI extends SimpleSwingApplication {
   
   // Paneeli, jossa ovat hakukentät
   val hakuTekstit = new BoxPanel(Orientation.Vertical)
-  val hakuTekstit.contents = aineenNimi
-
+  hakuTekstit.contents    += aineenNimi
+  hakuTekstit.contents    += allergeeniSuodatin
+  hakuTekstit.contents    += maxPuuttuvatAineet
+  
+  // Paneeli, jossa ovat hakunapit
+  val hakuNapit           = new BoxPanel(Orientation.Horizontal)
+  hakuNapit.contents     += ainehakunappi
+  hakuNapit.contents     += hakuperuutus
+  
+  // Näiden paneelien yhdistys
+  val hakuToiminnot       = new BoxPanel(Orientation.Vertical)
+  hakuToiminnot.contents += hakuTekstit
+  hakuToiminnot.contents += hakuNapit
+  
+  // Hakuikkuna
+  val hakuikkuna        = new Frame
+  hakuikkuna.contents   = hakuToiminnot
+  hakuikkuna.visible    = false
+  
+  
   
   
 }
