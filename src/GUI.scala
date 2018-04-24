@@ -16,25 +16,36 @@ object GUI extends SimpleSwingApplication {
   
   // Pääkomponentit:
   
-  val reseptihaku = new Button("Reseptihaku")
-  val luoResepti  = new Button("Luo Resepti")
-  val varHallinta = new Button("Varaston hallinta")
+  val reseptihakuNappi = new Button("Reseptihaku")
+  val luoReseptiNappi  = new Button("Luo Resepti")
+  val varHallintaNappi = new Button("Varaston hallinta")
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista  TODO: Toteuta metodit, joilla tiedot saadaan haettua taulukkoon
-  val sarakenimet                = Seq("Aine", "Määrä", "Allergeenit")
-  val tiedot: Array[Array[Any]]  = Varasto.listaaAineet
-  val ainelista                  = new Table(tiedot, sarakenimet)
+  val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
+  val ainelistaTiedot: Array[Array[Any]]  = Varasto.listaaAineet
+  val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
+  
   
   // Komponenttien asemointi
-  val napit = new BoxPanel(Orientation.Horizontal)
-  napit.contents += reseptihaku
-  napit.contents += luoResepti
-  napit.contents += varHallinta
+  val päänapit = new BoxPanel(Orientation.Horizontal)
+  päänapit.contents += reseptihakuNappi
+  päänapit.contents += luoReseptiNappi
+  päänapit.contents += varHallintaNappi
+  
+  val pääaineet = new BoxPanel(Orientation.Vertical)
+  pääaineet.contents += ainelista
+  
+  val napitJaLista = new BoxPanel(Orientation.Vertical)
+  napitJaLista.contents += päänapit
+  napitJaLista.contents += pääaineet
   
   val pääikkuna = new MainFrame
-  pääikkuna.contents = napit
+  pääikkuna.contents = napitJaLista
   pääikkuna.title    = "Älykäs reseptikirja"
-  pääikkuna.size     = new Dimension(400, 400)
+  pääikkuna.size     = new Dimension(800, 800)
+  
+  
+  
   
   /** RESEPTIHAKU-IKKUNA
    * Reseptihaussa voidaan hakea aineita tekstinä annetuilla kriteereillä. Voidaan antaa haluttuja kriteerejä, 
@@ -47,12 +58,18 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Pääkomponentit:
-  val nimi        = new TextField
-  val allergeenit = new TextField
-  val puuttuvat   = new TextField
+  val aineenNimi           = new TextField
+  val allergeeniSuodatin   = new TextField
+  val maxPuuttuvatAineet   = new TextField
   
-  val hakunappi   = new Button("Hae aineita")
-  val peruutus    = new Button("Peruuta")
+  val ainehakunappi   = new Button("Hae aineita")
+  val hakuperuutus    = new Button("Peruuta")
+  
+  
+  // Paneeli, jossa ovat hakukentät
+  val hakuTekstit = new BoxPanel(Orientation.Vertical)
+  val hakuTekstit.contents = aineenNimi
+
   
   
 }
