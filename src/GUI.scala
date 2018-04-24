@@ -22,7 +22,7 @@ object GUI extends SimpleSwingApplication {
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista  TODO: Toteuta metodit, joilla tiedot saadaan haettua taulukkoon
   val sarakenimet                = Seq("Aine", "Määrä", "Allergeenit")
-  val tiedot: Array[Array[Any]]  = Array(Array())
+  val tiedot: Array[Array[Any]]  = Varasto.listaaAineet
   val ainelista                  = new Table(tiedot, sarakenimet)
   
   // Komponenttien asemointi
