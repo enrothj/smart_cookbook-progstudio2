@@ -36,7 +36,23 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.title    = "Älykäs reseptikirja"
   pääikkuna.size     = new Dimension(400, 400)
   
+  /** RESEPTIHAKU-IKKUNA
+   * Reseptihaussa voidaan hakea aineita tekstinä annetuilla kriteereillä. Voidaan antaa haluttuja kriteerejä, 
+   * kuten jonkin aineen nimi, tai vältettäviä kriteerejä, kuten allergeenien nimiä. Haussa voidaan myös määritellä
+   * halutaanko etsiä ainoastaan aineita, joita on jo varastossa, tai voidaan muodostaa varaston sisältämistä 
+   * aineista, vaiko kaikista ohjelman tuntemista aineista.
+   * 
+   * Ikkunassa on kolme tekstikenttää: haku nimen mukaan, vältettävät allergeenit ja kuinka monta ainesosaa saa
+   * puuttua varastosta aineen valmistamiseksi. Ikkunan alaosassa on kaksi nappia: "Hae aineita" ja "Peruuta".
+   */
   
+  // Pääkomponentit:
+  val nimi        = new TextField
+  val allergeenit = new TextField
+  val puuttuvat   = new TextField
+  
+  val hakunappi   = new Button("Hae aineita")
+  val peruutus    = new Button("Peruuta")
   
   
 }
