@@ -20,7 +20,10 @@ object GUI extends SimpleSwingApplication {
   val luoResepti  = new Button("Luo Resepti")
   val varHallinta = new Button("Varaston hallinta")
   
-  // TODO: lista ohjelman aineista jne.  val ainelista = jokinlistakomponentti
+  // Lista aineista, niiden määrästä ja niiden allergeeneista  TODO: Toteuta metodit, joilla tiedot saadaan haettua taulukkoon
+  val sarakenimet                = Seq("Aine", "Määrä", "Allergeenit")
+  val tiedot: Array[Array[Any]]  = Array(Array())
+  val ainelista                  = new Table(tiedot, sarakenimet)
   
   // Komponenttien asemointi
   val napit = new BoxPanel(Orientation.Horizontal)
