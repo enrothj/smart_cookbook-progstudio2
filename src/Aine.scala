@@ -39,6 +39,20 @@ class Aine(val nimi: String,
     ainesosat(indeksi) = Tuple3(aine, määrä, mittayksikkö) // Muutetaan löydetyssä indeksissä olevan monikon tiedot parametreja vastaaviksi.
   }
   
+  // Metodi tarkistaa sisältääkö aine tietyn nimistä ainetta raaka-aineenaan.
+  def sisältääAineen(nimi: String): Boolean = {
+    var sisältää: Boolean = false
+    
+    for (aines <- this.ainesosat) {
+      
+      if (aines._1.nimi == nimi) sisältää = true
+      else if ( aines._1.sisältääAineen(nimi) ) sisältää = true
+      
+    }
+    
+    sisältää
+  }
+  
   /*
    * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan, jos aineen raaka-aineet pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita,
    * jotka sisältävät raaka-aineet, niiden määrän ja yksikön. Jos metodia kutsutaan raaka-aineelle, eli aineelle, jolla ei ole ainesosia, metodi palauttaa tyhjän 
