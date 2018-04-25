@@ -59,5 +59,17 @@ object Varasto {
     rivit.toArray
   }
   
-  // TODO: metodi jolla voidaan muuttaa tallennetun aineen mittayksikkö ja samalla määrä
+  /*
+   * Metodilla muutaYksikkö voidaan muuttaa Aine-olion mittayksikkö, siten, että samalla lasketaan sen määrä varastossa uudessa mittayksikössä.
+   * Aineen aiempi yksikkö ei saa olla "kpl" eikä myöskään kohdeyksikkö, koska kappaleista ei voi tehdä muunnoksia.
+   */
+  def muutaYksikkö(aine: Aine, yksikkö: String) = {
+    require(Muuntaja.massat.contains(yksikkö) || Muuntaja.tilavuudet.contains(yksikkö) || yksikkö == "kpl" || aine.mittayksikkö != "kpl")
+    
+    aine.määrä        = Muuntaja.muunna(aine, aine.määrä, yksikkö)    // Asetetaan aineen uusi määrä uuden yksikön mukaiseksi
+    
+    asetaMäärä( aine, Muuntaja.muunna(aine, varasto(aine), yksikkö) ) // Muutetaan aineen määrä varastossa uuden yksikön mukaiseksi
+    
+    aine.mittayksikkö = yksikkö                                       // Muutetaan aineen perusmittayksiköksi annettu yksikkö.
+  }
 }
