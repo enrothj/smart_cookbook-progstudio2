@@ -37,6 +37,7 @@ class Aine(val nimi: String,
   
   // metodilla voidaan muuttaa annetun nimisen ainesosan määrää ja mittayksikköä ainesosalistassa.
   def muutaAinesosaa(nimi: String, määrä: Double, mittayksikkö: String) = {
+    require(Muuntaja.tunnistettu(mittayksikkö))
     val indeksi = ainesosat.indexWhere(_._1.nimi == nimi)  // Etsitään alkion, jossa halutun niminen aine on, indeksi.
     val aine = ainesosat(indeksi)._1                       // Tallennetaan muuttujaan, kyseistä ainetta vastaava olio
     
