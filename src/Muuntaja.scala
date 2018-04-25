@@ -19,6 +19,8 @@ package Smart_Cookbook
  *  -kuppi 				("cup")		= 2.4 dl
  *  -pintti				("pint")	= 4.7 dl
  *  
+ *  Ohjelma käyttää myös 'yksikköä' "kpl" kuvaamaan annoksia tai kappaleita. Näitä ei kuitenkaan ole tarkoitus muuntaa muihin mittayksiköihin,
+ *  joten jos näitä syöttää Muuntajalle, ohjelma heittää KappaleMuunnos-poikkeuksen.
  */
 
 
