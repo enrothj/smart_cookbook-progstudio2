@@ -15,5 +15,14 @@ class Testi extends FlatSpec {
   val jauheliha = Aine("jauheliha", Buffer("liha"), "jauhelihaa", 1000.0, 400.0, "g")
   val tomaattik = Aine("tomaattikastike", Buffer("tomaatti"), "tomaattikastike", 300.0, 3.0, "dl")
   
+  "Aine aineetYhteensä" should "palauttaa tyhjä Array raaka-aineilla" in {
+    assert( lihapulla.aineetYhteensä === Array() )
+  }
+  
+  "Aine aineetYhteensä" should "palauttaa Array, jossa kaikki raaka-aineet" in {
+    assert( sb.aineetYhteensä.length === 4 ) 
+  }
+  
+  
   
 }
