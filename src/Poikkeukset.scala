@@ -8,3 +8,6 @@ case class VirheellinenMittayksikkö(kuvaus: String, virheData: String) extends 
 
 // Tämä poikkeus tapahtuu, kun yritetään kutsua Muuntajan muunnosmetodeja kappaleille (mittayksikkö = "kpl")
 case class KappaleMuunnos(kuvaus: String, virheData: String) extends Exception(kuvaus) {}
+
+// Tämä poikkeus tapahtuu, kun yritetään kutsua Aine-oliota, joka ei ole olemassa ohjelman muistissa.
+case class OlematonAine(kuvaus: String, virheData: String) extends Exception(kuvaus) {}
