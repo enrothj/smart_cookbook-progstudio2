@@ -107,6 +107,14 @@ object Hakukone {
     aineetRiittää
   }
   
+  /*
+   * Metodi suodataNimi ottaa parametrina nimen ja suodattaa sen nimiset Aine-oliot pois annetusta kokoelmasta.
+   */
+  def suodataNimi(suodatettava: String, lista: Vector[Aine]): Vector[Aine] = lista.filterNot(_.nimi == suodatettava)
+  
+  // Metodilla haeNimi etsitään halutun niminen Aine-olio.
+  def haeNimi(nimi: String): Option[Aine] = Varasto.varasto.keys.find(_.nimi == nimi)
+  
   
   /*
    * Metodi onOlemassa tarkistaa onko ohjelmaan tallennettu parametrina annetun niminen aine.
