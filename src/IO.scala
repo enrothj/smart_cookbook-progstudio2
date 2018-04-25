@@ -6,10 +6,7 @@ import java.io.File
 import java.io.PrintWriter
 
 object IO {
-  
-  //TODO: korjaa metodit
-  
-  
+   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
    * Ensimmäiselle riville tulee Aineen nimi. Toiselle riville tulee aineen tiheys, määrä ja mittayksikkö. Seuraaville riveille tulevat ainesosat, 
@@ -17,13 +14,13 @@ object IO {
    * allergeenit. Viimeisillä riveillä on Aineen kuvaus.
    * 
    * Esimerkki:
-   * Spagetti bolognese
-   * 0.0,4.0,kpl
-   * spagetti,300.0,g
-   * kastike,800.0,g
-   * *
-   * liha,tomaatti
-   * Spagetti bolognese, neljä annosta. Paista jauheliha... jne.
+   *   Spagetti bolognese
+   *   0.0,4.0,kpl
+   *   spagetti,300.0,g
+   *   kastike,800.0,g
+   *   *
+   *   liha,tomaatti
+   *   Spagetti bolognese, neljä annosta. Paista jauheliha... jne.
    * 
    */
   def kirjoita(aine: Aine) = {
