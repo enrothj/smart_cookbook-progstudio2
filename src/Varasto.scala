@@ -64,7 +64,7 @@ object Varasto {
    * Aineen aiempi yksikkö ei saa olla "kpl" eikä myöskään kohdeyksikkö, koska kappaleista ei voi tehdä muunnoksia.
    */
   def muutaYksikkö(aine: Aine, yksikkö: String) = {
-    require(Muuntaja.massat.contains(yksikkö) || Muuntaja.tilavuudet.contains(yksikkö) || yksikkö == "kpl" || aine.mittayksikkö != "kpl")
+    require(Muuntaja.tunnistettu(yksikkö) || aine.mittayksikkö != "kpl")
     
     aine.määrä        = Muuntaja.muunna(aine, aine.määrä, yksikkö)    // Asetetaan aineen uusi määrä uuden yksikön mukaiseksi
     
