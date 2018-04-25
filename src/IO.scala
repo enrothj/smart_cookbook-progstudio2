@@ -6,7 +6,9 @@ import java.io.File
 import java.io.PrintWriter
 
 object IO {
-    
+  
+  //TODO: korjaa metodit
+  
   
   /*
    * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
@@ -62,14 +64,6 @@ object IO {
         tiedosto.println(rivi._1.nimi + "," + rivi._2)
       }
       
-    } catch {
-      
-      case e: IllegalArgumentException => println("Annettiin väärä parametri");
-      
-      case e: VirheellinenData => println("Annettiin väärää dataa")
-      
-      case _: Throwable => println("Tapahtui odottamaton virhe")
-      
     } finally {
       tiedosto.close()
     }    
@@ -102,9 +96,9 @@ object IO {
         if (rivinro == 1) {nimi = rivi; rivinro += 1} // Ensimmäiseltä riviltä haetaan aineen nimi
         
         else if (rivinro == 2) {                       // Toiselta riviltä haetaan aineen tiheys, määrä ja mittayksikkö.
-          val tiedot = rivi.split(",").toVector
-          tiheys = tiedot(0).toDouble
-          määrä = tiedot(1).toDouble
+          val tiedot   = rivi.split(",").toVector
+          tiheys       = tiedot(0).toDouble
+          määrä        = tiedot(1).toDouble
           mittayksikkö = tiedot(2)
           
           rivinro += 1
@@ -137,8 +131,56 @@ object IO {
       
     }
     
-    new Aine(nimi, ainesosat.toArray, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
+    new Aine(nimi, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
+  }
+  
+  
+  // metodi lueAinesosat täyttää aineen ainesosat-muuttujan tekstitiedoston tiedoilla
+  def lueAinesosat(tiedostonimi: String) = {
+        
+    val tiedosto = Source.fromFile(tiedostonimi)
+     
+    var aine: Aine = null
+    var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()
+
+    
+    try {
+      
+      val riveja = tiedosto.getLines().toVector
+      
+      var rivinro = 1 // Muuttujan avulla tiedetään, mitä tietoja kyseiseltä tiedoston riviltä pitäisi löytyä, esimerkiksi ensimmäiseltä riviltä
+                      // tulisi löytyä Aineen nimi.
+      
+      for (rivi <- riveja) {
+        if (rivinro == 1) {
+          aine = Varasto.varasto.keys.find(_.nimi == rivi).getOrElse(throw new VirheellinenData("Kyseistä ainetta ei ole tiedossa", rivi))
+          rivinro += 1 // Ensimmäiseltä riviltä haetaan kyseessä oleva aine.
+        }
+        
+        else if (rivinro == 2) {rivinro += 1}  // Toisella rivillä on aineen tiheys, määrä ja mittayksikkö, joten mennään seuraavalle riville
+        
+        else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) löytyvät kaikki eri ainesosat, jotka kuuluvat aineeseen.
+          
+          val aines = rivi.split(",").toVector
+          val raakaAine = Varasto.varasto.keys.find(_.nimi == aines(0)).getOrElse(throw new VirheellinenData("Kyseistä ainetta ei ole tiedossa", rivi))
+          
+          ainekset += Tuple3(Varasto.varasto.keys.find(_.nimi == aines(0)).get, aines(1).toDouble, aines(2))
+          
+        } else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+        
+      }
+    } catch {
+      
+      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      
+      case e: VirheellinenData => println("Annettiin väärää dataa")
+      
+      case _: Throwable => println("Tapahtui odottamaton virhe")
+      
+    }
+    
+    aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisältö tekstitiedostoa vastaavaksi.
   }
   
   
@@ -178,12 +220,4 @@ object IO {
     }
   }
   
-}
-
-
-case class VirheellinenData(kuvaus: String, virheData: String) extends java.lang.Exception(kuvaus) {
- 
-  
-  
-
 }
