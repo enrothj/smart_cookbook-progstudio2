@@ -131,4 +131,18 @@ object GUI extends SimpleSwingApplication {
   reseptiIkkuna.contents = resToiminnot
   reseptiIkkuna.visible = false
   
+  
+  
+  /** VARASTONHALLINTA-IKKUNA
+   * TODO: MIETI MITÄ TOIMINNALLISUUTTA HALUTAAN TÄHÄN IKKUNAAN
+   */
+  
+  
+  
+  /** AINE-IKKUNA
+   * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
+   * ominaisuuksia. Ikkunassa on taulukko, jossa on listattuna aineen ominaisuuksia ja niiden arvoja.
+   * TODO: MIETI HALUTTAVA TOIMINNALLISUUS
+   */
+  
 }
