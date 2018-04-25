@@ -16,7 +16,7 @@ object Hakukone {
    * Metodi hae käy läpi Varaston listan Aine-olioista ja palauttaa listan niistä, jotka täyttävät
    * hakuehdot. Parametri n määrittelee kuinka monta ainetta saa puuttua halutuista resepteistä.
    */
-  def hae(n: Int): Vector[Aine] = {
+  def hae(n: Int = 20): Vector[Aine] = {
     
     var lista: Buffer[Aine] = Buffer[Aine]()  // lista aineista, jotka ovat varastossa, tai voidaan valmistaa varaston aineksista
     
@@ -39,6 +39,20 @@ object Hakukone {
     
     
     lista.toVector
+  }
+  
+  /*
+   *  suodataAllergeenit ottaa parametrina kokoelman suodatettavia allergeeneja ja listan Aine-olioita. Metodi palauttaa kokoelman, josta on suodatettu pois aineet, jotka 
+   *  sisältävät yhden tai useamman parametrina annetun allergeenin.
+   */
+  def suodataAllergeenit(suodatettavat: Buffer[String], lista: Vector[Aine]): Vector[Aine] = {
+    var aineet = lista.toBuffer
+    
+    for (aine <- aineet) {                                                     // Käydään läpi kokoelman kaikki Aine-oliot
+      if (!aine.allergeenit.intersect(suodatettavat).isEmpty) aineet -= aine    // Jos aineen allergeenilistassa ja parametrin listassa on yhteisiä allergeeneja, aine poistetaan listasta.
+    }
+    
+    aineet.toVector
   }
   
   /*
