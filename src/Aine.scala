@@ -9,14 +9,35 @@ import java.io.PrintWriter
  * 
  */
 
-class Aine(val nimi: String, var ainesosat: Array[Tuple3[Aine, Double, String]],
+class Aine(val nimi: String,
     var allergeenit: Buffer[String],
     var kuvaus: String,
     var tiheys: Double, var määrä: Double,
     var mittayksikkö: String) {
 
+  var ainesosat: Array[Tuple3[Aine, Double, String]] = Array()
   
+  // metodilla voidaan lisätä aineelle ainesosia
+  def lisääAinesosa(aine: Aine, määrä: Double, mittayksikkö: String) = {
+    var uudetAinesosat = ainesosat.toBuffer
+    
+    uudetAinesosat += Tuple3(aine, määrä, mittayksikkö)
+    ainesosat = uudetAinesosat.toArray
+  }
   
+  // metodilla poistetaan annetun niminen ainesosa listasta
+  def poistaAinesosa(nimi: String) = {
+    val uudetAinesosat = ainesosat.filterNot(_._1.nimi == nimi) // valitaan alkiot, joiden aine ei ole parametrina määritellyn niminen
+    ainesosat = uudetAinesosat
+  }
+  
+  // metodilla voidaan muuttaa annetun nimisen ainesosan määrää ja mittayksikköä ainesosalistassa.
+  def muutaAinesosaa(nimi: String, määrä: Double, mittayksikkö: String) = {
+    val indeksi = ainesosat.indexWhere(_._1.nimi == nimi)  // Etsitään alkion, jossa halutun niminen aine on, indeksi.
+    val aine = ainesosat(indeksi)._1                       // Tallennetaan muuttujaan, kyseistä ainetta vastaava olio
+    
+    ainesosat(indeksi) = Tuple3(aine, määrä, mittayksikkö) // Muutetaan löydetyssä indeksissä olevan monikon tiedot parametreja vastaaviksi.
+  }
   
   /*
    * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan, jos aineen raaka-aineet pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita,
@@ -109,9 +130,9 @@ object Aine {
    * Tehdasmetodi, jolla helpotetaan uusien Aine-olioiden luomista.
    */
   
-  def apply(nimi: String, ainesosat: Array[Tuple3[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
+  def apply(nimi: String, allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String) = {
-    new Aine(nimi: String, ainesosat: Array[Tuple3[Aine, Double, String]], allergeenit: Buffer[String], kuvaus: String,
+    new Aine(nimi: String, allergeenit: Buffer[String], kuvaus: String,
       tiheys: Double, määrä: Double, mittayksikkö: String)
   }
   
