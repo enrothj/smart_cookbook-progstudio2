@@ -17,6 +17,10 @@ class Aine(val nimi: String,
 
   var ainesosat: Array[Tuple3[Aine, Double, String]] = Array()
   
+  
+  
+  
+  
   // metodilla voidaan lisätä aineelle ainesosia
   def lisääAinesosa(aine: Aine, määrä: Double, mittayksikkö: String) = {
     var uudetAinesosat = ainesosat.toBuffer
@@ -39,6 +43,9 @@ class Aine(val nimi: String,
     ainesosat(indeksi) = Tuple3(aine, määrä, mittayksikkö) // Muutetaan löydetyssä indeksissä olevan monikon tiedot parametreja vastaaviksi.
   }
   
+  
+  
+  
   // Metodi tarkistaa sisältääkö aine tietyn nimistä ainetta raaka-aineenaan.
   def sisältääAineen(nimi: String): Boolean = {
     var sisältää: Boolean = false
@@ -52,6 +59,11 @@ class Aine(val nimi: String,
     
     sisältää
   }
+  
+  
+  // Metodi palauttaa true jos aine on raaka-aine. Ohjelmassa raaka-aine on määritelty aineeksi, jolla ei ole omia ainesosia.
+  def onRaakaAine: Boolean = this.ainesosat.isEmpty
+  
   
   /*
    * Metodi aineetYhteensä laskee mitä ja paljonko raaka-aineita vaaditaan, jos aineen raaka-aineet pitää valmistaa erikseen. Metodi palauttaa kokoelman monikoita,
@@ -74,20 +86,22 @@ class Aine(val nimi: String,
     var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()  // aineet-muuttujaan kootaan kaikki raaka-aineet
     
     
-    if (!this.ainesosat.isEmpty) {                             // Jos ainesosat-muuttuja ei ole tyhjä, aineella on raaka-aineita
+    if (!onRaakaAine) {                                                 // Jos kyseessä ei ole raaka-aine...
 
       
-      for (aine <- this.ainesosat) {                           // Käydään läpi ainesosat.
+      for (aine <- this.ainesosat) {                                    // ... käydään läpi ainesosat.
+        var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()   // ainekset- muuttujaan kerätään tämän kyseisen aineen mahdolliset raaka-aineet.
         
-        if (aine._1.ainesosat.isEmpty) {                       // Jos ainesosalla ei ole raaka-aineita,
-          aineet += aine                                       // lisätään aineet-muuttujaan reseptissä mainittu ainesosa-alkio (aine, määrä, yksikkö).
+        if (onRaakaAine) {                                              // Jos ainesosa on raaka-aine,
+          ainekset += aine                                              // lisätään aineet-muuttujaan reseptissä mainittu ainesosa-alkio (aine, määrä, yksikkö).
         } 
         
         else {
-          aine._1.aineetYhteensä                               // Jos aineella on omat ainesosansa, kutsutaan rekursiivisesti tätä metodia ainesosalle.
-          
+          ainekset.union(aine._1.aineetYhteensä)                        // Jos aineella on omat ainesosansa, kutsutaan rekursiivisesti tätä metodia ainesosalle.
+                                                                        // Lisätään raaka-aineet ainekset-muuttujaan.
         }
         
+        aineet.union(ainekset)                                          // Lisätään nämä raaka-aineet aineet-muuttujaan.               
       }
       
     }
