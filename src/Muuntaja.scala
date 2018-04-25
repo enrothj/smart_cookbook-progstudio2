@@ -70,6 +70,10 @@ object Muuntaja {
                                               else if (s == "kpl") throw new KappaleMuunnos("Yritettiin tarkistaa onko 'kpl' massan yksikkö", s)
                                               else throw new VirheellinenMittayksikkö("Annettiin tuntematon mittayksikkö.", s)
   
+  
+  // Metodi tunnistettu tarkistaa onko annettu mittayksikkö ohjelman tunnistama.
+  def tunnistettu(s: String): Boolean =  s == "kpl" || massat.contains(s) || tilavuudet.contains(s)
+  
   /*
    * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen. Käytännössä parametri a on aloitusmittayksikkö, josta pyritään kohdeyksikköön b.
    */
