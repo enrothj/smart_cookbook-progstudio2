@@ -17,7 +17,7 @@ object Varasto {
   def uusiAine(aine: Aine, määrä: Double) = varasto(aine) = määrä
   
   def poistaAine(nimi: String) = {
-    if (!onOlemassa(nimi)) throw new OlematonAine("Kyseistä ainetta ei ole ohjelman muistissa.", nimi)
+    if (!onOlemassa(nimi)) throw new OlematonAinePoikkeus("Kyseistä ainetta ei ole ohjelman muistissa.", nimi)
     else varasto -= Hakukone.haeNimi(nimi).get
   }
   

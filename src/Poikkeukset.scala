@@ -10,4 +10,4 @@ case class VirheellinenMittayksikkö(kuvaus: String, virheData: String) extends 
 case class KappaleMuunnos(kuvaus: String, virheData: String) extends Exception(kuvaus) {}
 
 // Tämä poikkeus tapahtuu, kun yritetään kutsua Aine-oliota, joka ei ole olemassa ohjelman muistissa.
-case class OlematonAine(kuvaus: String, virheData: String) extends Exception(kuvaus) {}
+case class OlematonAinePoikkeus(kuvaus: String, virheData: String) extends Exception(kuvaus) {}
