@@ -125,8 +125,11 @@ class Aine(val nimi: String,
     uusiAines
   }
   
-  // muutaYksikkö muuttaa aineen oletusmittayksikön halutuksi. TODO: x pitää olla tunnistettu mittayksikkö.
-  def muutaYksikkö(x: String) = this.mittayksikkö = x
+  // muutaYksikkö muuttaa aineen oletusmittayksikön halutuksi.
+  def muutaYksikkö(x: String) = {
+                                 require(Muuntaja.tunnistettu(x))
+                                 this.mittayksikkö = x
+                                 }
   
   // muutaTiheys muuttaa aineen tiheyden halutuksi
   def muutaTiheys(x: Double) = this.tiheys = x
