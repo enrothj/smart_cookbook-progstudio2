@@ -39,7 +39,8 @@ object Muuntaja {
       case "kg"   => 1000.0
       case "lb"   => 453.6
       case "oz"   => 28.4
-      case _ => throw new Exception() //TODO: Metodin tulisi käsitellä poikkeukset, jolloin sille annetaan vääränlainen parametri (muu mittayksikkö tai kirjoitusvirhe tjsp).
+      case "kpl"  => throw new KappaleMuunnos("Yritettiin muuntaa kappaletta massaksi", s)
+      case _      => throw new VirheellinenMittayksikkö("Annettiin tuntematon mittayksikkö.", s)
     }
     massaGrammoina
   }
@@ -53,7 +54,8 @@ object Muuntaja {
       case "rkl"  => 15.0
       case "cup"  => 240.0
       case "pint" => 470.0
-      case _ => throw new Exception() // TODO
+      case "kpl"  => throw new KappaleMuunnos("Yritettiin muuntaa kappaletta tilavuudeksi", s)
+      case _      => throw new VirheellinenMittayksikkö("Annettiin tuntematon mittayksikkö.", s)
     }
     massaMillilitroina
   }
