@@ -93,7 +93,7 @@ class Aine(val nimi: String,
       for (aine <- this.ainesosat) {                                    // ... käydään läpi ainesosat.
         var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()   // ainekset- muuttujaan kerätään tämän kyseisen aineen mahdolliset raaka-aineet.
         
-        if (onRaakaAine) {                                              // Jos ainesosa on raaka-aine,
+        if (aine._1.onRaakaAine) {                                      // Jos ainesosa on raaka-aine,
           ainekset += aine                                              // lisätään aineet-muuttujaan reseptissä mainittu ainesosa-alkio (aine, määrä, yksikkö).
         } 
         
