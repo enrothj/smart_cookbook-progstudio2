@@ -1,10 +1,7 @@
 package Smart_Cookbook
 
 import scala.collection.mutable.Map
-import scala.io.Source
-import java.io.File
-import java.io.PrintWriter
-import scala.math
+import scala.collection.mutable.Buffer
 
 object Varasto {
 
@@ -19,13 +16,16 @@ object Varasto {
   // Näillä metodeilla voidaan lisätä uusi aine varastoon tai poistaa olemassa oleva.
   def uusiAine(aine: Aine, määrä: Double) = varasto(aine) = määrä
   
-  def poistaAine(aine: Aine) = varasto -= aine
+  def poistaAine(nimi: String) = {
+    if (!onOlemassa(nimi)) throw new OlematonAine("Kyseistä ainetta ei ole ohjelman muistissa.", nimi)
+    else varasto -= Hakukone.haeNimi(nimi).get
+  }
   
   
   // Näillä metodeilla voidaan kasvattaa tai vähentää aineen määrää varastossa. Aineen määrän varastossa on aina oltava >= 0.0.
   def lisaaAinetta(aine: Aine, määrä: Double) = varasto(aine) = varasto.get(aine).getOrElse(0.0) + määrä
   
-  def vahennaAinetta(aine: Aine, määrä: Double) = varasto(aine) = if (varasto(aine) > määrä) varasto(aine) - maara else 0.0 // Jos vähennettävä määrä on suurempi kuin varastoitu, varastoon jää 0.0
+  def vahennaAinetta(aine: Aine, määrä: Double) = varasto(aine) = if (varasto(aine) > määrä) varasto(aine) - määrä else 0.0 // Jos vähennettävä määrä on suurempi kuin varastoitu, varastoon jää 0.0
   
   
   // Tällä metodilla voidaan asettaa tietty arvo tietyn aineen määrälle (>= 0.0)
