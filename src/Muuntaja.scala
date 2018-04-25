@@ -29,8 +29,8 @@ object Muuntaja {
   
   
   // Muuttujat massat ja tilavuudet sisältävät ohjelman tuntemat mittayksiköt.
-  private val massat: Array[String] = Array("g", "kg", "lb", "oz")
-  private val tilavuudet: Array[String] = Array("ml", "dl", "l", "tl", "rkl", "cup", "pint")
+  val massat: Array[String] = Array("g", "kg", "lb", "oz")
+  val tilavuudet: Array[String] = Array("ml", "dl", "l", "tl", "rkl", "cup", "pint")
   
   /*
    * Metodit tunnistaX ottavat parametreinaan mittayksikön (String) ja muuttavat sen Muuntajan käyttämään perusmittayksikköön (ml tai g).
