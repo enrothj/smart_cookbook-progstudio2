@@ -88,6 +88,47 @@ object GUI extends SimpleSwingApplication {
   hakuikkuna.visible    = false
   
   
+  /** RESEPTINLUONTI-IKKUNA
+   * Reseptinluonti-ikkunassa voidaan luoda uusia Aine-olioita ohjelman muistiin. Ikkunassa määritellään tekstikenttiin
+   * aineen nimi, allergeenit, määrä ja mittayksikkö, mahdolliset raaka-aineet sekä kuvaus (valmistusohje jne.)
+   * 
+   * Ikkunan ala-laidassa on kolme nappia: "Tallenna", "Avaa" ja "Peruuta". Tallenna-napilla tallennetaan uusi aine
+   * annetuilla tiedoilla. Avaa-napilla voidaan täytää kentät olemassa olevan aineen tiedoilla. Peruuta-nappi sulkee ikkunan.
+   */
   
+  // Pääkomponentit:
+  val uusiNimi     = new TextField
+  val allergeenit  = new TextField
+  val määräJaMitta = new TextField
+  val raakaAineet  = new TextField
+  val uusiKuvaus   = new TextField
+  
+  val resTallenna = new Button("Tallenna")
+  val resAvaa     = new Button("Avaa")
+  val resPeruuta  = new Button("Peruuta")
+  
+  // Paneeli tekstikentille
+  val resTekstit = new BoxPanel(Orientation.Vertical)
+  resTekstit.contents += uusiNimi
+  resTekstit.contents += allergeenit
+  resTekstit.contents += määräJaMitta
+  resTekstit.contents += raakaAineet
+  resTekstit.contents += uusiKuvaus
+  
+  // Paneeli napeille
+  val resNapit = new BoxPanel(Orientation.Horizontal)
+  resNapit.contents += resTallenna
+  resNapit.contents += resAvaa
+  resNapit.contents += resPeruuta
+  
+  // Näiden paneelien yhdistys
+  val resToiminnot = new BoxPanel(Orientation.Vertical)
+  resToiminnot.contents += resTekstit
+  resToiminnot.contents += resNapit
+  
+  // Reseptinluonti-ikkuna
+  val reseptiIkkuna = new Frame
+  reseptiIkkuna.contents = resToiminnot
+  reseptiIkkuna.visible = false
   
 }
