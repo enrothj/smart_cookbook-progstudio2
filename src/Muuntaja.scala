@@ -65,7 +65,8 @@ object Muuntaja {
    *  Jos annettu ei ole listattu muuttujissa massat tai tilavuudet, metodi heittää poikkeuksen.
    */
   private def onkoMassa(s: String): Boolean = if (massat.contains(s)) true else if (tilavuudet.contains(s)) false 
-                                                else throw new VirheellinenMittayksikkö("Annettiin tuntematon mittayksikkö.", s)
+                                              else if (s == "kpl") throw new KappaleMuunnos("Yritettiin tarkistaa onko 'kpl' massan yksikkö", s)
+                                              else throw new VirheellinenMittayksikkö("Annettiin tuntematon mittayksikkö.", s)
   
   /*
    * suhde-metodit ottavat parametreinaan kaksi mittayksikköä, ja palauttavat niiden suhteen. Käytännössä parametri a on aloitusmittayksikkö, josta pyritään kohdeyksikköön b.
@@ -92,9 +93,15 @@ object Muuntaja {
    * suhteen suhde-metodeilta. Tiheys on ohjelmassa aina mittayksikössä g/ml.
    */
   
-  def massaMassa(a: String, b: String, m: Double): Double = m * suhdeMassa(a, b)
+  def massaMassa(a: String, b: String, m: Double): Double = {
+    require(m >= 0.0)
+    m * suhdeMassa(a, b)
+  }
   
-  def tilavuusTilavuus(a: String, b: String, v: Double): Double = v * suhdeTilavuus(a, b)
+  def tilavuusTilavuus(a: String, b: String, v: Double): Double = {
+    require(v >= 0.0)
+    v * suhdeTilavuus(a, b)
+  }
   
   /*
    *  massaTilavuus ottaa parametreinaan aineen tiheyden d, massan mittayksikön, halutun tilavuusyksikön ja aineen massan m. Palautusarvo on tilavuus anettussa tilavuusyksikössä.
@@ -126,7 +133,7 @@ object Muuntaja {
    * ensin if-lauseilla metodia onkoMassa hyödyntäen, että kyseessä on muunnos massasta tilavuuteen, ja syöttää tarvittavat arvot massaTilavuus-metodiin, jolta se saa tulokseksi 10.0.
    */
   def laske(d: Double, yksikkö1: String, määrä: Double, yksikkö2: String): Double = {
-    
+    require(määrä >= 0.0)
     /*
      *  Muuttujaan uusiMäärä lasketaan tarvittava muunnos. Ensin selvitetään onko kyseessä 1. massa->massa 2. tilavuus->tilavuus 3. massa->tilavuus 4. tilavuus->massa -muunnos.
      *  Uuden arvon laskemiseen käytetään xX-metodeita (esim. massaMassa).
