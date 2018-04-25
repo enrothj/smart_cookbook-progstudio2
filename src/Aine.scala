@@ -112,11 +112,11 @@ class Aine(val nimi: String,
   /*
    * Näillä metodeilla voidaan muuttaa Aineen allergeenilistaa.
    */
-  def lisääAllergeeni(x: String) = ???
+  def lisääAllergeeni(x: String)          = this.allergeenit += x
   
-  def poistaAllergeeni(x: String) = ???
+  def poistaAllergeeni(x: String)         = this.allergeenit -= x
   
-  def uudetAllergeenit(x: Array[String]) = ???
+  def uudetAllergeenit(x: Buffer[String]) = this.allergeenit  = x
   
 
   
