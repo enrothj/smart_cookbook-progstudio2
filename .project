@@ -3,6 +3,8 @@
 	<name>Smart_Cookbook</name>
 	<comment></comment>
 	<projects>
+		<project>GraphicsLibraries</project>
+		<project>TestingLibraries</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
