@@ -1,6 +1,7 @@
 package Smart_Cookbook
 
 import scala.swing._
+import scala.swing.event._
 
 
 
@@ -16,11 +17,12 @@ object GUI extends SimpleSwingApplication {
   
   // Pääkomponentit:
   
-  val reseptihakuNappi = new Button("Reseptihaku")
-  val luoReseptiNappi  = new Button("Luo Resepti")
-  val varHallintaNappi = new Button("Varaston hallinta")
+  // Näillä napeilla avataan kolme muuta ikkunaa.
+  val reseptihakuNappi = new Button("Reseptihaku")       {hakuikkuna.visible = true}
+  val luoReseptiNappi  = new Button("Luo Resepti")       {reseptiIkkuna.visible = true}
+  val varHallintaNappi = new Button("Varaston hallinta") {varIkkuna.visible = true}
   
-  // Lista aineista, niiden määrästä ja niiden allergeeneista  TODO: Toteuta metodit, joilla tiedot saadaan haettua taulukkoon
+  // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
   val ainelistaTiedot: Array[Array[Any]]  = Varasto.listaaAineet
   val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
@@ -45,6 +47,7 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.size     = new Dimension(800, 800)
   
   
+
   
   
   /** RESEPTIHAKU-IKKUNA
@@ -192,6 +195,30 @@ object GUI extends SimpleSwingApplication {
   aineikkuna.contents   = ainePaneeli
   aineikkuna.visible    = false
   
+  
+  /**
+   * TAPAHTUMAT:
+   */
+  
+  // Tapahtumat:
+  
+  // Kuunnellaan kaikkia nappeja
+  this.listenTo(reseptihakuNappi)
+  this.listenTo(luoReseptiNappi)
+  this.listenTo(varHallintaNappi)
+  this.listenTo(ainehakunappi)
+  this.listenTo(hakuperuutus)
+  this.listenTo(resTallenna)
+  this.listenTo(resAvaa)
+  this.listenTo(resPeruuta)
+  this.listenTo(varMäärä)
+  this.listenTo(varYksikkö)
+  this.listenTo(varPoista)
+  this.listenTo(varNollaa)
+  this.listenTo(aineAinesosa)
+  this.listenTo(aineAllergeeni)
+  this.listenTo(aineOminaisuus)
+  this.listenTo(aineRaakaAineet)
   
   
 }
