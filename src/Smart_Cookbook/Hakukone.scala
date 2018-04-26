@@ -80,6 +80,7 @@ object Hakukone {
    */
   def voiValmistaa(aine: Aine): Boolean = {
     val ainekset: Buffer[(Aine, Double, String)] = aine.ainesosat.toBuffer     // Kokoelma aineen ainesosista
+    if (ainekset.isEmpty) return false
     var valmistettavissa: Buffer[(Aine, Double, String)] = Buffer()            // Ainesosat, jotka voidaan valmistaa varaston aineista
     var aineetRiittää: Boolean = false                                         
     
