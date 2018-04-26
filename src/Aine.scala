@@ -17,7 +17,10 @@ class Aine(val nimi: String,
 
   var ainesosat: Array[Tuple3[Aine, Double, String]] = Array()
   
-  
+  // metodi muuttaa ainesosan helposti luettavaan muotoon
+  def ainesosaTekstiksi(ainesosa: Tuple3[Aine, Double, String]): String = {
+    ainesosa._1.nimi + " " + ainesosa._2.toString + ainesosa._3
+  }
   
   
   
