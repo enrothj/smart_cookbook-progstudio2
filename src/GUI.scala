@@ -61,12 +61,36 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Pääkomponentit:
-  val aineenNimi           = new TextField
-  val allergeeniSuodatin   = new TextField
-  val maxPuuttuvatAineet   = new TextField
+  val aineenNimi           = new TextField // Tämä kenttä täytetään, jos halutaan tietyn niminen aine
+  val allergeeniSuodatin   = new TextField // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
+  val maxPuuttuvatAineet   = new TextField // Tähän kenttään määritellään kuinka monta ainesosaa saa puuttua varastosta
   
-  val ainehakunappi        = new Button("Hae aineita")
-  val hakuperuutus         = new Button("Peruuta")
+  // Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla.
+  val ainehakunappi        = new Button("Hae aineita") {
+    
+    try {
+      val nimihaku    = aineenNimi.text
+      val allergeenit = allergeeniSuodatin.text.toLowerCase.trim.split(",").toBuffer
+      // Jos on määritelty sallittu puuttuvien määrä, käytetään sitä, muuten mielivaltaiseksi ylärajaksi 20
+      val nPuuttuvat  = if (maxPuuttuvatAineet.text.length > 0) maxPuuttuvatAineet.text.toInt else 20
+      
+      var hakutulos = Hakukone.hae(nPuuttuvat)
+      
+      // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
+      if (nimihaku.length > 0) hakutulos = Hakukone.sisältää(nimihaku, hakutulos)
+      
+      if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
+      
+      hakutulos
+      
+      
+    } catch {
+      case e: IllegalArgumentException => Dialog.showMessage(hakuNapit, "Annettiin virheelliset hakuparametrit!")
+    }
+    
+    
+  }
+  val hakuperuutus         = new Button("Peruuta")      {}
   
   
   // Paneeli, jossa ovat hakukentät
@@ -89,6 +113,11 @@ object GUI extends SimpleSwingApplication {
   val hakuikkuna        = new Frame
   hakuikkuna.contents   = hakuToiminnot
   hakuikkuna.visible    = false
+  
+  
+  // HAKUTULOS-IKKUNA
+  val hakuSarakkeet: Seq[String] = Seq("Aine", "määrä")
+  var hakutulokset: Array[Array[Any]] = Array()
   
   
   /** RESEPTINLUONTI-IKKUNA
