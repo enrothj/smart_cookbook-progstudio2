@@ -9,7 +9,7 @@ import scala.collection.mutable.Buffer
 
 object GUI extends SimpleSwingApplication {
   
-  def top = pääikkuna
+
   
   /*
    * Pääikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Näitä painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
@@ -47,7 +47,7 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.title    = "Älykäs reseptikirja"
   pääikkuna.size     = new Dimension(800, 800)
   
-  
+    def top = pääikkuna
 
   
   
