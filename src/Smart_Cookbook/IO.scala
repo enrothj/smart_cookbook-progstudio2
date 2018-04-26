@@ -112,8 +112,8 @@ object IO {
           rivinro += 1
         }
         
-        else kuvaus = rivi // Viimeisillä riveillä on Aineen kuvaus.
-        //TODO: Jos haluaa kuvauksen useammalle riville, tee muuttuja kuvaukselle ja lisää riveittäin
+        else kuvaus += rivi // Viimeisillä riveillä on Aineen kuvaus.
+
         
       }
         
