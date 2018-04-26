@@ -154,12 +154,25 @@ object GUI extends SimpleSwingApplication {
   val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
   val ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
   
-  val aineAinesosa = new Button("Hallitse ainesosia")
-  val aineAllergeeni = new Button("Hallitse allergeeneja")
-  val aineOminaisuus = new Button("Hallitse muita ominaisuuksia")
+  val aineAinesosa    = new Button("Hallitse ainesosia")
+  val aineAllergeeni  = new Button("Hallitse allergeeneja")
+  val aineOminaisuus  = new Button("Hallitse muita ominaisuuksia")
   val aineRaakaAineet = new Button("Aineen raaka-aineet")
   
+  // Komponenttien asemointi
+  val aineNapit = new BoxPanel(Orientation.Vertical)
+  aineNapit.contents += aineAinesosa
+  aineNapit.contents += aineAllergeeni
+  aineNapit.contents += aineOminaisuus
+  aineNapit.contents += aineRaakaAineet
   
+  val ainePaneeli = new BoxPanel(Orientation.Horizontal)
+  ainePaneeli.contents += ominaisuuslista
+  ainePaneeli.contents += aineNapit
+  
+  val aineikkuna = new Frame
+  aineikkuna.contents = ainePaneeli
+  aineikkuna.visible  = false
   
   
   
