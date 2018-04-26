@@ -22,6 +22,34 @@ class Aine(val nimi: String,
     ainesosa._1.nimi + " " + ainesosa._2.toString + ainesosa._3
   }
   
+  def ainekset: Array[String] = ainesosat.map(ainesosaTekstiksi)
+  
+  /*
+   *  metodi luo GUI:lle aineen tietotaulukon.
+   *  
+   *  taulukko on muotoa
+   *  
+   *  Ominaisuus - arvo
+   *  nimi
+   *  allergeenit
+   *  tiheys
+   *  määrä
+   *  mittayksikkö
+   *  ainesosat
+   */
+  def tietoTaulukko: Array[Array[Any]] = {
+    var sarakkeet: Buffer[Array[Any]] = Buffer()
+    
+    // Lisätään jokainen tietorivi muodossa Array(ominaisuus, arvo)
+    sarakkeet += Array("nimi", this.nimi)
+    sarakkeet += Array("allergeenit", this.allergeenit)
+    sarakkeet += Array("tiheys (g/ml)", this.tiheys)
+    sarakkeet += Array("määrä", this.määrä)
+    sarakkeet += Array("mittayksikkö", this.mittayksikkö)
+    sarakkeet += Array("ainesosat", this.ainekset)
+    
+    sarakkeet.toArray
+  }
   
   
   // metodilla voidaan lisätä aineelle ainesosia
