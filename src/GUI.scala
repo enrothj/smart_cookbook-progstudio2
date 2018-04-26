@@ -142,7 +142,20 @@ object GUI extends SimpleSwingApplication {
   /** AINE-IKKUNA
    * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
    * ominaisuuksia. Ikkunassa on taulukko, jossa on listattuna aineen ominaisuuksia ja niiden arvoja.
-   * TODO: MIETI HALUTTAVA TOIMINNALLISUUS
+   * 
+   * Ominaisuustaulukon lisäksi ikkunassa on napit ainesosien, allergeenien, ja muiden ominaisuuksien hallitsemiseen.
+   * "Raaka-aineet"-napilla ohjelma antaa listan aineen raaka-aineista.
+   * 
    */
+  
+  // Pääkomponentit
+  var aine: Aine = null
+  var ainetiedot: Array[Array[Any]] = Array()
+  val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
+  val ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
+  
+  
+  
+  
   
 }
