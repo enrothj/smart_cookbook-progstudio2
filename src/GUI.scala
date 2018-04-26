@@ -116,8 +116,20 @@ object GUI extends SimpleSwingApplication {
   
   
   // HAKUTULOS-IKKUNA
-  val hakuSarakkeet: Seq[String] = Seq("Aine", "määrä")
+  val hakusarakkeet: Seq[String] = Seq("Aine", "määrä")
   var hakutulokset: Array[Array[Any]] = Array()
+  var hakutaulukko = new Table(hakutulokset, hakusarakkeet)
+  
+  val hakutulosSulje = Button("Sulje") {hakutulosIkkuna.visible = false}
+  
+  val hakutulosPaneeli = new BoxPanel(Orientation.Vertical)
+  hakutulosPaneeli.contents += hakutaulukko
+  hakutulosPaneeli.contents += hakutulosSulje
+  
+  val hakutulosIkkuna = new Frame
+  hakutulosIkkuna.title    = "Hakutulokset"
+  hakutulosIkkuna.contents = hakutulosPaneeli
+  hakutulosIkkuna.visible  = false
   
   
   /** RESEPTINLUONTI-IKKUNA
@@ -248,6 +260,7 @@ object GUI extends SimpleSwingApplication {
   this.listenTo(aineAllergeeni)
   this.listenTo(aineOminaisuus)
   this.listenTo(aineRaakaAineet)
+  this.listenTo(hakutulosSulje)
   
   
 }
