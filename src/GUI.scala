@@ -134,10 +134,26 @@ object GUI extends SimpleSwingApplication {
   
   
   /** VARASTONHALLINTA-IKKUNA
-   * TODO: MIETI MITÄ TOIMINNALLISUUTTA HALUTAAN TÄHÄN IKKUNAAN
+   * Varastonhallintaikkunassa on kourallinen nappeja, joista aukeaa ponnahdusikkunoita, joihin voi antaa syötteitä. Napit
+   * ovat aineen määrän muuttamiseen, yksikön muuttamiseen, aineen poistamiseen varastosta sekä varaston tyhjentämiseen tai
+   * nollaamiseen.
    */
   
+  // Pääkomponentit
+  val varMäärä   = new Button("Muuta aineen määrää")
+  val varYksikkö = new Button("Muuta aineen mittayksikköä")
+  val varPoista  = new Button("Poista aine varastosta")
+  val varNollaa  = new Button("Tyhjennä tai nollaa varasto")
   
+  val varPaneeli = new BoxPanel(Orientation.Vertical)
+  varPaneeli.contents += varMäärä
+  varPaneeli.contents += varYksikkö
+  varPaneeli.contents += varPoista
+  varPaneeli.contents += varNollaa
+  
+  val varIkkuna = new Frame
+  varIkkuna.contents = varPaneeli
+  varIkkuna.visible = false
   
   /** AINE-IKKUNA
    * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
