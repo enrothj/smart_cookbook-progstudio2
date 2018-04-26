@@ -2,6 +2,7 @@ package Smart_Cookbook
 
 import scala.swing._
 import scala.swing.event._
+import scala.collection.mutable.Buffer
 
 
 
@@ -65,10 +66,14 @@ object GUI extends SimpleSwingApplication {
   val allergeeniSuodatin   = new TextField // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
   val maxPuuttuvatAineet   = new TextField // Tähän kenttään määritellään kuinka monta ainesosaa saa puuttua varastosta
   
-  // Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla.
+  /*
+   *  Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla. Tulokset avataan 
+   *  hakutulosikkunaan.
+   */
   val ainehakunappi        = new Button("Hae aineita") {
     
     try {
+      
       val nimihaku    = aineenNimi.text
       val allergeenit = allergeeniSuodatin.text.toLowerCase.trim.split(",").toBuffer
       // Jos on määritelty sallittu puuttuvien määrä, käytetään sitä, muuten mielivaltaiseksi ylärajaksi 20
@@ -81,15 +86,24 @@ object GUI extends SimpleSwingApplication {
       
       if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
       
-      hakutulos
+      val tulostaulukko = {  // Taulukko, jossa on kaikki löydetyt aineet ja niiden määrät
+        var tulokset: Buffer[Array[Any]] = Buffer()
+        for (aine <- hakutulos) {
+          tulokset += Array(aine.nimi, Varasto.varasto(aine))
+        }
+        tulokset.toArray
+      }
       
+      // Lisätään hakutulokset hakutulosikkunaan, ja tehdään se näkyväksi
+      hakutulokset = tulostaulukko
+      hakutulosIkkuna.visible = true
+      hakutulosIkkuna.repaint()
       
     } catch {
       case e: IllegalArgumentException => Dialog.showMessage(hakuNapit, "Annettiin virheelliset hakuparametrit!")
-    }
-    
-    
+    }    
   }
+  
   val hakuperuutus         = new Button("Peruuta")      {}
   
   
