@@ -62,12 +62,12 @@ object GUI extends SimpleSwingApplication {
   val allergeeniSuodatin   = new TextField
   val maxPuuttuvatAineet   = new TextField
   
-  val ainehakunappi   = new Button("Hae aineita")
-  val hakuperuutus    = new Button("Peruuta")
+  val ainehakunappi        = new Button("Hae aineita")
+  val hakuperuutus         = new Button("Peruuta")
   
   
   // Paneeli, jossa ovat hakukentät
-  val hakuTekstit = new BoxPanel(Orientation.Vertical)
+  val hakuTekstit          = new BoxPanel(Orientation.Vertical)
   hakuTekstit.contents    += aineenNimi
   hakuTekstit.contents    += allergeeniSuodatin
   hakuTekstit.contents    += maxPuuttuvatAineet
@@ -103,12 +103,12 @@ object GUI extends SimpleSwingApplication {
   val raakaAineet  = new TextField
   val uusiKuvaus   = new TextField
   
-  val resTallenna = new Button("Tallenna")
-  val resAvaa     = new Button("Avaa")
-  val resPeruuta  = new Button("Peruuta")
+  val resTallenna  = new Button("Tallenna")
+  val resAvaa      = new Button("Avaa")
+  val resPeruuta   = new Button("Peruuta")
   
   // Paneeli tekstikentille
-  val resTekstit = new BoxPanel(Orientation.Vertical)
+  val resTekstit       = new BoxPanel(Orientation.Vertical)
   resTekstit.contents += uusiNimi
   resTekstit.contents += allergeenit
   resTekstit.contents += määräJaMitta
@@ -116,20 +116,20 @@ object GUI extends SimpleSwingApplication {
   resTekstit.contents += uusiKuvaus
   
   // Paneeli napeille
-  val resNapit = new BoxPanel(Orientation.Horizontal)
-  resNapit.contents += resTallenna
-  resNapit.contents += resAvaa
-  resNapit.contents += resPeruuta
+  val resNapit           = new BoxPanel(Orientation.Horizontal)
+  resNapit.contents     += resTallenna
+  resNapit.contents     += resAvaa
+  resNapit.contents     += resPeruuta
   
   // Näiden paneelien yhdistys
-  val resToiminnot = new BoxPanel(Orientation.Vertical)
+  val resToiminnot       = new BoxPanel(Orientation.Vertical)
   resToiminnot.contents += resTekstit
   resToiminnot.contents += resNapit
   
   // Reseptinluonti-ikkuna
-  val reseptiIkkuna = new Frame
+  val reseptiIkkuna      = new Frame
   reseptiIkkuna.contents = resToiminnot
-  reseptiIkkuna.visible = false
+  reseptiIkkuna.visible  = false
   
   
   
@@ -145,15 +145,17 @@ object GUI extends SimpleSwingApplication {
   val varPoista  = new Button("Poista aine varastosta")
   val varNollaa  = new Button("Tyhjennä tai nollaa varasto")
   
-  val varPaneeli = new BoxPanel(Orientation.Vertical)
+  
+  // Komponenttien asemointi
+  val varPaneeli       = new BoxPanel(Orientation.Vertical)
   varPaneeli.contents += varMäärä
   varPaneeli.contents += varYksikkö
   varPaneeli.contents += varPoista
   varPaneeli.contents += varNollaa
   
-  val varIkkuna = new Frame
-  varIkkuna.contents = varPaneeli
-  varIkkuna.visible = false
+  val varIkkuna        = new Frame
+  varIkkuna.contents   = varPaneeli
+  varIkkuna.visible    = false
   
   /** AINE-IKKUNA
    * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
@@ -176,19 +178,19 @@ object GUI extends SimpleSwingApplication {
   val aineRaakaAineet = new Button("Aineen raaka-aineet")
   
   // Komponenttien asemointi
-  val aineNapit = new BoxPanel(Orientation.Vertical)
-  aineNapit.contents += aineAinesosa
-  aineNapit.contents += aineAllergeeni
-  aineNapit.contents += aineOminaisuus
-  aineNapit.contents += aineRaakaAineet
+  val aineNapit         = new BoxPanel(Orientation.Vertical)
+  aineNapit.contents   += aineAinesosa
+  aineNapit.contents   += aineAllergeeni
+  aineNapit.contents   += aineOminaisuus
+  aineNapit.contents   += aineRaakaAineet
   
-  val ainePaneeli = new BoxPanel(Orientation.Horizontal)
+  val ainePaneeli       = new BoxPanel(Orientation.Horizontal)
   ainePaneeli.contents += ominaisuuslista
   ainePaneeli.contents += aineNapit
   
-  val aineikkuna = new Frame
-  aineikkuna.contents = ainePaneeli
-  aineikkuna.visible  = false
+  val aineikkuna        = new Frame
+  aineikkuna.contents   = ainePaneeli
+  aineikkuna.visible    = false
   
   
   
