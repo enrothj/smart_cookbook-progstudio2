@@ -3,6 +3,8 @@ package Smart_Cookbook
 import scala.swing._
 import scala.swing.event._
 import scala.collection.mutable.Buffer
+import scala.collection.Seq
+
 
 
 

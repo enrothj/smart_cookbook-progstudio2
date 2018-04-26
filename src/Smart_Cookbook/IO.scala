@@ -2,8 +2,9 @@ package Smart_Cookbook
 
 import scala.io.Source
 import scala.collection.mutable.Buffer
-
 import java.io.PrintWriter
+import Smart_Cookbook.VirheellinenData
+import Smart_Cookbook.Varasto
 
 object IO {
    

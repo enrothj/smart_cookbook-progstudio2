@@ -2,6 +2,7 @@ package Smart_Cookbook
 
 import org.scalatest._
 import scala.collection.mutable.Buffer
+import org.scalactic.source.Position.apply
 
 class Testi extends FlatSpec {
   

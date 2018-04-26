@@ -1,5 +1,9 @@
 package Smart_Cookbook
 
+import Smart_Cookbook.VirheellinenMittayksikkö
+
+import Smart_Cookbook.KappaleMuunnos
+
 /*
  * Muuntaja käsittelee ohjelman mittayksikkömuunnokset. Ohjelma tunnistaa ja käsittelee mittayksiköitä String-muodossa. 
  * 

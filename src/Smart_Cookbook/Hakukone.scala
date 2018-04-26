@@ -1,6 +1,9 @@
 package Smart_Cookbook
 
 import scala.collection.mutable.Buffer
+import Smart_Cookbook.Aine
+import Smart_Cookbook.Muuntaja
+import Smart_Cookbook.Varasto
 
 /*
  * Hakukone etsii ohjelman tiedoista halutuilla kriteereillä aineita. Kriteerejä ovat mm. allergeenit,
