@@ -21,9 +21,10 @@ object GUI extends SimpleSwingApplication {
   // Pääkomponentit:
   
   // Näillä napeilla avataan kolme muuta ikkunaa.
-  val reseptihakuNappi = new Button("Reseptihaku")       {}
-  val luoReseptiNappi  = new Button("Luo Resepti")       {}
-  val varHallintaNappi = new Button("Varaston Hallinta") {}
+  val reseptihakuNappi = new Button("Reseptihaku")
+  val luoReseptiNappi  = new Button("Luo Resepti")
+  val varHallintaNappi = new Button("Varaston Hallinta")
+  val sulkunappi       = new Button("Sulje Ohjelma")
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
@@ -36,6 +37,7 @@ object GUI extends SimpleSwingApplication {
   päänapit.contents += reseptihakuNappi
   päänapit.contents += luoReseptiNappi
   päänapit.contents += varHallintaNappi
+  päänapit.contents += sulkunappi
   
   val pääaineet = new BoxPanel(Orientation.Vertical)
   pääaineet.contents += ainelista
@@ -56,15 +58,17 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.listenTo(reseptihakuNappi)
   pääikkuna.listenTo(luoReseptiNappi)
   pääikkuna.listenTo(varHallintaNappi)
+  pääikkuna.listenTo(sulkunappi)
   
   pääikkuna.reactions += {
     case painallus: ButtonClicked => 
       val nappi = painallus.source
       nappi.text match {
-        case "Reseptihaku" => hakuikkuna.open()
-        case "Luo Resepti" => reseptiIkkuna.open()
+        case "Reseptihaku"       => hakuikkuna.open()
+        case "Luo Resepti"       => reseptiIkkuna.open()
         case "Varaston Hallinta" => varIkkuna.open()
-        case _ => println("Painoit nappia " + nappi.text)
+        case "Sulje Ohjelma"     => GUI.quit()
+        case _                   => println("Painoit nappia " + nappi.text)
       }
     
   }
@@ -88,12 +92,8 @@ object GUI extends SimpleSwingApplication {
    *  Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla. Tulokset avataan 
    *  hakutulosikkunaan.
    */
-  val ainehakunappi        = new Button("Hae aineita") {
-    
-        
-  }
-  
-  val hakuperuutus         = new Button("Peruuta")      {}
+  val ainehakunappi        = new Button("Hae aineita") 
+  val hakuperuutus         = new Button("Peruuta")
   
   
   // Paneeli, jossa ovat hakukentät
@@ -116,13 +116,30 @@ object GUI extends SimpleSwingApplication {
   val hakuikkuna        = new Frame
   hakuikkuna.contents   = hakuToiminnot
   
+  // TAPAHTUMAT:
+  hakuikkuna.listenTo(ainehakunappi)
+  hakuikkuna.listenTo(hakuperuutus)
+  hakuikkuna.reactions += {
+    case painallus: ButtonClicked => 
+      val nappi = painallus.source
+      nappi.text match {
+        case "Hae aineita" => {
+          hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
+          hakutaulukko.repaint()
+          hakutulosIkkuna.open()
+        }
+        case "Peruuta"     => hakuikkuna.close()
+        case _             => println("Painoit nappia " + _)
+      }
+  }
+  
   
   // HAKUTULOS-IKKUNA
   val hakusarakkeet: Seq[String] = Seq("Aine", "määrä")
   var hakutulokset: Array[Array[Any]] = Array()
   var hakutaulukko = new Table(hakutulokset, hakusarakkeet)
   
-  val hakutulosSulje = Button("Sulje") {hakutulosIkkuna.visible = false}
+  val hakutulosSulje = Button("Sulje") {hakutulosIkkuna.close()}
   
   val hakutulosPaneeli = new BoxPanel(Orientation.Vertical)
   hakutulosPaneeli.contents += hakutaulukko
@@ -131,7 +148,6 @@ object GUI extends SimpleSwingApplication {
   val hakutulosIkkuna = new Frame
   hakutulosIkkuna.title    = "Hakutulokset"
   hakutulosIkkuna.contents = hakutulosPaneeli
-  hakutulosIkkuna.visible  = false
   
   
   /** RESEPTINLUONTI-IKKUNA
