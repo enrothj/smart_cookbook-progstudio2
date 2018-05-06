@@ -59,21 +59,34 @@ object UI extends App {
 
   }
   
+  
   // Metodilla luodaan Aine-olio, ja tallennetaan se tekstitiedostolle ja ohjelman varastoon.
-  def luoAine(nimi: String,
-    allergeenit: Buffer[String],
-    kuvaus: String,
-    tiheys: Double, määrä: Double,
-    mittayksikkö: String) {
+  def luoAine(uusiNimi: String,
+    allergeenit: String,
+    uusiKuvaus: String,
+    määräJaMitta: String) {
+    
+    val nimi = uusiNimi
+    val allergeenilista = allergeenit.trim.toLowerCase.split(",").toBuffer
+    val kuvaus = uusiKuvaus
     
     try {
-      val aine = Aine(nimi, allergeenit, kuvaus, tiheys, määrä, mittayksikkö)
+      // Tunnistetaan annetut parametrit tekstistä ja tarkistetaan niiden formaatti
+      val mitat: Array[String] = määräJaMitta.trim.toLowerCase.split(",")
+      val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else throw new IllegalArgumentException("Vääränlainen tiheys (" + mitat(0) + ").")
+      val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else throw new IllegalArgumentException("Vääränlainen määrä (" + mitat(1) + ").")
+      val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else throw new VirheellinenMittayksikkö("Ohjelma ei tunnista mittayksikköä " + mitat(2), mitat(2))
       
-      Varasto.uusiAine(aine, 0.0)
+      require(tiheys >= 0.0 && määrä >= 0.0)
+      
+      val aine = Aine(nimi, allergeenilista, kuvaus, tiheys, määrä, mittayksikkö)
+      
+      Varasto.uusiAine(aine)
       IO.kirjoita(aine)
       
     } catch {
-      case e: IllegalArgumentException => println("annettu väärät parametrit")
+      case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
+      case e: NumberFormatException    => println("Jokin mitoista on väärässä formaatissa")
     }
     
     
