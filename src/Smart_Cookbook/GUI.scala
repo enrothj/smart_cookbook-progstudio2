@@ -100,7 +100,7 @@ object GUI extends SimpleSwingApplication {
   val hakuTekstit          = new BoxPanel(Orientation.Vertical)
   hakuTekstit.contents    += aineenNimi
   hakuTekstit.contents    += allergeeniSuodatin
-  hakuTekstit.contents    += maxPuuttuvatAineet
+  hakuTekstit.contents    += maxPuuttuvatAineet  // Tämä on käytännössä ainoa, johon voi antaa virheellisen syötteen.
   
   // Paneeli, jossa ovat hakunapit
   val hakuNapit           = new BoxPanel(Orientation.Horizontal)
@@ -126,8 +126,12 @@ object GUI extends SimpleSwingApplication {
         case "Hae aineita" => { // Tämä nappi kutsuu UI:n metodia täyttääkseen hakutulosikkunan tulostaulukon.
           try {
             hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
-            hakutaulukko.repaint()
-            hakutulosIkkuna.open()
+            if (hakutulokset.isEmpty) Dialog.showMessage(hakuikkuna, "Hakusi ei tuottanut tuloksia") 
+            else {
+              hakutaulukko.repaint()
+              hakutulosIkkuna.open()
+            }
+            
           } catch {
             case e: IllegalArgumentException => Dialog.showMessage(hakuikkuna, e.toString()) // Dialogi kertoo, että annettu parametri ei ole numero.
           }
