@@ -21,9 +21,9 @@ object GUI extends SimpleSwingApplication {
   // Pääkomponentit:
   
   // Näillä napeilla avataan kolme muuta ikkunaa.
-  val reseptihakuNappi = new Button("Reseptihaku")       {hakuikkuna.visible = true}
-  val luoReseptiNappi  = new Button("Luo Resepti")       {reseptiIkkuna.visible = true}
-  val varHallintaNappi = new Button("Varaston hallinta") {varIkkuna.visible = true}
+  val reseptihakuNappi = new Button("Reseptihaku")       {}
+  val luoReseptiNappi  = new Button("Luo Resepti")       {}
+  val varHallintaNappi = new Button("Varaston hallinta") {}
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
@@ -49,7 +49,7 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.title    = "Älykäs reseptikirja"
   pääikkuna.size     = new Dimension(800, 800)
   
-    def top = pääikkuna
+  def top = pääikkuna
 
   
   
@@ -74,36 +74,7 @@ object GUI extends SimpleSwingApplication {
    */
   val ainehakunappi        = new Button("Hae aineita") {
     
-    try {
-      
-      val nimihaku    = aineenNimi.text
-      val allergeenit = allergeeniSuodatin.text.toLowerCase.trim.split(",").toBuffer
-      // Jos on määritelty sallittu puuttuvien määrä, käytetään sitä, muuten mielivaltaiseksi ylärajaksi 20
-      val nPuuttuvat  = if (maxPuuttuvatAineet.text.length > 0) maxPuuttuvatAineet.text.toInt else 20
-      
-      var hakutulos = Hakukone.hae(nPuuttuvat)
-      
-      // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
-      if (nimihaku.length > 0) hakutulos = Hakukone.sisältää(nimihaku, hakutulos)
-      
-      if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
-      
-      val tulostaulukko = {  // Taulukko, jossa on kaikki löydetyt aineet ja niiden määrät
-        var tulokset: Buffer[Array[Any]] = Buffer()
-        for (aine <- hakutulos) {
-          tulokset += Array(aine.nimi, Varasto.varasto(aine))
-        }
-        tulokset.toArray
-      }
-      
-      // Lisätään hakutulokset hakutulosikkunaan, ja tehdään se näkyväksi
-      hakutulokset = tulostaulukko
-      hakutulosIkkuna.visible = true
-      hakutulosIkkuna.repaint()
-      
-    } catch {
-      case e: IllegalArgumentException => Dialog.showMessage(hakuNapit, "Annettiin virheelliset hakuparametrit!")
-    }    
+        
   }
   
   val hakuperuutus         = new Button("Peruuta")      {}
@@ -257,6 +228,8 @@ object GUI extends SimpleSwingApplication {
    * TAPAHTUMAT:
    */
   
+  /* TODO: NAPPIEN TOIMINNALLISUUS
+  
   // Tapahtumat:
   
   // Kuunnellaan kaikkia nappeja
@@ -278,5 +251,6 @@ object GUI extends SimpleSwingApplication {
   this.listenTo(aineRaakaAineet)
   this.listenTo(hakutulosSulje)
   
+  */
   
 }
