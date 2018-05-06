@@ -19,9 +19,17 @@ object UI extends App {
   }
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
-  def haeAineetTaulukkoon(nimi: String, allergeenit: Buffer[String], nPuuttuvat: Int = 20): Array[Array[Any]] = {
+  def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
 
+    // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
+    
+    val allergeenit = allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer
+    
+    var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
+    
     var hakutulos = Hakukone.hae(nPuuttuvat)
+    
+
     
   // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
     if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
