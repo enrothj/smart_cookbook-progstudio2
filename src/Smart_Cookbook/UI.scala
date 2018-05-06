@@ -18,6 +18,9 @@ object UI extends App {
     
   }
   
+  def ainelista: Array[Array[Any]] = Varasto.listaaAineet
+  
+  
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
 
@@ -73,9 +76,9 @@ object UI extends App {
     try {
       // Tunnistetaan annetut parametrit tekstistä ja tarkistetaan niiden formaatti
       val mitat: Array[String] = määräJaMitta.trim.toLowerCase.split(",")
-      val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else throw new IllegalArgumentException("Vääränlainen tiheys (" + mitat(0) + ").")
-      val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else throw new IllegalArgumentException("Vääränlainen määrä (" + mitat(1) + ").")
-      val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else throw new VirheellinenMittayksikkö("Ohjelma ei tunnista mittayksikköä " + mitat(2), mitat(2))
+      val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else 0.0
+      val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else 0.0
+      val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else "kpl"
       
       require(tiheys >= 0.0 && määrä >= 0.0)
       
@@ -87,7 +90,7 @@ object UI extends App {
     } catch {
       case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
       case e: NumberFormatException    => println("Jokin mitoista on väärässä formaatissa")
-      case e: VirheellinenMittayksikkö => println(e.toString())
+      case e: VirheellinenMittayksikkö => println("Annettiin tunnistamaton mittayksikkö")
     }
     
     
