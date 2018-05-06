@@ -87,6 +87,7 @@ object UI extends App {
     } catch {
       case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
       case e: NumberFormatException    => println("Jokin mitoista on väärässä formaatissa")
+      case e: VirheellinenMittayksikkö => println(e.toString())
     }
     
     
