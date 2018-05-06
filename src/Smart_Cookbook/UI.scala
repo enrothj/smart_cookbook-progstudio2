@@ -21,6 +21,12 @@ object UI extends App {
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
 
+    // Tarkistetaan, että annettu maxPuuttuvatAineet vastaa muotoa Int.
+    try {
+      maxPuuttuvatAineet.toInt
+    } catch {
+      case e: NumberFormatException => throw new IllegalArgumentException("Annettu parametri (" + maxPuuttuvatAineet + ") ei ole numero")
+    }
     // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
     
     val allergeenit = allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer
