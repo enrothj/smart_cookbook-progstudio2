@@ -206,7 +206,7 @@ object IO {
       } 
       
       for (aine <- Varasto.varasto.keys) {
-        lueAinesosat("/reseptit/" + aine.nimi)
+        lueAinesosat("/reseptit/" + aine.nimi + ".txt")
       }
       
     } catch {
