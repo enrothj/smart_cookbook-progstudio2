@@ -203,6 +203,10 @@ object IO {
         
         Varasto.uusiAine( lue(aineSijainti), määrä )          // Kutsutaan Varaston uusiAine-metodia, jolla lisätään aineSijainnin mukainen Aine-olio Varaston muistiin.
         
+      } 
+      
+      for (aine <- Varasto.varasto.keys) {
+        lueAinesosat("/reseptit/" + aine.nimi)
       }
       
     } catch {
