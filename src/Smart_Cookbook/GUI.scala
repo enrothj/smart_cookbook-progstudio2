@@ -23,7 +23,7 @@ object GUI extends SimpleSwingApplication {
   // Näillä napeilla avataan kolme muuta ikkunaa.
   val reseptihakuNappi = new Button("Reseptihaku")       {}
   val luoReseptiNappi  = new Button("Luo Resepti")       {}
-  val varHallintaNappi = new Button("Varaston hallinta") {}
+  val varHallintaNappi = new Button("Varaston Hallinta") {}
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
@@ -51,7 +51,23 @@ object GUI extends SimpleSwingApplication {
   
   def top = pääikkuna
 
+  // TAPAHTUMAT:
   
+  pääikkuna.listenTo(reseptihakuNappi)
+  pääikkuna.listenTo(luoReseptiNappi)
+  pääikkuna.listenTo(varHallintaNappi)
+  
+  pääikkuna.reactions += {
+    case painallus: ButtonClicked => 
+      val nappi = painallus.source
+      nappi.text match {
+        case "Reseptihaku" => hakuikkuna.open()
+        case "Luo Resepti" => reseptiIkkuna.open()
+        case "Varaston Hallinta" => varIkkuna.open()
+        case _ => println("Painoit nappia " + nappi.text)
+      }
+    
+  }
   
   /** RESEPTIHAKU-IKKUNA
    * Reseptihaussa voidaan hakea aineita tekstinä annetuilla kriteereillä. Voidaan antaa haluttuja kriteerejä, 
@@ -99,7 +115,6 @@ object GUI extends SimpleSwingApplication {
   // Hakuikkuna
   val hakuikkuna        = new Frame
   hakuikkuna.contents   = hakuToiminnot
-  hakuikkuna.visible    = false
   
   
   // HAKUTULOS-IKKUNA
