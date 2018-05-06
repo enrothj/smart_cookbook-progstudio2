@@ -4,6 +4,19 @@ import scala.collection.mutable.Buffer
 
 object UI extends App {
   
+  // metodi kutsuu IO-olion metodia lataa, joka täyttää Varaston varasto-muuttujaan kaikki tunnetut Aine-oliot
+  def täytäVarasto() = IO.lataa
+  
+  // Metodi tallentaa Varaston tiedot ja tunnetut Aine-oliot tekstitiedostoille, kutsumalla IO:n metodeja.
+  def tallennaTiedot() = {
+    
+    IO.tallenna() // metodi tallentaa varasto-muuttujan tiedot
+    
+    for (aine <- Varasto.varasto.keys) { // tallennetaan jokainen Aine-olio
+      IO.kirjoita(aine)
+    }
+    
+  }
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
   def haeAineetTaulukkoon(nimi: String, allergeenit: Buffer[String], nPuuttuvat: Int = 20): Array[Array[Any]] = {
@@ -48,7 +61,6 @@ object UI extends App {
     } catch {
       case e: IllegalArgumentException => println("annettu väärät parametrit")
     }
-    
     
     
   }
