@@ -28,7 +28,7 @@ object GUI extends SimpleSwingApplication {
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
-  val ainelistaTiedot: Array[Array[Any]]  = Varasto.listaaAineet
+  val ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
   val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
   
   
@@ -161,21 +161,22 @@ object GUI extends SimpleSwingApplication {
   
   /** RESEPTINLUONTI-IKKUNA
    * Reseptinluonti-ikkunassa voidaan luoda uusia Aine-olioita ohjelman muistiin. Ikkunassa määritellään tekstikenttiin
-   * aineen nimi, allergeenit, määrä ja mittayksikkö, mahdolliset raaka-aineet sekä kuvaus (valmistusohje jne.)
+   * aineen nimi, allergeenit, tiheys, määrä ja mittayksikkö, sekä kuvaus (valmistusohje jne.). Raaka-aineet lisätään
+   * erikseen Aine-ikkunasta.
    * 
-   * Ikkunan ala-laidassa on kolme nappia: "Tallenna", "Avaa" ja "Peruuta". Tallenna-napilla tallennetaan uusi aine
-   * annetuilla tiedoilla. Avaa-napilla voidaan täytää kentät olemassa olevan aineen tiedoilla. Peruuta-nappi sulkee ikkunan.
+   * Ainoa pakollinen parametri on nimi aineelle
+   * 
+   * Ikkunan ala-laidassa on kaksi nappia: "Tallenna" ja "Peruuta". Tallenna-napilla tallennetaan uusi aine
+   * annetuilla tiedoilla. Peruuta-nappi sulkee ikkunan.
    */
   
   // Pääkomponentit:
   val uusiNimi     = new TextField
   val allergeenit  = new TextField
-  val määräJaMitta = new TextField
-  val raakaAineet  = new TextField
+  val määräJaMitta = new TextField // tiheys, määrä ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
   val uusiKuvaus   = new TextField
   
   val resTallenna  = new Button("Tallenna")
-  val resAvaa      = new Button("Avaa")
   val resPeruuta   = new Button("Peruuta")
   
   // Paneeli tekstikentille
@@ -183,13 +184,11 @@ object GUI extends SimpleSwingApplication {
   resTekstit.contents += uusiNimi
   resTekstit.contents += allergeenit
   resTekstit.contents += määräJaMitta
-  resTekstit.contents += raakaAineet
   resTekstit.contents += uusiKuvaus
   
   // Paneeli napeille
   val resNapit           = new BoxPanel(Orientation.Horizontal)
   resNapit.contents     += resTallenna
-  resNapit.contents     += resAvaa
   resNapit.contents     += resPeruuta
   
   // Näiden paneelien yhdistys
@@ -202,6 +201,23 @@ object GUI extends SimpleSwingApplication {
   reseptiIkkuna.contents = resToiminnot
   reseptiIkkuna.visible  = false
   
+  // TAPAHTUMAT:
+  
+  reseptiIkkuna.listenTo(resTallenna)
+  reseptiIkkuna.listenTo(resPeruuta)
+  reseptiIkkuna.reactions += {
+    case painallus: ButtonClicked => 
+      val nappi = painallus.source
+      nappi.text match {
+        case "Tallenna" => {
+          UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
+          UI.ainelista
+          pääikkuna.repaint()  // päivitetään ainelista
+        }
+        case "Peruuta"  => reseptiIkkuna.close()
+        case _ => println("Painoit nappia " + nappi.text)
+      }
+  }
   
   
   /** VARASTONHALLINTA-IKKUNA
