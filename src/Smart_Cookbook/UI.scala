@@ -6,7 +6,7 @@ object UI extends App {
   
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
-  def haeAineet(nimi: String, allergeenit: Buffer[String], nPuuttuvat: Int = 20): Array[Array[Any]] = {
+  def haeAineetTaulukkoon(nimi: String, allergeenit: Buffer[String], nPuuttuvat: Int = 20): Array[Array[Any]] = {
 
     var hakutulos = Hakukone.hae(nPuuttuvat)
     
@@ -30,6 +30,27 @@ object UI extends App {
       
     tulostaulukko
 
+  }
+  
+  // Metodilla luodaan Aine-olio, ja tallennetaan se tekstitiedostolle ja ohjelman varastoon.
+  def luoAine(nimi: String,
+    allergeenit: Buffer[String],
+    kuvaus: String,
+    tiheys: Double, määrä: Double,
+    mittayksikkö: String) {
+    
+    try {
+      val aine = Aine(nimi, allergeenit, kuvaus, tiheys, määrä, mittayksikkö)
+      
+      Varasto.uusiAine(aine, 0.0)
+      IO.kirjoita(aine)
+      
+    } catch {
+      case e: IllegalArgumentException => println("annettu väärät parametrit")
+    }
+    
+    
+    
   }
   
 }
