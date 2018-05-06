@@ -63,14 +63,15 @@ object UI extends App {
   }
   
   
-  // Metodilla luodaan Aine-olio, ja tallennetaan se tekstitiedostolle ja ohjelman varastoon.
+  // Metodilla luodaan Aine-olio, ja tallennetaan se tekstitiedostolle ja ohjelman varastoon. Parametrit täytetään tekstikenttien
+  // kautta GUI:n Reseptinluonti-ikkunassa.
   def luoAine(uusiNimi: String,
     allergeenit: String,
     uusiKuvaus: String,
     määräJaMitta: String) {
     
     val nimi = uusiNimi
-    val allergeenilista = allergeenit.trim.toLowerCase.split(",").toBuffer
+    val allergeenilista: Buffer[String] = if (allergeenit.length > 0) allergeenit.trim.toLowerCase.split(",").toBuffer else Buffer()
     val kuvaus = uusiKuvaus
     
     try {
