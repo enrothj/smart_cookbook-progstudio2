@@ -8,10 +8,10 @@ import scala.collection.mutable.Buffer
  */
 
 class Aine(val nimi: String,
-    var allergeenit: Buffer[String],
-    var kuvaus: String,
-    var tiheys: Double, var määrä: Double,
-    var mittayksikkö: String) {
+    var allergeenit: Buffer[String] = Buffer(),
+    var kuvaus: String = "",
+    var tiheys: Double = 0.0, var määrä: Double = 0.0,
+    var mittayksikkö: String = "kpl") {
 
   var ainesosat: Array[Tuple3[Aine, Double, String]] = Array()
   
