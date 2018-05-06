@@ -14,7 +14,13 @@ object Varasto {
   def onOlemassa(nimi: String): Boolean = varasto.exists(_._1.nimi == nimi)
   
   // Näillä metodeilla voidaan lisätä uusi aine varastoon tai poistaa olemassa oleva.
-  def uusiAine(aine: Aine, määrä: Double) = varasto(aine) = määrä
+  def uusiAine(aine: Aine, määrä: Double = 0.0) = {
+    if (!varasto.keys.exists(_.nimi == aine.nimi)) varasto(aine) = määrä // Jos annetun nimistä ainetta ei ole olemassa, luodaan uusi
+    else {
+      poistaAine(aine.nimi) // Jos annetun niminen aine on olemassa, poistetaan vanha versio, ja lisätään uusi tilalle.
+      varasto(aine) = 0.0
+    }
+  }
   
   def poistaAine(nimi: String) = {
     if (!onOlemassa(nimi)) throw new OlematonAinePoikkeus("Kyseistä ainetta ei ole ohjelman muistissa.", nimi)
