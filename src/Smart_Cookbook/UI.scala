@@ -76,7 +76,7 @@ object UI extends App {
     
     try {
       // Tunnistetaan annetut parametrit tekstistä ja tarkistetaan niiden formaatti
-      val mitat: Array[String] = määräJaMitta.trim.toLowerCase.split(",")
+      val mitat: Array[String] = if (määräJaMitta.length > 0) määräJaMitta.trim.toLowerCase.split(",") else Array("0.0","0.0","kpl")
       val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else 0.0
       val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else 0.0
       val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else "kpl"
