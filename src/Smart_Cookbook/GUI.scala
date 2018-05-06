@@ -123,10 +123,15 @@ object GUI extends SimpleSwingApplication {
     case painallus: ButtonClicked => 
       val nappi = painallus.source
       nappi.text match {
-        case "Hae aineita" => {
-          hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
-          hakutaulukko.repaint()
-          hakutulosIkkuna.open()
+        case "Hae aineita" => { // Tämä nappi kutsuu UI:n metodia täyttääkseen hakutulosikkunan tulostaulukon.
+          try {
+            hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
+            hakutaulukko.repaint()
+            hakutulosIkkuna.open()
+          } catch {
+            case e: IllegalArgumentException => Dialog.showMessage(hakuikkuna, e.toString()) // Dialogi kertoo, että annettu parametri ei ole numero.
+          }
+
         }
         case "Peruuta"     => hakuikkuna.close()
         case _             => println("Painoit nappia " + _)
