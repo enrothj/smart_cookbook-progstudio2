@@ -65,4 +65,18 @@ object UI extends App {
     
   }
   
+  // Näillä metodeilla kutsutaan Varasto-olion metodeja, jotta voidaan hallita sen tietoja.
+  
+  def poistaAine(nimi: String) = Varasto.poistaAine(nimi)
+  
+  def asetaMäärä(aine: Aine, määrä: Double) = Varasto.asetaMäärä(aine, määrä)
+  
+  def muutaYksikkö(aine: Aine, yksikkö: String) = Varasto.muutaYksikkö(aine, yksikkö)
+  
+  def lisääAinetta(aine: Aine, määrä: Double) = Varasto.lisaaAinetta(aine, määrä)
+  def vähennäAinetta(aine: Aine, määrä: Double) = Varasto.vahennaAinetta(aine, määrä)
+  
+  def nollaaVarasto() = Varasto.nollaa()
+  def tyhjennäVarasto() = Varasto.tyhjennä()
+  
 }
