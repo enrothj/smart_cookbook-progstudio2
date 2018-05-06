@@ -68,8 +68,9 @@ object Hakukone {
       val aine = oikeanniminen.get._1
       val määrä = oikeanniminen.get._2
       
-      Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
-                                                 // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
+      if (aine.mittayksikkö != "kpl") Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
+      else if (mitta == "kpl") määrä >= n                                        // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
+      else throw new KappaleMuunnos("Yritettiin muuntaa kappaleita toiseksi mitaksi", mitta) // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
     }
     
   }
