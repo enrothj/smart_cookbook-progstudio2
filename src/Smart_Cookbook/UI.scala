@@ -21,9 +21,9 @@ object UI extends App {
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
 
-    // Tarkistetaan, että annettu maxPuuttuvatAineet vastaa muotoa Int.
+    // Tarkistetaan, että annettu maxPuuttuvatAineet vastaa muotoa Int (jos se on ylipäätään annettu).
     try {
-      maxPuuttuvatAineet.toInt
+      if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt
     } catch {
       case e: NumberFormatException => throw new IllegalArgumentException("Annettu parametri (" + maxPuuttuvatAineet + ") ei ole numero")
     }
