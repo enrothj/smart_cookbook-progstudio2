@@ -105,10 +105,14 @@ object UI extends App {
   
   // Metodi tarkistaa onko annettun niminen aine olemassa, ja onko kohdeyksikkö tunnistettu, ja muuttaa sitten aineen yksikön.
   // HUOM: kappaleyksikköön muunnettaessa pitää muuttaa aineen omia tietoja suoraan.
-  def muutaYksikkö(aine: Aine, yksikkö: String): Boolean = {
+  def muutaYksikkö(komento: String): Boolean = {
     
-      if ( Varasto.onOlemassa(aine.nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
-      Varasto.muutaYksikkö(aine, yksikkö)
+    val komennonOsat = komento.toLowerCase.split(" ")
+    val nimi         = komennonOsat(0)
+    val yksikkö      = komennonOsat(1)
+    
+      if ( Varasto.onOlemassa(nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
+      Varasto.muutaYksikkö( Varasto.aineNimeltä(nimi), yksikkö)
       true
       } else false 
     
