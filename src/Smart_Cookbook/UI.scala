@@ -331,4 +331,14 @@ object UI extends App {
   }
   
   
+  def listaaRaakaAineet(aine: Aine): String = {
+    
+    val ainesosat = aine.listaaAinesosat
+    val raakaAineet = aine.listaaRaakaAineet
+    
+    "Ainesosat: " + ainesosat + ".\nRaaka-aineet: " + raakaAineet + "."
+    
+  }
+  
+  
 }
