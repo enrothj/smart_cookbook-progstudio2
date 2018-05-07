@@ -18,10 +18,15 @@ class Aine(val nimi: String,
   
   override def toString = this.nimi
   
+  def listaaAllergeenit: String = allergeenit.mkString(", ")
+  
+  
   // metodi muuttaa ainesosan helposti luettavaan muotoon
   def ainesosaTekstiksi(ainesosa: Tuple3[Aine, Double, String]): String = {
     ainesosa._1.nimi + " " + ainesosa._2.toString + ainesosa._3
   }
+  
+  def listaaAinesosat: String = ainesosat.map(ainesosaTekstiksi(_)).mkString(", ")
   
   def ainekset: Array[String] = ainesosat.map(ainesosaTekstiksi)
   
@@ -43,11 +48,11 @@ class Aine(val nimi: String,
     
     // Lisätään jokainen tietorivi muodossa Array(ominaisuus, arvo)
     sarakkeet += Array("nimi", this.nimi)
-    sarakkeet += Array("allergeenit", this.allergeenit)
+    sarakkeet += Array("allergeenit", this.listaaAllergeenit)
     sarakkeet += Array("tiheys (g/ml)", this.tiheys)
     sarakkeet += Array("määrä", this.määrä)
     sarakkeet += Array("mittayksikkö", this.mittayksikkö)
-    sarakkeet += Array("ainesosat", this.ainekset)
+    sarakkeet += Array("ainesosat", this.listaaAinesosat)
     
     sarakkeet.toArray
   }
