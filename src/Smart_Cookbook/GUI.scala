@@ -12,6 +12,7 @@ import scala.collection.Seq
 object GUI extends SimpleSwingApplication {
   
 
+  UI.täytäVarasto()
   
   /*
    * Pääikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Näitä painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
@@ -25,6 +26,7 @@ object GUI extends SimpleSwingApplication {
   val luoReseptiNappi  = new Button("Luo Resepti")
   val varHallintaNappi = new Button("Varaston Hallinta")
   val sulkunappi       = new Button("Sulje Ohjelma")
+  val swingtesti = new Button("Testaa tästä")
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
@@ -38,6 +40,7 @@ object GUI extends SimpleSwingApplication {
   päänapit.contents += luoReseptiNappi
   päänapit.contents += varHallintaNappi
   päänapit.contents += sulkunappi
+  päänapit.contents += swingtesti
   
   val pääaineet = new BoxPanel(Orientation.Vertical)
   pääaineet.contents += ainelista
@@ -59,6 +62,7 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.listenTo(luoReseptiNappi)
   pääikkuna.listenTo(varHallintaNappi)
   pääikkuna.listenTo(sulkunappi)
+  pääikkuna.listenTo(swingtesti)
   
   pääikkuna.reactions += {
     case painallus: ButtonClicked => 
@@ -68,6 +72,7 @@ object GUI extends SimpleSwingApplication {
         case "Luo Resepti"       => reseptiIkkuna.open()
         case "Varaston Hallinta" => varIkkuna.open()
         case "Sulje Ohjelma"     => GUI.quit()
+        case "Testaa tästä"  => Dialog.showInput(pääikkuna, "mitäs nyt", initial = "moi")
         case _                   => println("Painoit nappia " + nappi.text)
       }
     
@@ -209,11 +214,13 @@ object GUI extends SimpleSwingApplication {
     case painallus: ButtonClicked => 
       val nappi = painallus.source
       nappi.text match {
+        
         case "Tallenna" => {
           UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
           UI.ainelista
           pääikkuna.repaint()  // päivitetään ainelista
         }
+        
         case "Peruuta"  => reseptiIkkuna.close()
         case _ => println("Painoit nappia " + nappi.text)
       }
@@ -243,6 +250,43 @@ object GUI extends SimpleSwingApplication {
   val varIkkuna        = new Frame
   varIkkuna.contents   = varPaneeli
   varIkkuna.visible    = false
+  
+  
+  
+  // TAPAHTUMAT: 
+  
+  varIkkuna.listenTo(varMäärä)
+  varIkkuna.listenTo(varYksikkö)
+  varIkkuna.listenTo(varPoista)
+  varIkkuna.listenTo(varNollaa)
+  
+  varIkkuna.reactions += {
+    case painallus: ButtonClicked =>
+      val nappi = painallus.source
+      
+      nappi.text match {
+        
+        case "Muuta aineen määrää"         => {
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(varIkkuna, "Syötä haluamasi komento: \n+ lisää\n- vähentää\n= asettaa määrän",
+                           initial = "[aineen nimi] [+/-/=] [haluttu määrä]")
+          syöte match {
+            case Some(komento) => muutettiin = UI.muutaMäärää(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+        }
+        
+        case "Muuta aineen mittayksikköä"  =>
+        case "Poista aine varastosta"      =>
+          
+        case "Tyhjennä tai nollaa varasto" =>
+        case _                             => println("Painoit nappia " + _)
+      }
+    
+    
+  }
   
   /** AINE-IKKUNA
    * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
