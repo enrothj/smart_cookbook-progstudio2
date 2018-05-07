@@ -396,7 +396,7 @@ object GUI extends SimpleSwingApplication {
             case None          => 
           }
           
-          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
         }
         
@@ -414,12 +414,26 @@ object GUI extends SimpleSwingApplication {
             case None          => 
           }
           
-          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
         }
         
-        case "Hallitse muita ominaisuuksia" =>
-        case "Aineen raaka-aineet" =>
+        case "Hallitse muita ominaisuuksia" => {
+          
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(aineikkuna, "Tästä voi muuttaa aineen ominaisuuksia. Syötä muutettava ominaisuus ja sopiva uusi arvo.\n"
+                                       + "Muutettavia ominaisuuksia ovat yksikkö, tiheys (Double), määrä (Double) ja kuvaus.",
+                           initial = "[ominaisuus] [uusi arvo]")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.hallitseOminaisuuksia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+        }
+        
+        case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
         
       }
     
