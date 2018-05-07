@@ -266,8 +266,9 @@ object GUI extends SimpleSwingApplication {
       
       nappi.text match {
         
-        case "Muuta aineen määrää"         => {
-          var muutettiin: Boolean = false
+        case "Muuta aineen määrää"         => { // Tästä käytetään metodia UI.muutaMäärää
+          
+          var muutettiin: Boolean = false  // Tähän muuttujaan tallennetaan tieto onnistuneesta muutoksesta.
           val syöte = Dialog.showInput(varIkkuna, "Syötä haluamasi komento: \n+ lisää\n- vähentää\n= asettaa määrän",
                            initial = "[aineen nimi] [+/-/=] [haluttu määrä]")
           syöte match {
@@ -278,11 +279,54 @@ object GUI extends SimpleSwingApplication {
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
         }
         
-        case "Muuta aineen mittayksikköä"  =>
-        case "Poista aine varastosta"      =>
+        case "Muuta aineen mittayksikköä"  => { // tästä käytetään metodia UI.muutaYksikkö
           
-        case "Tyhjennä tai nollaa varasto" =>
-        case _                             => println("Painoit nappia " + _)
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(varIkkuna, "Anna aineen nimi ja haluamasi mittayksikkö (lyhennettynä).\n" +
+                                                 "HUOM: Kappalemuotoon voi muuttaa vain aineen omista tiedoista",
+                           initial = "[aineen nimi] [haluttu mittayksikkö]")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.muutaYksikkö(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+        }
+        
+        case "Poista aine varastosta"      => {// tästä käytetään metodia UI.poistaAine
+          
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(varIkkuna, "Anna poistettavan aineen nimi",
+                           initial = "[aineen nimi]")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.poistaAine(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+        }
+          
+        case "Tyhjennä tai nollaa varasto" => { // Tästä voi nollata tai tyhjentää Varaston.
+          
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(varIkkuna, "Kirjoita 'nollaa' tai 'tyhjennä'.\n"
+                                       + "Nollaa asettaa jokaisen aineen määräksi 0.0\n"
+                                       + "Tyhjennä poistaa kaikki aineet ohjelman Varastosta",
+                           initial = "HUOM: Tyhjentäminen ei poista olemassaolevia tekstitiedostoja.")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.tyhjennys(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+        }
+        
+        case _ => println("Painoit nappia " + _)
       }
     
     
