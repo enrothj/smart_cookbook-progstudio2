@@ -223,6 +223,8 @@ object UI extends App {
           
           onnistui = true
         }
+        
+        case _ => throw new IllegalArgumentException
       }
       
     } catch {
@@ -236,5 +238,51 @@ object UI extends App {
     onnistui
   }
   
+  /*
+   *  hallitseAllergeeneja toimii samoin kuin hallitseAinesosia, mutta ei ota parametrina aineen määrää ja mittayksikköä.
+   *  Jos käytetään operaattoria "=", voidaan antaa mielivaltainen määrä allergeeneja, mutta + ja - ottavat vain yhden.
+   */
+  def hallitseAllergeeneja(komento: String): Boolean = {
+    var onnistui: Boolean = false
+    
+    try {
+      val komennonOsat = komento.toLowerCase.split(" ")
+      
+      require(komennonOsat.length >= 3) // komennossa tulee olla vähintään aineen nimi, operaattori ja yksi allergeeni.
+      val aine = Varasto.aineNimeltä( komennonOsat(0) )  // samoin kuin aiemmin, nimen tulee olla ensimmäinen merkkijono
+      val operaattori = komennonOsat(1)
+      val allergeeni = komennonOsat(2)
+      
+      operaattori match {
+        
+        case "+" => aine.lisääAllergeeni(allergeeni); onnistui = true
+        case "-" => aine.poistaAllergeeni(allergeeni); onnistui = true
+        
+        case "=" => {
+          var uudetAllergeenit: Buffer[String] = Buffer()
+          var laskuri = 2
+          
+          while (laskuri < komennonOsat.length) { // lisätään jokainen kokoelman allergeeni muuttujaan uudetAllergeenit
+            
+            uudetAllergeenit += komennonOsat(laskuri)
+            laskuri += 1
+            
+          }
+          
+          aine.uudetAllergeenit(uudetAllergeenit) // saatu kokoelma on parametri metodille uudetAllergeenit
+          onnistui = true
+        }
+        
+      }
+      
+      
+    } catch {
+      case e: OlematonAinePoikkeus => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
+      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
+    }
+    
+    
+    onnistui
+  }
   
 }
