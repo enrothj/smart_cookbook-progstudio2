@@ -29,7 +29,7 @@ object GUI extends SimpleSwingApplication {
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
-  val ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
+  var ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
   val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
   
   
@@ -76,9 +76,14 @@ object GUI extends SimpleSwingApplication {
          val syöte = Dialog.showInput(pääikkuna, "Syötä aineen nimi.", initial = "")
          syöte match {
            case Some(nimi) => {
-             aine = Varasto.aineNimeltä(nimi.toLowerCase)
-             ominaisuuslista.repaint()
-             aineikkuna.open()
+             try {
+               aine = Varasto.aineNimeltä(nimi.toLowerCase)
+               ominaisuuslista.repaint()
+               aineikkuna.open()
+             } catch {
+               case e: OlematonAinePoikkeus => Dialog.showMessage(aineikkuna, e.kuvaus)
+               
+             }
            }
            
            case None => päivitä
@@ -230,10 +235,15 @@ object GUI extends SimpleSwingApplication {
       nappi.text match {
         
         case "Tallenna" => {
-          UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
-          UI.ainelista
-          pääikkuna.repaint()  // päivitetään ainelista
-          reseptiIkkuna.close()
+          try {
+            require(uusiNimi.text.length > 0)
+            UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
+            UI.ainelista
+            pääikkuna.repaint()  // päivitetään ainelista
+            reseptiIkkuna.close()
+          } catch {
+            case e: IllegalArgumentException => Dialog.showMessage(reseptiIkkuna, "Aineella tulee olla vähintään nimi.")
+          }
         }
         
         case "Peruuta"  => reseptiIkkuna.close()
@@ -364,7 +374,7 @@ object GUI extends SimpleSwingApplication {
   
   // Pääkomponentit
   var aine: Aine = null
-  var ainetiedot: Array[Array[Any]] = Array()
+  var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjää täynnä", 0.0))
   val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
   val ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
   
@@ -471,12 +481,14 @@ object GUI extends SimpleSwingApplication {
   def päivitä() = {
     
     UI.täytäVarasto()
-    pääikkuna.repaint()
+
     aineikkuna.repaint()
     varIkkuna.repaint()
     hakuikkuna.repaint()
     hakutulosIkkuna.repaint()
     reseptiIkkuna.repaint()
+    ainelistaTiedot = UI.ainelista
+    pääikkuna.repaint()
     
   }
   

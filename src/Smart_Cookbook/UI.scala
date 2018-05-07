@@ -18,7 +18,7 @@ object UI extends App {
     
   }
   
-  def ainelista: Array[Array[Any]] = Varasto.listaaAineet
+  def ainelista: Array[Array[Any]] = if (!Varasto.varasto.isEmpty) Varasto.listaaAineet else Array(Array("Varastossa ei ole aineita", 0.0, ""))
   
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
