@@ -172,4 +172,69 @@ object UI extends App {
     
   }
   
+  
+  /**
+   * Aine-ikkunan metodit:
+   */
+  
+  /*
+   *  hallitseAinesosia kutsuu Aine-luokan metodeja lisääAinesosa (+), poistaAinesosa (-) ja muutaAinesosaa (=). Parametrina otettu komento on merkkijono,
+   *  jossa annetaan aineen nimi, operaattori +/-/=, ainesosan nimi, määrä ja mittayksikkö. Jos operaattori on "-", ei tarvita määrää ja mittayksikköä.
+   *  Esimerkki: "makaronilaatikko + jauheliha 500.0 g" lisää makaronilaatikko-oliolle ainesosaksi 500g jauhelihaa. "makaronilaatikko = maito 5.0 dl" 
+   *  muuttaa maito-ainesosan määräksi 5.0 dl. "makaronilaatikko - kananmuna" poistaa ainesosan kananmuna.
+   *  
+   *  Jos pyydetty toiminto onnistuu, palautetaan true.
+   */
+  def hallitseAinesosia(komento: String): Boolean = {
+    var onnistui: Boolean = false
+    
+    try {
+    
+    val komennonOsat = komento.toLowerCase.split(" ") // kerätään kokoelmaan kaikki komennon osat.
+    require(komennonOsat.length >= 3)
+    
+    val aine         = Varasto.aineNimeltä(komennonOsat(0))
+    val operaattori  = komennonOsat(1)
+    val aineksenNimi = komennonOsat(2)
+    val aines        = Varasto.aineNimeltä(aineksenNimi)
+    
+
+      
+    operaattori match {
+        
+        case "+" => {
+          require(komennonOsat.length == 5)
+          val määrä        = komennonOsat(3).toDouble
+          val mittayksikkö = komennonOsat(4)
+          
+          aine.lisääAinesosa(aines, määrä, mittayksikkö)
+         
+          onnistui = true
+        }
+        
+        case "-" => aine.poistaAinesosa(aineksenNimi); onnistui = true
+        
+        case "=" => {
+          require(komennonOsat.length == 5)
+          val määrä        = komennonOsat(3).toDouble
+          val mittayksikkö = komennonOsat(4)
+          
+          aine.muutaAinesosaa(aineksenNimi, määrä, mittayksikkö)
+          
+          onnistui = true
+        }
+      }
+      
+    } catch {
+      
+      case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
+      case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
+      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
+      
+    }
+    
+    onnistui
+  }
+  
+  
 }
