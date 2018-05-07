@@ -149,6 +149,21 @@ class Aine(val nimi: String,
     
   }
   
+  
+  // Metodi muuttaa merkkijonoksi aineetYhteensä metodin tuottamat ainekset. Eli siis listaa kaikki raaka-aineet merkkijonona.
+  def listaaRaakaAineet: String = {
+    
+    var raakaAineet: Buffer[String] = Buffer()
+    
+    for (ainesosa <- this.aineetYhteensä) {
+      
+      raakaAineet += this.ainesosaTekstiksi(ainesosa)
+      
+    }
+    
+    raakaAineet.mkString(", ")
+  }
+  
   /*
    *  Metodilla muunnaAinesosa voidaan muuttaa ainesosa-monikoita haluttuun mittayksikköön samalla muuttaen määrä vastaavaksi. Esimerkiksi vehnäjauho 1 dl -> vehnäjauho 70 g.
    *  Metodi kutsuu Muuntaja-objektin laske-metodeita muunnokseen.
