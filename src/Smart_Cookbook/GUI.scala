@@ -372,6 +372,43 @@ object GUI extends SimpleSwingApplication {
    * TAPAHTUMAT:
    */
   
+  aineikkuna.listenTo(aineAinesosa)
+  aineikkuna.listenTo(aineAllergeeni)
+  aineikkuna.listenTo(aineOminaisuus)
+  aineikkuna.listenTo(aineRaakaAineet)
+  aineikkuna.reactions += {
+    
+    case painallus: ButtonClicked =>
+      val nappi = painallus.source
+      nappi.text match {
+        
+        case "Hallitse ainesosia" => {
+          
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(aineikkuna, "Tästä voi lisätä (+), poistaa (-) tai muuttaa ainesosia (=). Syöteformaatit:\n"
+                                       + "+ [ainesosan nimi] [määrä] [mittayksikkö]\n"
+                                       + "- [ainesosan nimi]\n"
+                                       + "= [ainesosan nimi] [määrä] [mittayksikkö]",
+                           initial = "[+/-/=] [ainesosan nimi]  [määrä] [mittayksikkö]")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.hallitseAinesosia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+        }
+        
+        case "Hallitse allergeeneja" =>
+        case "Hallitse muita ominaisuuksia" =>
+        case "Aineen raaka-aineet" =>
+        
+      }
+    
+  }
+  
+  
   /* TODO: NAPPIEN TOIMINNALLISUUS
   
   // Tapahtumat:
