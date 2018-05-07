@@ -170,10 +170,16 @@ class Aine(val nimi: String,
                                  }
   
   // muutaTiheys muuttaa aineen tiheyden halutuksi
-  def muutaTiheys(x: Double) = this.tiheys = x
+  def muutaTiheys(x: Double) = {
+                                 require(x >= 0.0)
+                                 this.tiheys = x
+                                }
   
   // muutaMäärä muuttaa määrän, joka syntyy ainetta valmistettaessa
-  def muutaMäärä(x: Double) = this.määrä = x
+  def muutaMäärä(x: Double) = {
+                                 require(x >= 0.0)
+                                 this.määrä = x
+                               }
   
   // muutaKuvaus muuttaa aineen kuvausta
   def muutaKuvaus(x: String) = this.kuvaus = x
