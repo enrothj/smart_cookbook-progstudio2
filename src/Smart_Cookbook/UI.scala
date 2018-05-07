@@ -87,6 +87,7 @@ object UI extends App {
       
       Varasto.uusiAine(aine)
       IO.kirjoita(aine)
+      IO.tallenna()
       
     } catch {
       case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
