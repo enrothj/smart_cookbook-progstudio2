@@ -99,6 +99,8 @@ object UI extends App {
   
   // Näillä metodeilla kutsutaan Varasto-olion metodeja, jotta voidaan hallita sen tietoja.
   
+
+  
   def poistaAine(nimi: String) = Varasto.poistaAine(nimi)
   
   def asetaMäärä(aine: Aine, määrä: Double) = Varasto.asetaMäärä(aine, määrä)
@@ -110,5 +112,42 @@ object UI extends App {
   
   def nollaaVarasto() = Varasto.nollaa()
   def tyhjennäVarasto() = Varasto.tyhjennä()
+  
+  
+  /*
+   *  Metodille muutaMäärää annetaan parametrina merkkijono, joka on muotoa "[aineen nimi] [+/-/=] [haluttu määrä]". Eli esimerkiksi
+   *  jos halutaan lisätä vehnäjauhoja 500g, kirjoitetaan "vehnäjauho + 500.0". Metodi palauttaa true, jos toimenpide onnistui.
+   */
+ 
+  def muutaMäärää(komento: String): Boolean = {
+    var onnistui: Boolean = false
+    
+    try {
+      
+      val komennonOsat = komento.split(" ")
+      val nimi         = komennonOsat(0).toLowerCase
+      val operaattori  = komennonOsat(1)                    // tämän täytyy olla joko +, - tai = .
+      val määrä        = komennonOsat(2).toDouble           // tämän täytyy olla Double
+      
+      require(operaattori == "+" || operaattori == "-" || operaattori == "=") // varmistetaan, että operaattori yksi edellämainituista
+      
+      if (!Varasto.onOlemassa(nimi)) throw new OlematonAinePoikkeus("Annettua ainetta ei ole ohjelman tiedossa.", nimi)
+      
+      val aine = Varasto.aineNimeltä(nimi)
+      
+      operaattori match {
+        case "+" => lisääAinetta(aine, määrä)
+        case "-" => vähennäAinetta(aine, määrä)
+        case "=" => asetaMäärä(aine, määrä)
+      }
+      
+      onnistui
+      
+    } catch {
+      case e: NumberFormatException => println("Annettu määrä on väärässä formaatissa"); onnistui
+      case e: IllegalArgumentException => println("Annettiin tuntematon operaattori"); onnistui
+      case e: OlematonAinePoikkeus  => println("Ohjelma ei tunne ainetta " + e.virheData); onnistui
+    }
+  }
   
 }
