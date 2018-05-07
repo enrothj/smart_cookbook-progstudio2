@@ -77,10 +77,11 @@ object GUI extends SimpleSwingApplication {
          syöte match {
            case Some(nimi) => {
              aine = Varasto.aineNimeltä(nimi.toLowerCase)
+             ominaisuuslista.repaint()
              aineikkuna.open()
            }
            
-           case None => 
+           case None => päivitä
          }
          
         }
@@ -146,6 +147,7 @@ object GUI extends SimpleSwingApplication {
             if (hakutulokset.isEmpty) Dialog.showMessage(hakuikkuna, "Hakusi ei tuottanut tuloksia") 
             else {
               hakutaulukko.repaint()
+              päivitä
               hakutulosIkkuna.open()
             }
             
@@ -231,6 +233,7 @@ object GUI extends SimpleSwingApplication {
           UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
           UI.ainelista
           pääikkuna.repaint()  // päivitetään ainelista
+          reseptiIkkuna.close()
         }
         
         case "Peruuta"  => reseptiIkkuna.close()
@@ -304,6 +307,8 @@ object GUI extends SimpleSwingApplication {
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+          päivitä
         }
         
         case "Poista aine varastosta"      => {// tästä käytetään metodia UI.poistaAine
@@ -318,6 +323,8 @@ object GUI extends SimpleSwingApplication {
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+          päivitä
           
         }
           
@@ -335,6 +342,8 @@ object GUI extends SimpleSwingApplication {
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+          päivitä
           
         }
         
@@ -410,6 +419,8 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
+          aineikkuna.repaint()
+          
         }
         
         case "Hallitse allergeeneja" => {  // Tästä kutsutaan metodia UI.hallitseAllergeeneja
@@ -428,6 +439,8 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
+          aineikkuna.repaint()
+          
         }
         
         case "Hallitse muita ominaisuuksia" => {
@@ -443,6 +456,8 @@ object GUI extends SimpleSwingApplication {
           }
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+          aineikkuna.repaint()
         }
         
         case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
