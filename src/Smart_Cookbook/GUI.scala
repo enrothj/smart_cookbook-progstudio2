@@ -382,7 +382,7 @@ object GUI extends SimpleSwingApplication {
       val nappi = painallus.source
       nappi.text match {
         
-        case "Hallitse ainesosia" => {
+        case "Hallitse ainesosia" => { // Tästä kutsutaan metodia UI.hallitseAinesosia
           
           var muutettiin: Boolean = false
           val syöte = Dialog.showInput(aineikkuna, "Tästä voi lisätä (+), poistaa (-) tai muuttaa ainesosia (=). Syöteformaatit:\n"
@@ -400,7 +400,24 @@ object GUI extends SimpleSwingApplication {
           
         }
         
-        case "Hallitse allergeeneja" =>
+        case "Hallitse allergeeneja" => {  // Tästä kutsutaan metodia UI.hallitseAllergeeneja
+          
+          var muutettiin: Boolean = false
+          val syöte = Dialog.showInput(aineikkuna, "Tästä voi lisätä (+) tai poistaa (-) allergeeneja tai antaa uusi allergeenilista (=). Syöteformaatit:\n"
+                                       + "+ [allergeenin nimi]\n"
+                                       + "- [allergeenin nimi]\n"
+                                       + "= [allergeeni1] [allergeeni2] [allergeeni3] [jne.]",
+                           initial = "[+/-/=] [allergeenin nimi]")
+                           
+          syöte match {
+            case Some(komento) => muutettiin = UI.hallitseAllergeeneja(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+            case None          => 
+          }
+          
+          if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
+          
+        }
+        
         case "Hallitse muita ominaisuuksia" =>
         case "Aineen raaka-aineet" =>
         
