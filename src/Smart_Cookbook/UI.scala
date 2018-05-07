@@ -273,6 +273,8 @@ object UI extends App {
           onnistui = true
         }
         
+        case _ => throw new IllegalArgumentException
+        
       }
       
       
@@ -284,5 +286,49 @@ object UI extends App {
     
     onnistui
   }
+  
+  /*
+   * Metodi hallitseOminaisuuksia ottaa parametrina merkkijonona annetun komennon. Sen on tarkoitus kutsua Aine-luokan muutaX-metodeja.
+   * Merkkijonossa tulee olla ensiksi aineen nimi, toiseksi muutettava ominaisuus ja kolmanneksi haluttu arvo. Nämä erotetaan välilyönnillä.
+   * Ominaisuudet ovat yksikkö, tiheys, määrä ja kuvaus.
+   * 
+   * Metodi palauttaa true, jos haluttu toiminto onnistui.
+   */
+  
+  def hallitseOminaisuuksia(komento: String): Boolean = {
+    var onnistui: Boolean = false
+    
+    try {
+      val komennonOsat = komento.toLowerCase.split(" ")
+      require(komennonOsat.length >= 3)
+      
+      val aine        = Varasto.aineNimeltä(komennonOsat(0))
+      val ominaisuus  = komennonOsat(1)
+      val x        = komennonOsat(2)
+      
+      ominaisuus match {
+        
+        case "yksikkö" => aine.muutaYksikkö(x); onnistui = true
+        
+        case "tiheys"  => aine.muutaTiheys(x.toDouble); onnistui = true
+        
+        case "määrä"   => aine.muutaMäärä(x.toDouble); onnistui = true
+        
+        case "kuvaus"  => aine.muutaKuvaus(x); onnistui = true
+        
+        case _         => throw new IllegalArgumentException
+      }
+      
+    } catch {
+      
+      case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
+      case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
+      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
+      
+    }
+    
+    onnistui
+  }
+  
   
 }
