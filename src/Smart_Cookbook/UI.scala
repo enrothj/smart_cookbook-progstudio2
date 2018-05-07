@@ -100,12 +100,21 @@ object UI extends App {
   // Näillä metodeilla kutsutaan Varasto-olion metodeja, jotta voidaan hallita sen tietoja.
   
 
+  // Metodi tarkistaa onko annetun niminen aine olemassa ja poistaa sen, jos on. Palauttaa true, jos toimenpide onnistuu.
+  def poistaAine(nimi: String): Boolean = if (Varasto.onOlemassa(nimi)) {Varasto.poistaAine(nimi); true} else false
   
-  def poistaAine(nimi: String) = Varasto.poistaAine(nimi)
+  // Metodi tarkistaa onko annettun niminen aine olemassa, ja onko kohdeyksikkö tunnistettu, ja muuttaa sitten aineen yksikön.
+  // HUOM: kappaleyksikköön muunnettaessa pitää muuttaa aineen omia tietoja suoraan.
+  def muutaYksikkö(aine: Aine, yksikkö: String): Boolean = {
+    
+      if ( Varasto.onOlemassa(aine.nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
+      Varasto.muutaYksikkö(aine, yksikkö)
+      true
+      } else false 
+    
+  }
   
   def asetaMäärä(aine: Aine, määrä: Double) = Varasto.asetaMäärä(aine, määrä)
-  
-  def muutaYksikkö(aine: Aine, yksikkö: String) = Varasto.muutaYksikkö(aine, yksikkö)
   
   def lisääAinetta(aine: Aine, määrä: Double) = Varasto.lisaaAinetta(aine, määrä)
   def vähennäAinetta(aine: Aine, määrä: Double) = Varasto.vahennaAinetta(aine, määrä)
@@ -148,6 +157,15 @@ object UI extends App {
       case e: IllegalArgumentException => println("Annettiin tuntematon operaattori"); onnistui
       case e: OlematonAinePoikkeus  => println("Ohjelma ei tunne ainetta " + e.virheData); onnistui
     }
+  }
+  
+  // Jos annettu komento on joko "nollaa" tai "tyhjennä", suoritetaan annettu komento ja palautetaan true.
+  def tyhjennys(komento: String): Boolean = {
+    
+    if (komento == "nollaa") {nollaaVarasto(); true}
+    else if (komento == "tyhjennä") {tyhjennäVarasto(); true}
+    else false
+    
   }
   
 }
