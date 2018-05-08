@@ -32,13 +32,13 @@ object UI extends App {
     }
     // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
     
-    val allergeenit = allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer
+    val allergeenit = if (allergeeniSuodatin.length > 0) allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer else Buffer[String]()
     
     var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
     
     var hakutulos = Hakukone.hae(nPuuttuvat)
     
-
+    println(hakutulos.length.toString)
     
   // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
     try {
@@ -75,7 +75,7 @@ object UI extends App {
     }
     // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
     
-    val allergeenit = allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer
+    val allergeenit = if (allergeeniSuodatin.length > 0) allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer else Buffer[String]()
     
     var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
     
@@ -87,7 +87,7 @@ object UI extends App {
     try {
       if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
     } catch {
-      case e: NullPointerException => println("Ainetta " + nimi + " ei ole ohjelman tiedoissa")
+      case e: NullPointerException => println("Ainetta " + nimi + " ei ole ohjelman tiedoissa"); return "Kyseistä ainetta ei ole olemassa."
     }
     
     if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
