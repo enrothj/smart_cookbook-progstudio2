@@ -122,8 +122,8 @@ object Hakukone {
    * Metodi sisältää selvittää onko halutun niminen aine osa ainetta. Se suodattaa annetusta listasta pois aineet, jotka eivät ole annetun nimisiä, tai sisällä ainesosina
    */
   def sisältää(nimi: String, lista: Vector[Aine]): Vector[Aine] = {
-    var ainelista = lista.toBuffer
-    
+    var ainelista: Buffer[Aine] = lista.toBuffer
+    require(!ainelista.isEmpty)
     for (aine <- ainelista) {                                        // Käydään läpi kaikki aineet
       var sisältääAineen: Boolean = false
       

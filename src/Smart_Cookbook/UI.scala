@@ -41,7 +41,11 @@ object UI extends App {
 
     
   // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
-    if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
+    try {
+      if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
+    } catch {
+      case e: NullPointerException => println("Ainetta " + nimi + " ei ole ohjelman tiedoissa")
+    }
     
     if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
       
@@ -60,6 +64,36 @@ object UI extends App {
       
     tulostaulukko
 
+  }
+  
+  def haeAineet(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): String = {
+    
+    try {
+      if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt
+    } catch {
+      case e: NumberFormatException => throw new IllegalArgumentException("Annettu parametri (" + maxPuuttuvatAineet + ") ei ole numero")
+    }
+    // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
+    
+    val allergeenit = allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer
+    
+    var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
+    
+    var hakutulos = Hakukone.hae(nPuuttuvat)
+    
+
+    
+  // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
+    try {
+      if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
+    } catch {
+      case e: NullPointerException => println("Ainetta " + nimi + " ei ole ohjelman tiedoissa")
+    }
+    
+    if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
+    
+    hakutulos.map(x => x.nimi).mkString(", ")
+    
   }
   
   
@@ -211,9 +245,10 @@ object UI extends App {
           aine.lisääAinesosa(aines, määrä, mittayksikkö)
          
           onnistui = true
+          IO.kirjoita(aine)
         }
         
-        case "-" => aine.poistaAinesosa(aineksenNimi); onnistui = true
+        case "-" => aine.poistaAinesosa(aineksenNimi); onnistui = true; IO.kirjoita(aine)
         
         case "=" => {
           require(komennonOsat.length == 5)
@@ -223,6 +258,7 @@ object UI extends App {
           aine.muutaAinesosaa(aineksenNimi, määrä, mittayksikkö)
           
           onnistui = true
+          IO.kirjoita(aine)
         }
         
         case _ => throw new IllegalArgumentException
@@ -235,7 +271,7 @@ object UI extends App {
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
       
     }
-    
+
     onnistui
   }
   
@@ -256,8 +292,8 @@ object UI extends App {
       
       operaattori match {
         
-        case "+" => aine.lisääAllergeeni(allergeeni); onnistui = true
-        case "-" => aine.poistaAllergeeni(allergeeni); onnistui = true
+        case "+" => aine.lisääAllergeeni(allergeeni); onnistui = true; IO.kirjoita(aine)
+        case "-" => aine.poistaAllergeeni(allergeeni); onnistui = true; IO.kirjoita(aine)
         
         case "=" => {
           var uudetAllergeenit: Buffer[String] = Buffer()
@@ -272,6 +308,7 @@ object UI extends App {
           
           aine.uudetAllergeenit(uudetAllergeenit) // saatu kokoelma on parametri metodille uudetAllergeenit
           onnistui = true
+          IO.kirjoita(aine)
         }
         
         case _ => throw new IllegalArgumentException
@@ -309,13 +346,13 @@ object UI extends App {
       
       ominaisuus match {
         
-        case "yksikkö" => aine.muutaYksikkö(x); onnistui = true
+        case "yksikkö" => aine.muutaYksikkö(x); onnistui = true; IO.kirjoita(aine)
         
-        case "tiheys"  => aine.muutaTiheys(x.toDouble); onnistui = true
+        case "tiheys"  => aine.muutaTiheys(x.toDouble); onnistui = true; IO.kirjoita(aine)
         
-        case "määrä"   => aine.muutaMäärä(x.toDouble); onnistui = true
+        case "määrä"   => aine.muutaMäärä(x.toDouble); onnistui = true; IO.kirjoita(aine)
         
-        case "kuvaus"  => aine.muutaKuvaus(x); onnistui = true
+        case "kuvaus"  => aine.muutaKuvaus(x); onnistui = true; IO.kirjoita(aine)
         
         case _         => throw new IllegalArgumentException
       }

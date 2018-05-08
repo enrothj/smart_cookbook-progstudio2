@@ -11,7 +11,7 @@ import scala.collection.Seq
 
 object GUI extends SimpleSwingApplication {
   
-  
+  UI.täytäVarasto()
   
   /*
    * Pääikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Näitä painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
@@ -78,7 +78,7 @@ object GUI extends SimpleSwingApplication {
            case Some(nimi) => {
              try {
                aine = Varasto.aineNimeltä(nimi.toLowerCase)
-               ominaisuuslista.repaint()
+               päivitäOminaisuudet()
                aineikkuna.open()
              } catch {
                case e: OlematonAinePoikkeus => Dialog.showMessage(aineikkuna, e.kuvaus)
@@ -107,9 +107,16 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Pääkomponentit:
-  val aineenNimi           = new TextField // Tämä kenttä täytetään, jos halutaan tietyn niminen aine
-  val allergeeniSuodatin   = new TextField // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
-  val maxPuuttuvatAineet   = new TextField // Tähän kenttään määritellään kuinka monta ainesosaa saa puuttua varastosta
+  val hakuSelitys = new Label(
+                              "Hae lista aineista, jotka täyttävät haluamasi hakukriteerit. Kentät ovat:\n"
+                              + "1. Aineen nimi: hae tietyn niminen aine.\n"
+                              + "2. Suodatettavat allergeenit: allergeenit, jotka poistetaan hakutuloksista. (Erota pilkulla)\n"
+                              + "3. Kuinka monta ainesta saa puuttua reseptistä: tämä tulee ilmoittaa numerona."
+                              )
+  
+  val aineenNimi           = new TextField("Aineen nimi")               // Tämä kenttä täytetään, jos halutaan tietyn niminen aine
+  val allergeeniSuodatin   = new TextField("Suodatettavat allergeenit") // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
+  val maxPuuttuvatAineet   = new TextField("Max puuttuvat aineet")      // Tähän kenttään määritellään kuinka monta ainesosaa saa puuttua varastosta
   
   /*
    *  Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla. Tulokset avataan 
@@ -121,6 +128,7 @@ object GUI extends SimpleSwingApplication {
   
   // Paneeli, jossa ovat hakukentät
   val hakuTekstit          = new BoxPanel(Orientation.Vertical)
+  hakuTekstit.contents    += hakuSelitys
   hakuTekstit.contents    += aineenNimi
   hakuTekstit.contents    += allergeeniSuodatin
   hakuTekstit.contents    += maxPuuttuvatAineet  // Tämä on käytännössä ainoa, johon voi antaa virheellisen syötteen.
@@ -149,6 +157,7 @@ object GUI extends SimpleSwingApplication {
         case "Hae aineita" => { // Tämä nappi kutsuu UI:n metodia täyttääkseen hakutulosikkunan tulostaulukon.
           try {
             hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)   /// TODO: !!!! KORJAA HAKUTOIMINTO !!!!!
+            Dialog.showMessage(hakuikkuna, UI.haeAineet(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text))
             if (hakutulokset.isEmpty) Dialog.showMessage(hakuikkuna, "Hakusi ei tuottanut tuloksia") 
             else {
               hakutaulukko.repaint()
@@ -195,10 +204,10 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Pääkomponentit:
-  val uusiNimi     = new TextField
-  val allergeenit  = new TextField
-  val määräJaMitta = new TextField // tiheys, määrä ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
-  val uusiKuvaus   = new TextField
+  val uusiNimi     = new TextField("Aineen nimi")
+  val allergeenit  = new TextField("Allergeenit")
+  val määräJaMitta = new TextField("tiheys, määrä, mittayksikkö") // tiheys, määrä ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
+  val uusiKuvaus   = new TextField("Aineen kuvaus")
   
   val resTallenna  = new Button("Tallenna")
   val resPeruuta   = new Button("Peruuta")
@@ -376,7 +385,15 @@ object GUI extends SimpleSwingApplication {
   var aine: Aine = null
   var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjää täynnä", 0.0))
   val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
-  val ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
+  var ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
+  
+  def päivitäOminaisuudet() = {
+    ainetiedot = aine.tietoTaulukko
+    ominaisuuslista = new Table(ainetiedot, aineSarakenimet)
+    ominaisuuslista.repaint()
+    ainePaneeli.repaint()
+    aineikkuna.repaint()
+  }
   
   val aineAinesosa    = new Button("Hallitse ainesosia")
   val aineAllergeeni  = new Button("Hallitse allergeeneja")
@@ -411,6 +428,7 @@ object GUI extends SimpleSwingApplication {
     
     case painallus: ButtonClicked =>
       val nappi = painallus.source
+      päivitäOminaisuudet()
       nappi.text match {
         
         case "Hallitse ainesosia" => { // Tästä kutsutaan metodia UI.hallitseAinesosia
@@ -429,7 +447,7 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          aineikkuna.repaint()
+          päivitäOminaisuudet
           
         }
         
@@ -449,7 +467,7 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          aineikkuna.repaint()
+          päivitäOminaisuudet
           
         }
         
@@ -467,7 +485,7 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          aineikkuna.repaint()
+          päivitäOminaisuudet
         }
         
         case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
@@ -482,12 +500,13 @@ object GUI extends SimpleSwingApplication {
     
     UI.täytäVarasto()
 
+    if (aine != null) päivitäOminaisuudet()
+    
     aineikkuna.repaint()
     varIkkuna.repaint()
-    hakuikkuna.repaint()
-    hakutulosIkkuna.repaint()
     reseptiIkkuna.repaint()
     ainelistaTiedot = UI.ainelista
+    ainelista.repaint()
     pääikkuna.repaint()
     
   }

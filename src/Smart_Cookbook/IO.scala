@@ -206,7 +206,7 @@ object IO {
       } 
       
       for (aine <- Varasto.varasto.keys) {
-        lueAinesosat("/reseptit/" + aine.nimi + ".txt")
+        lueAinesosat("reseptit/" + aine.nimi + ".txt")
       }
       
     } catch {
@@ -215,7 +215,7 @@ object IO {
       
       case e: VirheellinenData => println("Annettiin väärää dataa")
       
-      case _: Throwable => println("Tapahtui odottamaton virhe")
+
       
     }
   }
