@@ -1,0 +1,5 @@
+spagetti
+1000.0,1000.0,kpl
+*
+gluteeni
+1000g spagettia

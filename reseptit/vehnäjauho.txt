@@ -1,0 +1,5 @@
+vehnäjauho
+0.65,1.0,kpl
+*
+gluteeni
+Kilo vehnäjauhoja

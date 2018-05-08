@@ -1,0 +1,5 @@
+jauheliha
+1500.0,400.0,kpl
+*
+liha
+400g naudan jauhelihaa

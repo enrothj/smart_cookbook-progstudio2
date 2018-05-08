@@ -1,2 +1,8 @@
-makkara,0.0
+spagetti,0.0
+tomaattikastike,0.0
 spagetti bolognese,0.0
+kananmuna,0.0
+bolognesekastike,0.0
+makkara,0.0
+vehnäjauho,0.0
+jauheliha,0.0
