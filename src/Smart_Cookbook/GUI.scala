@@ -11,7 +11,10 @@ import scala.collection.Seq
 
 object GUI extends SimpleSwingApplication {
   
+  // ensin täytetään ohjelman tiedot tekstitiedostoilta
   UI.täytäVarasto()
+  
+
   
   /*
    * Pääikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Näitä painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
@@ -28,10 +31,16 @@ object GUI extends SimpleSwingApplication {
   val avaaAineNappi    = new Button("Avaa aine")
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
-  val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
+  val ainelista = new TextArea()
+  ainelista.text = UI.listaaVarasto
+  ainelista.editable = false
+  
+  def päivitäAinelista() = ainelista.text = UI.listaaVarasto; ainelista.repaint()
+  
+  /*val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
   var ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
   val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
-  
+  */
   
   // Komponenttien asemointi
   val päänapit = new BoxPanel(Orientation.Horizontal)
@@ -243,13 +252,16 @@ object GUI extends SimpleSwingApplication {
       val nappi = painallus.source
       nappi.text match {
         
-        case "Tallenna" => {
+        case "Tallenna" => { // Ohjelma yrittää tallentaa annetuilla tiedoilla uuden aineen.
           try {
-            require(uusiNimi.text.length > 0)
+            require(uusiNimi.text.length > 0) // Aineella tulee olla vähintään nimi.
+            
             UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
-            UI.ainelista
-            pääikkuna.repaint()  // päivitetään ainelista
+            
+            // Jos aineen luonti onnistuu, päivitetään ainelista ja suljetaan ikkuna.
+            päivitäAinelista() 
             reseptiIkkuna.close()
+            
           } catch {
             case e: IllegalArgumentException => Dialog.showMessage(reseptiIkkuna, "Aineella tulee olla vähintään nimi.")
           }
@@ -306,7 +318,7 @@ object GUI extends SimpleSwingApplication {
           val syöte = Dialog.showInput(varIkkuna, "Syötä haluamasi komento: \n+ lisää\n- vähentää\n= asettaa määrän",
                            initial = "[aineen nimi] [+/-/=] [haluttu määrä]")
           syöte match {
-            case Some(komento) => muutettiin = UI.muutaMäärää(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case Some(komento) => muutettiin = UI.muutaMäärää(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
             case None          => 
           }
           
@@ -321,7 +333,7 @@ object GUI extends SimpleSwingApplication {
                            initial = "[aineen nimi] [haluttu mittayksikkö]")
                            
           syöte match {
-            case Some(komento) => muutettiin = UI.muutaYksikkö(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case Some(komento) => muutettiin = UI.muutaYksikkö(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
             case None          => 
           }
           
@@ -337,13 +349,11 @@ object GUI extends SimpleSwingApplication {
                            initial = "[aineen nimi]")
                            
           syöte match {
-            case Some(komento) => muutettiin = UI.poistaAine(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case Some(komento) => muutettiin = UI.poistaAine(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
-          
-          päivitä
           
         }
           
@@ -356,7 +366,7 @@ object GUI extends SimpleSwingApplication {
                            initial = "HUOM: Tyhjentäminen ei poista olemassaolevia tekstitiedostoja.")
                            
           syöte match {
-            case Some(komento) => muutettiin = UI.tyhjennys(komento) // Jos annettiin komento, yritetään suorittaa muutos
+            case Some(komento) => muutettiin = UI.tyhjennys(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
             case None          => 
           }
           
@@ -505,7 +515,7 @@ object GUI extends SimpleSwingApplication {
     aineikkuna.repaint()
     varIkkuna.repaint()
     reseptiIkkuna.repaint()
-    ainelistaTiedot = UI.ainelista
+    //ainelistaTiedot = UI.ainelista
     ainelista.repaint()
     pääikkuna.repaint()
     
