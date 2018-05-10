@@ -324,6 +324,9 @@ object UI extends App {
       val operaattori = komennonOsat(1)
       val allergeeni = komennonOsat(2)
       
+      // Jos allergeeneihin on eksynyt ""-niminen allergeeni, poistetaan kaikki sen ilmentymät.
+      aine.allergeenit.filter(_ != "")
+      
       operaattori match {
         
         case "+" => aine.lisääAllergeeni(allergeeni); onnistui = true; IO.kirjoita(aine)
@@ -378,7 +381,9 @@ object UI extends App {
       
       val aine        = Varasto.aineNimeltä(komennonOsat(0))
       val ominaisuus  = komennonOsat(1)
-      val x        = komennonOsat(2)
+      val x           = komennonOsat(2)
+      // Kuvausta varten kaikki alkiot paitsi ensimmäiset kaksi (aine ja ominaisuus) yhdistetään merkkijonoksi.
+      val kuvaus      = if (ominaisuus == "kuvaus") komennonOsat.drop(2).mkString(" ") else x
       
       ominaisuus match {
         
@@ -388,7 +393,7 @@ object UI extends App {
         
         case "määrä"   => aine.muutaMäärä(x.toDouble); onnistui = true; IO.kirjoita(aine)
         
-        case "kuvaus"  => aine.muutaKuvaus(x); onnistui = true; IO.kirjoita(aine)
+        case "kuvaus"  => aine.muutaKuvaus(kuvaus); onnistui = true; IO.kirjoita(aine)
         
         case _         => throw new IllegalArgumentException
       }
