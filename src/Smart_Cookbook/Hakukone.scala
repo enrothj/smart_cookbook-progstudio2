@@ -25,17 +25,26 @@ object Hakukone {
       val ainekset    = aine.ainesosat.map(x => x._1)
       val raakaAineet = aine.aineetYhteensä.map(x => x._1)
       
-      if (onValmiina(aine.nimi, 0.1, aine.mittayksikkö)) lista += aine  // Jos ainetta on jo valmiina, se lisätään listaan
+      // Aine lisätään valmistettavien listaan, jos:
       
-      else if (voiValmistaa(aine)) lista += aine // Jos ainetta voidaan valmistaa olemassa olevista aineksista, se lisätään listaan
+      // Ainetta on valmiina varastossa
+      if (onValmiina(aine.nimi, 0.1, aine.mittayksikkö)) lista += aine
       
-      //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu määrä puuttuvia aineksia  HUOM: aineksia täytyy olla
-      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n && ainekset.length != 0) {
+      // Ainetta voidaan valmistaa olemassa olevista aineksista
+      else if (voiValmistaa(aine)) lista += aine
+      
+      //Aine on raaka-aine JA n ei ole nolla. Eli toisin sanoen, aineita saa puuttua, ja tätä ainetta ei voi valmistaa itse (esim. maito haetaan kaupasta yms. ei valmisteta).
+      else if (aine.onRaakaAine && n > 0) lista += aine
+      
+      // Aine ei ole raaka-aine JA puuttuvien AINESOSIEN määrä on korkeintaan n, eli:
+      //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu määrä puuttuvia aineksia
+      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n && !aine.onRaakaAine) {
         lista += aine
         println(ainekset.length + "-" + ainekset.filter(Hakukone.voiValmistaa(_)).length + "=" (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length) +"   " + n)
         println("Aineen "+aine.nimi+" voi valmistaa aineksistaan")
         }
       
+      // Aine ei ole raaka-aine JA puuttuvien RAAKA-AINEIDEN määrä on korkeintaan n, eli:
       //  raaka-aineiden kokonaislkm -  valmistettavissa olevat raaka-aineet       <=  sallittu määrä puuttuvia raaka-aineksia
       else if (raakaAineet.length - raakaAineet.filter(Hakukone.voiValmistaa(_)).length <= n && ainekset.length != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
       
