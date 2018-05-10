@@ -3,6 +3,7 @@ package Smart_Cookbook
 import scala.io.Source
 import scala.collection.mutable.Buffer
 import java.io.PrintWriter
+import java.io.File
 
 object IO {
    
@@ -219,5 +220,16 @@ object IO {
       
     }
   }
+  
+  // Metodi poistaa aine-tekstitiedoston
+  def poistaAine(nimi: String) = {
+    
+    val sijainti: String = "reseptit/" + nimi + ".txt"
+    val tiedosto = new File(sijainti)
+    
+    if (tiedosto.exists) tiedosto.delete()
+    
+  }
+  
   
 }
