@@ -81,7 +81,9 @@ object GUI extends SimpleSwingApplication {
         case "Reseptihaku"       => hakuikkuna.open()
         case "Luo Resepti"       => reseptiIkkuna.open()
         case "Varaston Hallinta" => varIkkuna.open()
-        case "Sulje Ohjelma"     => IO.tallenna(); GUI.quit()
+        
+        // "Sulje Ohjelma"-nappi tallentaa ohjelman tiedot ja sulkee ohjelman.
+        case "Sulje Ohjelma"     => UI.tallennaTiedot(); GUI.quit()
         
         case "Avaa aine"         => { // Tätä nappia painamalla aukeaa syötedialogi, josta voidaan avata halutun aineen ikkuna.
          val syöte = Dialog.showInput(pääikkuna, "Syötä aineen nimi.", initial = "")

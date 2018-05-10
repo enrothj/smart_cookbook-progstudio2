@@ -26,7 +26,7 @@ class Aine(val nimi: String,
     ainesosa._1.nimi + " " + ainesosa._2.toString + ainesosa._3
   }
   
-  def listaaAinesosat: String = ainesosat.map(ainesosaTekstiksi(_)).mkString(", ")
+  def listaaAinesosat: String = ainesosat.map(ainesosaTekstiksi(_)).mkString("\n")
   
   def ainekset: Array[String] = ainesosat.map(ainesosaTekstiksi)
   
@@ -68,7 +68,7 @@ class Aine(val nimi: String,
     val tiheysRivi       = "%-40s".format("Tiheys (g/ml)") + "%-100s".format(this.tiheys.toString)   + " \n"
     val määräRivi        = "%-40s".format("Määrä")         + "%-100s".format(this.määrä.toString)    + " \n"
     val mittayksikköRivi = "%-40s".format("Mittayksikkö")  + "%-100s".format(this.mittayksikkö)      + " \n"
-    val ainesosaRivi     = "%-40s".format("Ainesosat")     + "%-100s".format(this.listaaAinesosat)   + " \n"
+    val ainesosaRivi     = "%-40s".format("Ainesosat:")    + "\n" + this.listaaAinesosat + " \n"
     
     tietotaulukko += nimiRivi + allergeeniRivi + tiheysRivi + määräRivi + mittayksikköRivi + ainesosaRivi
     

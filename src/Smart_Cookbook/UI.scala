@@ -109,10 +109,26 @@ object UI extends App {
       
     if (allergeenit.length > 0 && !hakutulos.isEmpty) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
     
-    hakutulos.map(x => x.nimi).mkString(", ")
+    // Käytetään apumetodia palauttamaan hakutulokset taulukoituna. Jos ei ole hakutuloksia, metodi jätetään kutsumatta.
+    if (hakutulos.isEmpty) "" else hakutuloksetTekstiksi(hakutulos)
     
   }
   
+  private def hakutuloksetTekstiksi(tulokset: Vector[Aine]): String = {
+    var tulostaulukko: String = "Hakusi tuotti seuraavat aineet: \n"
+    
+    // Lisätään riveittäin aine ja sen määrä varastossa (mittayksikön kera).
+    for (aine <- tulokset) {
+      val nimi         = "%-60s".format(aine.nimi)
+      val määrä        = Varasto.varasto(aine)
+      val mittayksikkö = aine.mittayksikkö
+      
+      tulostaulukko += nimi + määrä + mittayksikkö + " \n"
+      
+    }
+    
+    tulostaulukko
+  }
   
   // Metodilla luodaan Aine-olio, ja tallennetaan se tekstitiedostolle ja ohjelman varastoon. Parametrit täytetään tekstikenttien
   // kautta GUI:n Reseptinluonti-ikkunassa.

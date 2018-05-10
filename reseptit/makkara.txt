@@ -1,5 +1,5 @@
 makkara
 0.0,0.0,kpl
 *
-liha
-hyvää
+
+

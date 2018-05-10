@@ -1,5 +1,5 @@
 kananmuna
-0.0,1.0,kpl
+5.0,1.0,kpl
 *
 kananmuna
 Yksi kananmuna

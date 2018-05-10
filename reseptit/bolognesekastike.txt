@@ -1,5 +1,7 @@
 bolognesekastike
 2000.0,800.0,kpl
+tomaattikastike,600.0,g
+jauheliha,400.0,g
 *
-tomaatti liha
+liha,tomaatti
 800g bolognese jauheliha-tomaatti kastiketta.
