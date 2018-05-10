@@ -122,19 +122,22 @@ object Hakukone {
    * Metodi sisältää selvittää onko halutun niminen aine osa ainetta. Se suodattaa annetusta listasta pois aineet, jotka eivät ole annetun nimisiä, tai sisällä ainesosina
    */
   def sisältää(nimi: String, lista: Vector[Aine]): Vector[Aine] = {
-    var ainelista: Buffer[Aine] = lista.toBuffer
-    require(!ainelista.isEmpty)
-    for (aine <- ainelista) {                                        // Käydään läpi kaikki aineet
+    var nimenSisältävät: Buffer[Aine] = Buffer() // Tähän kerätään kriteerit täyttävät aineet.
+    
+    println(lista)
+    require(!lista.isEmpty)
+    for (aine <- lista) {                                        // Käydään läpi kaikki aineet
       var sisältääAineen: Boolean = false
       
-      if (aine.nimi == nimi) sisältääAineen = true                   // Jos aine itse on annetun niminen, se sisältää annetun aineen.
+      if (aine.nimi == nimi) {sisältääAineen = true; println(nimi + " sisälsi aineen")}                   // Jos aine itse on annetun niminen, se sisältää annetun aineen.
       
-      else if ( aine.sisältääAineen(nimi) ) sisältääAineen = true    // Tarkistetaan sisältääkö jokin raaka-aine annetun aineen.
+      else if ( aine.sisältääAineen(nimi) ) {sisältääAineen = true; println("Tässä käytiin")}   // Tarkistetaan sisältääkö jokin raaka-aine annetun aineen.
       
-      if (!sisältääAineen) ainelista -= aine                         // Jos aine ei sisällä annetun nimistä ainetta, se poistetaan ainelistasta
+      // Aineet, jotka sisältävät halutun aineen, lisätään listaan.
+      if (sisältääAineen) nimenSisältävät += aine
     }
     
-    ainelista.toVector
+    nimenSisältävät.toVector
   }
   
 
