@@ -160,7 +160,7 @@ object IO {
         else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) löytyvät kaikki eri ainesosat, jotka kuuluvat aineeseen.
           
           val aines = rivi.split(",").toVector
-          val raakaAine = Varasto.varasto.keys.find(_.nimi == aines(0)).getOrElse(throw new VirheellinenData("Kyseistä ainetta ei ole tiedossa", rivi))
+          val raakaAine = Varasto.varasto.keys.find(_.nimi == aines(0)).getOrElse(throw new OlematonAinesosa("Aines nimeltä " + aines(0) + " ei ole (enää) ohjelman tiedoissa.", rivi))
           
           ainekset += Tuple3(Varasto.varasto.keys.find(_.nimi == aines(0)).get, aines(1).toDouble, aines(2))
           
@@ -172,6 +172,8 @@ object IO {
       case e: IllegalArgumentException => println("Annettiin väärä parametri");
       
       case e: VirheellinenData => println("Annettiin väärää dataa")
+      
+      case e: OlematonAinesosa => println(e.kuvaus)
       
       case _: Throwable => println("Tapahtui odottamaton virhe")
       
