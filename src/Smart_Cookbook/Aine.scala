@@ -57,6 +57,24 @@ class Aine(val nimi: String,
     sarakkeet.toArray
   }
   
+  // Metodi palauttaa tietotaulukon merkkijonomuodossa.
+  def tietotaulukkoTekstinä: String = {
+    var tietotaulukko = "%-40s".format("Ominaisuus") + "%-100s".format("Arvo") + " \n"
+    
+    // Jokaiselle riville tulee vasempaan laitaan ominaisuuden nimi ja oikealle vastaava arvo.
+    //                           Ominaisuus                        Arvo                                Rivinvaihto
+    val nimiRivi         = "%-40s".format("Nimi")          + "%-100s".format(this.nimi)              + " \n"
+    val allergeeniRivi   = "%-40s".format("Allergeenit")   + "%-100s".format(this.listaaAllergeenit) + " \n"
+    val tiheysRivi       = "%-40s".format("Tiheys (g/ml)") + "%-100s".format(this.tiheys.toString)   + " \n"
+    val määräRivi        = "%-40s".format("Määrä")         + "%-100s".format(this.määrä.toString)    + " \n"
+    val mittayksikköRivi = "%-40s".format("Mittayksikkö")  + "%-100s".format(this.mittayksikkö)      + " \n"
+    val ainesosaRivi     = "%-40s".format("Ainesosat")     + "%-100s".format(this.listaaAinesosat)   + " \n"
+    
+    tietotaulukko += nimiRivi + allergeeniRivi + tiheysRivi + määräRivi + mittayksikköRivi + ainesosaRivi
+    
+    tietotaulukko
+  }
+  
   
   // metodilla voidaan lisätä aineelle ainesosia
   def lisääAinesosa(aine: Aine, määrä: Double, mittayksikkö: String) = {
