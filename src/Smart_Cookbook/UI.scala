@@ -88,6 +88,7 @@ object UI extends App {
   
   def haeAineet(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): String = {
     
+    //Tarkistetaan, että puuttuvien aineiden kenttä on joko Int tai tyhjä.
     try {
       if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt
     } catch {
@@ -101,16 +102,11 @@ object UI extends App {
     
     var hakutulos = Hakukone.hae(nPuuttuvat)
     
-
-    
   // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
-    try {
-      if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
-    } catch {
-      case e: NullPointerException => println("Ainetta " + nimi + " ei ole ohjelman tiedoissa"); return "Kyseistä ainetta ei ole olemassa."
-    }
     
-    if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
+    if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
+      
+    if (allergeenit.length > 0) {hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)}
     
     hakutulos.map(x => x.nimi).mkString(", ")
     
