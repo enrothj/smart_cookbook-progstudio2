@@ -22,10 +22,20 @@ object UI extends App {
   
   // Metodi palauttaa varaston tiedot merkkijonona. Jokaisella rivillä on aine, sen määrä ja sen allergeenit
   def listaaVarasto: String = {
-    var ainelista: String = "Aine, määrä, allergeenit: \n"
+    var ainelista: String = "%-60s".format("Aine") + "%30s".format("Määrä") + "%70s".format("Allergeenit") + " \n"
     
     // Lisätään riveittäin jokaisen aineen nimi, sen määrä ja sen allergeenit.
-    for (tiedot <- Varasto.varasto) ainelista += tiedot._1.nimi + tiedot._2.toString + tiedot._1.listaaAllergeenit + "\n"
+    for (tiedot <- Varasto.varasto) {
+      val aine = tiedot._1
+      val määrä = tiedot._2
+      
+      // Muuttujissa on formatotuna jokaisen "sarakkeen" teksti.
+      val nimi  = "%-60s".format(aine.nimi)
+      val arvo = "%30s".format( määrä + " (" + aine.mittayksikkö + ")" )
+      val allergeenit = "%70s".format( aine.listaaAllergeenit )
+      
+      ainelista += nimi + arvo + allergeenit + " \n"
+    }
     
     ainelista
   }
