@@ -136,7 +136,13 @@ object UI extends App {
   
 
   // Metodi tarkistaa onko annetun niminen aine olemassa ja poistaa sen, jos on. Palauttaa true, jos toimenpide onnistuu.
-  def poistaAine(nimi: String): Boolean = if (Varasto.onOlemassa(nimi)) {Varasto.poistaAine(nimi); true} else false
+  def poistaAine(nimi: String): Boolean = {
+    if (Varasto.onOlemassa(nimi)) {
+      Varasto.poistaAine(nimi)
+      IO.poistaAine(nimi)
+      true
+      } else false
+  }
   
   // Metodi tarkistaa onko annettun niminen aine olemassa, ja onko kohdeyksikkö tunnistettu, ja muuttaa sitten aineen yksikön.
   // HUOM: kappaleyksikköön muunnettaessa pitää muuttaa aineen omia tietoja suoraan.
