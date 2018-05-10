@@ -60,13 +60,14 @@ object Hakukone {
    *  sisältävät yhden tai useamman parametrina annetun allergeenin.
    */
   def suodataAllergeenit(suodatettavat: Buffer[String], lista: Vector[Aine]): Vector[Aine] = {
-    var aineet = lista.toBuffer
+    var poistettavat: Buffer[Aine] = Buffer()
     
-    for (aine <- aineet) {                                                     // Käydään läpi kokoelman kaikki Aine-oliot
-      if (!aine.allergeenit.intersect(suodatettavat).isEmpty) aineet -= aine    // Jos aineen allergeenilistassa ja parametrin listassa on yhteisiä allergeeneja, aine poistetaan listasta.
+    
+    for (aine <- lista) {                                                     // Käydään läpi kokoelman kaikki Aine-oliot
+      if (!aine.allergeenit.intersect(suodatettavat).isEmpty) poistettavat += aine    // Jos aineen allergeenilistassa ja parametrin listassa on yhteisiä allergeeneja, aine poistetaan listasta.
     }
     
-    aineet.toVector
+    lista.diff(poistettavat)
   }
   
   /*
