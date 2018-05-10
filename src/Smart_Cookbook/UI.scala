@@ -141,7 +141,7 @@ object UI extends App {
       
       Varasto.uusiAine(aine)
       IO.kirjoita(aine)
-      IO.tallenna()
+      tallennaTiedot()
       
     } catch {
       case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
@@ -160,6 +160,8 @@ object UI extends App {
     if (Varasto.onOlemassa(nimi)) {
       Varasto.poistaAine(nimi)
       IO.poistaAine(nimi)
+      // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+      tallennaTiedot()
       true
       } else false
   }
@@ -174,6 +176,9 @@ object UI extends App {
     
       if ( Varasto.onOlemassa(nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
       Varasto.muutaYksikkö( Varasto.aineNimeltä(nimi), yksikkö)
+      
+      // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+      tallennaTiedot()
       true
       } else false 
     
@@ -184,8 +189,8 @@ object UI extends App {
   def lisääAinetta(aine: Aine, määrä: Double) = Varasto.lisaaAinetta(aine, määrä)
   def vähennäAinetta(aine: Aine, määrä: Double) = Varasto.vahennaAinetta(aine, määrä)
   
-  def nollaaVarasto() = Varasto.nollaa()
-  def tyhjennäVarasto() = Varasto.tyhjennä()
+  def nollaaVarasto() = Varasto.nollaa(); tallennaTiedot()
+  def tyhjennäVarasto() = Varasto.tyhjennä(); tallennaTiedot()
   
   
   /*
@@ -215,6 +220,8 @@ object UI extends App {
         case "=" => asetaMäärä(aine, määrä)
       }
       
+      // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+      tallennaTiedot()
       onnistui
       
     } catch {
@@ -297,7 +304,9 @@ object UI extends App {
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
       
     }
-
+    
+    // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+    tallennaTiedot()
     onnistui
   }
   
@@ -347,7 +356,8 @@ object UI extends App {
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
     }
     
-    
+    // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+    tallennaTiedot()
     onnistui
   }
   
@@ -390,7 +400,8 @@ object UI extends App {
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
       
     }
-    
+    // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+    tallennaTiedot()
     onnistui
   }
   
