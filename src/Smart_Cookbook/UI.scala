@@ -101,12 +101,13 @@ object UI extends App {
     var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
     
     var hakutulos = Hakukone.hae(nPuuttuvat)
+    // Jos tässä vaiheessa saatu kokoelma on tyhjä, seuraavia tarkistuksia ei tehdä.
     
-  // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
+    // Jos on määritelty haettava nimi, suodatetaan pois aineet, jotka eivät sisällä määriteltyä ainetta.
     
-    if (nimi.length > 0) hakutulos = Hakukone.sisältää(nimi, hakutulos)
+    if (nimi.length > 0 && !hakutulos.isEmpty) hakutulos = Hakukone.sisältää(nimi, hakutulos)
       
-    if (allergeenit.length > 0) {hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)}
+    if (allergeenit.length > 0 && !hakutulos.isEmpty) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
     
     hakutulos.map(x => x.nimi).mkString(", ")
     
