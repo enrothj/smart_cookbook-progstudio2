@@ -20,6 +20,16 @@ object UI extends App {
   
   def ainelista: Array[Array[Any]] = if (!Varasto.varasto.isEmpty) Varasto.listaaAineet else Array(Array("Varastossa ei ole aineita", 0.0, ""))
   
+  // Metodi palauttaa varaston tiedot merkkijonona. Jokaisella rivillä on aine, sen määrä ja sen allergeenit
+  def listaaVarasto: String = {
+    var ainelista: String = "Aine, määrä, allergeenit: \n"
+    
+    // Lisätään riveittäin jokaisen aineen nimi, sen määrä ja sen allergeenit.
+    for (tiedot <- Varasto.varasto) ainelista += tiedot._1.nimi + tiedot._2.toString + tiedot._1.listaaAllergeenit + "\n"
+    
+    ainelista
+  }
+  
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
