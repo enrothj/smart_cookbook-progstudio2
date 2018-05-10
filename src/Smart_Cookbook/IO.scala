@@ -225,10 +225,8 @@ object IO {
   def poistaAine(nimi: String) = {
     
     val sijainti: String = "reseptit/" + nimi + ".txt"
-    val tiedosto = new File(sijainti)
     
-    if (tiedosto.exists) tiedosto.delete()
-    
+    new File(sijainti).delete()
   }
   
   
