@@ -220,7 +220,7 @@ class Aine(val nimi: String,
   /*
    * Näillä metodeilla voidaan muuttaa Aineen allergeenilistaa.
    */
-  def lisääAllergeeni(x: String)          = this.allergeenit += x
+  def lisääAllergeeni(x: String)          = if (!this.allergeenit.contains(x)) this.allergeenit += x
   
   def poistaAllergeeni(x: String)         = this.allergeenit -= x
   
