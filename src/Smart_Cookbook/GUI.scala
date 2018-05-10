@@ -9,6 +9,7 @@ import scala.collection.Seq
 
 
 
+
 object GUI extends SimpleSwingApplication {
   
   // ensin täytetään ohjelman tiedot tekstitiedostoilta
@@ -60,7 +61,8 @@ object GUI extends SimpleSwingApplication {
   val pääikkuna = new MainFrame
   pääikkuna.contents = napitJaLista
   pääikkuna.title    = "Älykäs reseptikirja"
-  pääikkuna.size     = new Dimension(800, 800)
+  pääikkuna.minimumSize     = new Dimension(700, 400)
+  pääikkuna.centerOnScreen()
   
   def top = pääikkuna
 
@@ -116,12 +118,7 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Pääkomponentit:
-  val hakuSelitys = new Label(
-                              "Hae lista aineista, jotka täyttävät haluamasi hakukriteerit. Kentät ovat:\n"
-                              + "1. Aineen nimi: hae tietyn niminen aine.\n"
-                              + "2. Suodatettavat allergeenit: allergeenit, jotka poistetaan hakutuloksista. (Erota pilkulla)\n"
-                              + "3. Kuinka monta ainesta saa puuttua reseptistä: tämä tulee ilmoittaa numerona."
-                              )
+  val hakuSelitys = new Label("Hae lista aineista, jotka täyttävät haluamasi hakukriteerit. Kentät ovat:")
   
   val aineenNimi           = new TextField("Aineen nimi")               // Tämä kenttä täytetään, jos halutaan tietyn niminen aine
   val allergeeniSuodatin   = new TextField("Suodatettavat allergeenit") // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
@@ -155,6 +152,7 @@ object GUI extends SimpleSwingApplication {
   // Hakuikkuna
   val hakuikkuna        = new Frame
   hakuikkuna.contents   = hakuToiminnot
+  hakuikkuna.centerOnScreen()
   
   // TAPAHTUMAT:
   hakuikkuna.listenTo(ainehakunappi)
@@ -165,12 +163,18 @@ object GUI extends SimpleSwingApplication {
       nappi.text match {
         case "Hae aineita" => { // Tämä nappi kutsuu UI:n metodia täyttääkseen hakutulosikkunan tulostaulukon.
           try {
-            hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)   /// TODO: !!!! KORJAA HAKUTOIMINTO !!!!!
-            Dialog.showMessage(hakuikkuna, UI.haeAineet(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text))
+            
+            //hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)   /// TODO: !!!! KORJAA HAKUTOIMINTO !!!!!
+            
+            // Ensin haetaan annetuilla hakukriteereillä. Saadut tulokset tallennetaan hakutulokset-muuttujaan. (Hakutaulukon tiedot)
+            hakutulokset = UI.haeAineet(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
+            
+            // Jos haku ei löytänyt aineita, ilmestyy dialogi, joka ilmoittaa siitä käyttäjälle.
             if (hakutulokset.isEmpty) Dialog.showMessage(hakuikkuna, "Hakusi ei tuottanut tuloksia") 
+            
+            // Muussa tapauksessa avataan hakutulosikkuna löydetyillä tiedoilla.
             else {
-              hakutaulukko.repaint()
-              päivitä
+              päivitäHakutulokset
               hakutulosIkkuna.open()
             }
             
@@ -186,9 +190,15 @@ object GUI extends SimpleSwingApplication {
   
   
   // HAKUTULOS-IKKUNA
-  val hakusarakkeet: Seq[String] = Seq("Aine", "määrä")
+  
+  /*val hakusarakkeet: Seq[String] = Seq("Aine", "määrä")
   var hakutulokset: Array[Array[Any]] = Array()
   var hakutaulukko = new Table(hakutulokset, hakusarakkeet)
+  * 
+  */
+  var hakutulokset = ""
+  val hakutaulukko = new TextArea(hakutulokset)
+  hakutaulukko.editable = false
   
   val hakutulosSulje = Button("Sulje") {hakutulosIkkuna.close()}
   
@@ -199,6 +209,14 @@ object GUI extends SimpleSwingApplication {
   val hakutulosIkkuna = new Frame
   hakutulosIkkuna.title    = "Hakutulokset"
   hakutulosIkkuna.contents = hakutulosPaneeli
+  hakutulosIkkuna.minimumSize = new Dimension(400, 200)
+  hakutulosIkkuna.centerOnScreen()
+  
+  def päivitäHakutulokset = {    
+    hakutaulukko.text = hakutulokset
+    hakutaulukko.repaint()
+    hakutulosIkkuna.repaint()
+  }
   
   
   /** RESEPTINLUONTI-IKKUNA
@@ -241,7 +259,7 @@ object GUI extends SimpleSwingApplication {
   // Reseptinluonti-ikkuna
   val reseptiIkkuna      = new Frame
   reseptiIkkuna.contents = resToiminnot
-  reseptiIkkuna.visible  = false
+  reseptiIkkuna.centerOnScreen()
   
   // TAPAHTUMAT:
   
@@ -295,7 +313,7 @@ object GUI extends SimpleSwingApplication {
   
   val varIkkuna        = new Frame
   varIkkuna.contents   = varPaneeli
-  varIkkuna.visible    = false
+  varIkkuna.centerOnScreen()
   
   
   
@@ -393,17 +411,18 @@ object GUI extends SimpleSwingApplication {
   
   // Pääkomponentit
   var aine: Aine = null
-  var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjää täynnä", 0.0))
+  var ainetiedot: String = ""
+  val ominaisuuslista = new TextArea()
+  ominaisuuslista.text = ainetiedot
+  ominaisuuslista.editable = false
+  ominaisuuslista.minimumSize = (new Dimension(200, 300))
+  
+  /*var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjää täynnä", 0.0))
   val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
   var ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
+  * 
+  */
   
-  def päivitäOminaisuudet() = {
-    ainetiedot = aine.tietoTaulukko
-    ominaisuuslista = new Table(ainetiedot, aineSarakenimet)
-    ominaisuuslista.repaint()
-    ainePaneeli.repaint()
-    aineikkuna.repaint()
-  }
   
   val aineAinesosa    = new Button("Hallitse ainesosia")
   val aineAllergeeni  = new Button("Hallitse allergeeneja")
@@ -423,8 +442,16 @@ object GUI extends SimpleSwingApplication {
   
   val aineikkuna        = new Frame
   aineikkuna.contents   = ainePaneeli
-  aineikkuna.visible    = false
+  aineikkuna.minimumSize = (new Dimension(600, 400))
+  aineikkuna.centerOnScreen()
   
+  // Tämä metodi päivittää aineen ominaisuuslistan.
+  def päivitäOminaisuudet() = {
+    ainetiedot = aine.tietotaulukkoTekstinä
+    ominaisuuslista.text = ainetiedot
+    ominaisuuslista.repaint()
+    aineikkuna.repaint()
+  }
   
   /**
    * TAPAHTUMAT:
