@@ -144,9 +144,10 @@ object UI extends App {
       tallennaTiedot()
       
     } catch {
-      case e: IllegalArgumentException => println("annettu väärät parametrit: " + e.toString())
-      case e: NumberFormatException    => println("Jokin mitoista on väärässä formaatissa")
-      case e: VirheellinenMittayksikkö => println("Annettiin tunnistamaton mittayksikkö")
+      case e: IllegalArgumentException       => println("annettu väärät parametrit: " + e.toString())
+      case e: NumberFormatException          => println("Jokin mitoista on väärässä formaatissa")
+      case e: VirheellinenMittayksikkö       => println("Annettiin tunnistamaton mittayksikkö")
+      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
     }
     
     
@@ -228,6 +229,7 @@ object UI extends App {
       case e: NumberFormatException => println("Annettu määrä on väärässä formaatissa"); onnistui
       case e: IllegalArgumentException => println("Annettiin tuntematon operaattori"); onnistui
       case e: OlematonAinePoikkeus  => println("Ohjelma ei tunne ainetta " + e.virheData); onnistui
+      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja."); onnistui
     }
   }
   
@@ -302,7 +304,7 @@ object UI extends App {
       case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
       case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
-      
+      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
     }
     
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
@@ -354,6 +356,7 @@ object UI extends App {
     } catch {
       case e: OlematonAinePoikkeus => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
+      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
     }
     
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
@@ -398,7 +401,7 @@ object UI extends App {
       case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
       case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
       case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
-      
+      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
     }
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
     tallennaTiedot()
