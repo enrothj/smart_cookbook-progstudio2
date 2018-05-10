@@ -25,15 +25,19 @@ object Hakukone {
       val ainekset    = aine.ainesosat.map(x => x._1)
       val raakaAineet = aine.aineetYhteensä.map(x => x._1)
       
-      if (onValmiina(aine.nimi, 0.0, aine.mittayksikkö)) lista += aine  // Jos ainetta on jo valmiina, se lisätään listaan
+      if (onValmiina(aine.nimi, 0.1, aine.mittayksikkö)) lista += aine  // Jos ainetta on jo valmiina, se lisätään listaan
       
       else if (voiValmistaa(aine)) lista += aine // Jos ainetta voidaan valmistaa olemassa olevista aineksista, se lisätään listaan
       
-      //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu määrä puuttuvia aineksia
-      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n) lista += aine
+      //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu määrä puuttuvia aineksia  HUOM: aineksia täytyy olla
+      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n && ainekset.length != 0) {
+        lista += aine
+        println(ainekset.length + "-" + ainekset.filter(Hakukone.voiValmistaa(_)).length + "=" (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length) +"   " + n)
+        println("Aineen "+aine.nimi+" voi valmistaa aineksistaan")
+        }
       
       //  raaka-aineiden kokonaislkm -  valmistettavissa olevat raaka-aineet       <=  sallittu määrä puuttuvia raaka-aineksia
-      else if (raakaAineet.length - raakaAineet.filter(Hakukone.voiValmistaa(_)).length <= n) lista += aine // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
+      else if (raakaAineet.length - raakaAineet.filter(Hakukone.voiValmistaa(_)).length <= n && ainekset.length != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
       
     }
     
@@ -60,19 +64,19 @@ object Hakukone {
    * Metodi onValmiina tarkistaa onko varastossa annettun nimistä ainetta vähintään n määrä annetussa mittayksikössä.
    */
   def onValmiina(nimi: String, n: Double, mitta: String): Boolean = {
-    
-    val oikeanniminen = Varasto.varasto.find(_._1.nimi == nimi) // etsitään haluttu aine
-    if (oikeanniminen == Option(None)) {                        // Jos sellaista ei ole, palautetaan false.
-      false
-    } else {
-      val aine = oikeanniminen.get._1
-      val määrä = oikeanniminen.get._2
+    try {
+      val aine = Varasto.aineNimeltä(nimi) // etsitään haluttu aine
       
-      if (aine.mittayksikkö != "kpl") Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
-      else if (mitta == "kpl") määrä >= n                                        // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
-      else throw new KappaleMuunnos("Yritettiin muuntaa kappaleita toiseksi mitaksi", mitta) // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
+      val määrä = Varasto.varasto(aine)
+        
+      if (aine.mittayksikkö != "kpl" && mitta != "kpl") Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
+      else if (mitta == "kpl") määrä >= n                                                          // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
+      else throw new KappaleMuunnos("Yritettiin muuntaa kappaleita toiseksi mitaksi.", aine.mittayksikkö) // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
+      
+    } catch {
+      case e: OlematonAinePoikkeus => println(nimi + " ei ole ohjelman tiedossa oleva aine. Hypätään yli..."); false
+      case e: KappaleMuunnos       => println(e.kuvaus + " (" + e.virheData + " --> " + mitta + ")"); false
     }
-    
   }
   
   /*
@@ -129,9 +133,9 @@ object Hakukone {
     for (aine <- lista) {                                        // Käydään läpi kaikki aineet
       var sisältääAineen: Boolean = false
       
-      if (aine.nimi == nimi) {sisältääAineen = true; println(nimi + " sisälsi aineen")}                   // Jos aine itse on annetun niminen, se sisältää annetun aineen.
+      if (aine.nimi == nimi) sisältääAineen = true                  // Jos aine itse on annetun niminen, se sisältää annetun aineen.
       
-      else if ( aine.sisältääAineen(nimi) ) {sisältääAineen = true; println("Tässä käytiin")}   // Tarkistetaan sisältääkö jokin raaka-aine annetun aineen.
+      else if ( aine.sisältääAineen(nimi) ) sisältääAineen = true   // Tarkistetaan sisältääkö jokin raaka-aine annetun aineen.
       
       // Aineet, jotka sisältävät halutun aineen, lisätään listaan.
       if (sisältääAineen) nimenSisältävät += aine
