@@ -1,8 +1,8 @@
 makkara,0.0
-spagetti,800.0
-spagetti_bolognese,0.0
-bolognesekastike,0.0
-vehnäjauho,0.0
-korppujauho,0.0
 jauheliha,0.0
+spagetti_bolognese,0.0
+korppujauho,0.0
+vehnäjauho,0.0
+bolognesekastike,0.0
 tomaattikastike,500.0
+spagetti,800.0
