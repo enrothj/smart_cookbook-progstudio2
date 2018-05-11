@@ -4,6 +4,22 @@ import scala.collection.mutable.Buffer
 
 
 /*
+ * Luokka Aine mallintaa kaikkia erilaisia ruoka-aineita. Dokumentaatiossa Aine-olioista puhutaan yleensä näillä käsitteillä:
+ * -aine       - mikä tahansa Aine-olio
+ * -ainesosa   - Aine-olio, josta jokin toinen aine valmistetaan (yleensä resepti) esim. vehnäjauho voi olla pullan ainesosa
+ * -raaka-aine - raaka-aine on aine, jolla ei ole omia ainesosia. Esim. jauho, kaupasta ostettavat tuotteet, jne.
+ * -aines      - voi olla ainesosa tai raaka-aine
+ * 
+ * Konstruktorit:
+ * nimi         - aineen nimi
+ * allergeenit  - aineen allergeeni
+ * kuvaus       - Kuvaus aineesta, esim. valmistusohje
+ * tiheys       - aineen tiheys yksikössä g/ml
+ * määrä        - kuinka paljon tätä ainetta syntyy valmistettaessa
+ * mittayksikkö - määrän mittayksikkö, Aineen oletusmittayksikkö. Mittayksiköistä tarkemmin Muuntaja-yksittäisoliossa.
+ * 
+ * 
+ * 
  * 
  */
 
@@ -13,6 +29,15 @@ class Aine(val nimi: String,
     var tiheys: Double = 0.0, var määrä: Double = 0.0,
     var mittayksikkö: String = "kpl") {
 
+  
+  /*
+   * Muuttujaan ainesosat tallennetaan tiedot aineen kaikista ainesosista. Ainesosat tallennetaan kolmialkioisina monikoina.
+   * Ensimmäisessä alkiossa on ainesta vastaava Aine-olio, toisessa määrä, kolmannessa mittayksikkö tälle määrälle.
+   * 
+   * HUOM: Ainesosan mittayksikkö voi olla eri kuin sitä vastaavan Aine-olion oletusmittayksikkö. Esim. Vehnäjauho voi olla
+   * oletusyksiköltään kg, mutta se voidaan merkitä reseptiin yksikössä dl. Muuntaja suorittaa laskutoimitukset näiden
+   * välillä.
+   */
   var ainesosat: Array[Tuple3[Aine, Double, String]] = Array()
   
   
@@ -21,7 +46,7 @@ class Aine(val nimi: String,
   def listaaAllergeenit: String = allergeenit.mkString(", ")
   
   
-  // metodi muuttaa ainesosan helposti luettavaan muotoon
+  // Metodi muuttaa ainesosan helposti luettavaan merkkijonomuotoon
   def ainesosaTekstiksi(ainesosa: Tuple3[Aine, Double, String]): String = {
     ainesosa._1.nimi + " " + ainesosa._2.toString + ainesosa._3
   }
@@ -76,7 +101,7 @@ class Aine(val nimi: String,
   }
   
   
-  // metodilla voidaan lisätä aineelle ainesosia
+  // Metodilla voidaan lisätä aineelle ainesosia
   def lisääAinesosa(aine: Aine, määrä: Double, mittayksikkö: String) = {
     var uudetAinesosat = ainesosat.toBuffer
     

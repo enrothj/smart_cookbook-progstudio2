@@ -5,6 +5,14 @@ import scala.collection.mutable.Buffer
 import java.io.PrintWriter
 import java.io.File
 
+/**
+ * IO-yksittäisolio käsittelee tekstitiedostoja, joille tallennetaan Varaston ja Aine-olioiden tietoja. Sen metodeilla voidaan
+ * tallentaa Varaston tiedot yhdelle tekstitiedostolle ("jaakaappi.txt"), josta ne ladataan ohjelmaa käynnistettäessä. Aine-
+ * oliot tallennetaan omille tekstitiedostoilleen "reseptit/"-kansioon. Näistä tiedostoista luodaan Aine-oliot, kun Varastoa 
+ * ladataan ohjelmaa käytettäessä.
+ */
+
+
 object IO {
    
   /*
@@ -45,7 +53,7 @@ object IO {
       tiedosto.close()
     }
     
-  }  // TODO: poikkeusten käsittely
+  }
     
   
   /*
@@ -101,14 +109,7 @@ object IO {
           rivinro += 1
         }
         
-        /*else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) haetaan kaikki eri ainesosat, jotka kuuluvat aineeseen.
-          
-          val aines = rivi.split(",").toVector
-          ainesosat += Tuple3(Varasto.aineNimeltä(aines(0)), aines(1).toDouble, aines(2))
-          * TÄMÄN OSION TOIMINNALLISUUS SIIRRETTY METODIIN LUEAINESOSAT
-          
-          
-        }*/ else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+        else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
         
         else if (rivinro == 4) { // Tältä riviltä löytyy lista Aineen sisältämistä allergeeneista.
           allergeenit = rivi.split(",").toBuffer
@@ -176,8 +177,6 @@ object IO {
       case e: VirheellinenData => println("Annettiin väärää dataa")
       
       case e: OlematonAinesosa => println(e.kuvaus)
-      
-      //case _: Throwable => println("Tapahtui odottamaton virhe")
       
     }
     

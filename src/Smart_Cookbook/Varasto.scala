@@ -3,6 +3,16 @@ package Smart_Cookbook
 import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
 
+/**
+ * Varasto-olio pitää kirjaa ohjelman tuntemista aineista ja niiden määristä, eli mallintaa käytännössä käyttäjän jääkaappia. 
+ * Merkittävin osa on varasto-muuttuja. Se on hakemisto,johon on tallennettu kaikki Aine-oliot ja niitä vastaavat määrät
+ * (aineen oletusmittayksikössä). Varaston tiedot täytetään aina, kun ohjelma käynnistetään, ja tiedot tallennetaan tekstitiedostolle 
+ * suljettaessa. Oliolla on paljon metodeja näiden tietojen hallitsemista varten.
+ * 
+ */
+
+
+
 object Varasto {
 
   var varasto: Map[Aine, Double] = Map() // Muuttuja tallentaa kaikki jääkaapin sisältämät aineet ja niiden määrän.
@@ -80,4 +90,6 @@ object Varasto {
     
     aine.mittayksikkö = yksikkö                                       // Muutetaan aineen perusmittayksiköksi annettu yksikkö.
   }
+  
+  
 }

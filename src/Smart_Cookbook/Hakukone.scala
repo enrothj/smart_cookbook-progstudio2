@@ -10,8 +10,6 @@ import scala.collection.mutable.Buffer
 
 object Hakukone {
   
-  //TODO: Luo erilaisia hae-metodeja, jotka täyttävät tarvittavan hakutoiminnallisuuden.
-  //TODO: Luo metodeja, joilla voi suodattaa tietyillä kriteereillä.
   
   /*
    * Metodi hae käy läpi Varaston listan Aine-olioista ja palauttaa listan niistä, jotka täyttävät
@@ -106,18 +104,6 @@ object Hakukone {
     }
     
     if (ainekset == valmistettavissa) aineetRiittää = true                     // Jos valmistettavissa-muuttujassa on kaikki samat ainesosat kuin ainekset-muuttujassa, se voidaan valmistaa.
-    
-    /* JÄTETTIIN VANHEMPI TOTEUTUS SÄILÖÖN
-    // Tarkistetaan ovatko aineen ainesosat varastossa.                Tarkistetaan ovatko aineen perusraaka-aineet varastossa. 
-    if ( aine.ainesosat.forall(x => onValmiina(x._1.nimi, x._2, x._3)) ) {
-      aineetRiittää = true}
-    
-    else if ( aine.aineetYhteensä.forall(x => onValmiina(x._1.nimi, x._2, x._3)) ) {aineetRiittää = true}
-    
-    else if (ainekset == valmistettavissa) {
-      true
-    }  TODO: Kun ainesta valmistetaan raaka-aineista, sitä voi tulla enemmän/vähemmän kuin resepti vaatii. Pitää siis verrata ainesmäärää aineksen omaan määrään.
-    */
     
     aineetRiittää
   }
