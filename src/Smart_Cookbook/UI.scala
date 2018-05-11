@@ -119,11 +119,12 @@ object UI extends App {
     
     // Lisätään riveittäin aine ja sen määrä varastossa (mittayksikön kera).
     for (aine <- tulokset) {
-      val nimi         = "%-60s".format(aine.nimi)
-      val määrä        = Varasto.varasto(aine)
-      val mittayksikkö = aine.mittayksikkö
+      val nimi          = "%-60s".format(aine.nimi)
+      val määrä         = Varasto.varasto(aine)
+      val mittayksikkö  = aine.mittayksikkö
+      val määräValmiina = if (määrä > 0.0) määrä + mittayksikkö else "Valmistettava"
       
-      tulostaulukko += nimi + määrä + mittayksikkö + " \n"
+      tulostaulukko += nimi + määräValmiina + " \n"
       
     }
     
@@ -146,7 +147,6 @@ object UI extends App {
       val mitat: Array[String] = if (määräJaMitta.length > 0) poistaVälit(määräJaMitta).split(",") else Array("0.0","0.0","kpl")
       val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else 0.0
       val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else 0.0
-      println(mitat(2) + " " + Muuntaja.tunnistettu(mitat(2)))
       val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else "kpl"
       
       require(tiheys >= 0.0 && määrä >= 0.0)
@@ -185,19 +185,24 @@ object UI extends App {
   // HUOM: kappaleyksikköön muunnettaessa pitää muuttaa aineen omia tietoja suoraan.
   def muutaYksikkö(komento: String): Boolean = {
     
-    val komennonOsat = komento.toLowerCase.split(" ")
-    val nimi         = komennonOsat(0)
-    val yksikkö      = komennonOsat(1)
+    try {
+      val komennonOsat = komento.toLowerCase.split(" ")
+      val nimi         = komennonOsat(0)
+      val yksikkö      = komennonOsat(1)
     
-      if ( Varasto.onOlemassa(nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
-      Varasto.muutaYksikkö( Varasto.aineNimeltä(nimi), yksikkö)
+        if ( Varasto.onOlemassa(nimi) && Muuntaja.tunnistettu(yksikkö) && yksikkö != "kpl"){
+        Varasto.muutaYksikkö( Varasto.aineNimeltä(nimi), yksikkö)
       
-      // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
-      tallennaTiedot()
-      true
-      } else false 
-    
+        // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
+        tallennaTiedot()
+        true
+        } else false 
+    } catch {
+      case e: KappaleMuunnos => println("Kappalemuotoa käsitellessä mittayksikkö pitää muuttaa aineikkunan kautta."); false
+    }
   }
+  
+  def avaaAine(nimi: String): Aine = Varasto.aineNimeltä(korjaaNimi(nimi))
   
   def asetaMäärä(aine: Aine, määrä: Double) = Varasto.asetaMäärä(aine, määrä)
   
