@@ -30,6 +30,7 @@ object GUI extends SimpleSwingApplication {
   val varHallintaNappi = new Button("Varaston Hallinta")
   val sulkunappi       = new Button("Sulje Ohjelma")
   val avaaAineNappi    = new Button("Avaa aine")
+  val tiheyslaskuri    = new Button("Tiheyslaskuri")
   
   // Lista aineista, niiden määrästä ja niiden allergeeneista
   val ainelista = new TextArea()
@@ -49,6 +50,7 @@ object GUI extends SimpleSwingApplication {
   päänapit.contents += luoReseptiNappi
   päänapit.contents += varHallintaNappi
   päänapit.contents += avaaAineNappi
+  päänapit.contents += tiheyslaskuri
   päänapit.contents += sulkunappi
   
   val pääaineet = new BoxPanel(Orientation.Vertical)
@@ -75,6 +77,7 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.listenTo(varHallintaNappi)
   pääikkuna.listenTo(sulkunappi)
   pääikkuna.listenTo(avaaAineNappi)
+  pääikkuna.listenTo(tiheyslaskuri)
   
   pääikkuna.reactions += {
     case painallus: ButtonClicked => 
@@ -104,6 +107,27 @@ object GUI extends SimpleSwingApplication {
            case None => päivitäAinelista()
          }
          
+        }
+        
+        case "Tiheyslaskuri"    => { // Tämä avaa tiheyslaskurin, jolla voidaan helpommin selvittää aineen tiheys
+          
+          // Pyydetään syöte käyttäjältä
+          val syöte = Dialog.showInput(aineikkuna, "Laske tiheys antamalla aineen massa ja tilavuus. Tiheys palautetaan ohjelman käyttämässä yksikössä g/ml.", "Tiheyslaskuri",
+                              initial = "[massan arvo] [massayksikkö] [tilavuuden arvo] [tilavuusyksikkö]")
+         syöte match {
+            
+           case Some(komento) => {
+             
+             val tiheys = UI.tiheyslaskuri(komento)
+             
+             if (tiheys > 0.0) {
+               Dialog.showMessage(pääikkuna, "Laskettu tiheys: " + tiheys + " g/ml")
+             }
+                              
+           }
+           case None => 
+          
+          }
         }
         
         case _                   => println("Painoit nappia " + nappi.text)
