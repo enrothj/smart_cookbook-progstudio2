@@ -203,8 +203,19 @@ object UI extends App {
   def lisääAinetta(aine: Aine, määrä: Double) = Varasto.lisaaAinetta(aine, määrä)
   def vähennäAinetta(aine: Aine, määrä: Double) = Varasto.vahennaAinetta(aine, määrä)
   
-  def nollaaVarasto() = Varasto.nollaa(); tallennaTiedot()
-  def tyhjennäVarasto() = Varasto.tyhjennä(); tallennaTiedot()
+  def nollaaVarasto() = {
+    for (aine <- Varasto.varasto.keys) {
+      Varasto.asetaMäärä(aine, 0.0)
+    }
+  }
+  
+  def tyhjennäVarasto() = {
+    for (aine <- Varasto.varasto.keys) {
+      Varasto.poistaAine(aine.nimi)
+    }
+    
+    tallennaTiedot()
+  }
   
   
   /*
@@ -249,8 +260,8 @@ object UI extends App {
   // Jos annettu komento on joko "nollaa" tai "tyhjennä", suoritetaan annettu komento ja palautetaan true.
   def tyhjennys(komento: String): Boolean = {
     
-    if (komento == "nollaa") {nollaaVarasto(); true}
-    else if (komento == "tyhjennä") {tyhjennäVarasto(); true}
+    if (komento == "nollaa") {nollaaVarasto(); tallennaTiedot(); true}
+    else if (komento == "tyhjennä") {tyhjennäVarasto(); tallennaTiedot(); true}
     else false
     
   }

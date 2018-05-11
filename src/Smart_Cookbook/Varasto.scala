@@ -43,7 +43,7 @@ object Varasto {
   }
   
   // Tämä metodi asettaa kaikkien varaston aineiden määräksi 0.0
-  def nollaa() = varasto.foreach(x => x._2 * 0.0)
+  def nollaa() = varasto.mapValues(x => 0.0)
   
   // Tämä metodi poistaa kaikki varaston tiedot
   def tyhjennä() = varasto.empty
