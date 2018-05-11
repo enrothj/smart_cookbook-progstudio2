@@ -1,5 +1,5 @@
 jauheliha
-1500.0,400.0,kpl
+0.8,400.0,g
 *
 liha
-400g naudan jauhelihaa
+400g naudanjauhelihaa

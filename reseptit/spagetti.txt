@@ -1,5 +1,5 @@
 spagetti
-50.0,800.0,kpl
+4.0,400.0,g
 *
 gluteeni
-Spagetti-tikkuja
+vehnästä tehty spagetti

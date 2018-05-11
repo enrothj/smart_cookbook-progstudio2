@@ -1,0 +1,5 @@
+korppujauho
+0.5,1.0,kpl
+*
+
+kilo korppujauhoja
