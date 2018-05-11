@@ -38,15 +38,13 @@ object Hakukone {
       
       // Aine ei ole raaka-aine JA puuttuvien AINESOSIEN määrä on korkeintaan n, eli:
       //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu määrä puuttuvia aineksia
-      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n && !aine.onRaakaAine) {
+      else if (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length <= n && !aine.onRaakaAine && n != 0) {
         lista += aine
-        println(ainekset.length + "-" + ainekset.filter(Hakukone.voiValmistaa(_)).length + "=" (ainekset.length - ainekset.filter(Hakukone.voiValmistaa(_)).length) +"   " + n)
-        println("Aineen "+aine.nimi+" voi valmistaa aineksistaan")
         }
       
       // Aine ei ole raaka-aine JA puuttuvien RAAKA-AINEIDEN määrä on korkeintaan n, eli:
       //  raaka-aineiden kokonaislkm -  valmistettavissa olevat raaka-aineet       <=  sallittu määrä puuttuvia raaka-aineksia
-      else if (raakaAineet.length - raakaAineet.filter(Hakukone.voiValmistaa(_)).length <= n && ainekset.length != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
+      else if (raakaAineet.length - raakaAineet.filter(Hakukone.voiValmistaa(_)).length <= n && !aine.onRaakaAine && n != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisätään listaan.
       
     }
     
@@ -81,7 +79,7 @@ object Hakukone {
         
       if (aine.mittayksikkö != "kpl" && mitta != "kpl") Muuntaja.muunna(aine, määrä, mitta) >= n   // Muunnetaan varaston määrä samaan mittayksikköön (metodi muunna palauttaa saman määrän,
       else if (mitta == "kpl") määrä >= n                                                          // jos yksiköt ovat samat) ja tarkistetaan, että se on vähintään n.
-      else throw new KappaleMuunnos("Yritettiin muuntaa kappaleita toiseksi mitaksi.", aine.mittayksikkö) // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
+      else false // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
       
     } catch {
       case e: OlematonAinePoikkeus => println(nimi + " ei ole ohjelman tiedossa oleva aine. Hypätään yli..."); false
@@ -138,7 +136,6 @@ object Hakukone {
   def sisältää(nimi: String, lista: Vector[Aine]): Vector[Aine] = {
     var nimenSisältävät: Buffer[Aine] = Buffer() // Tähän kerätään kriteerit täyttävät aineet.
     
-    println(lista)
     require(!lista.isEmpty)
     for (aine <- lista) {                                        // Käydään läpi kaikki aineet
       var sisältääAineen: Boolean = false
