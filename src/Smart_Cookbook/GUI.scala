@@ -36,7 +36,7 @@ object GUI extends SimpleSwingApplication {
   ainelista.text = UI.listaaVarasto
   ainelista.editable = false
   
-  def päivitäAinelista() = ainelista.text = UI.listaaVarasto; ainelista.repaint()
+
   
   /*val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
   var ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
@@ -65,6 +65,8 @@ object GUI extends SimpleSwingApplication {
   pääikkuna.centerOnScreen()
   
   def top = pääikkuna
+  
+  def päivitäAinelista() = ainelista.text = UI.listaaVarasto; ainelista.repaint(); pääikkuna.repaint()
 
   // TAPAHTUMAT:
   
@@ -487,6 +489,7 @@ object GUI extends SimpleSwingApplication {
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
           päivitäOminaisuudet
+          päivitäAinelista
           
         }
         
@@ -507,6 +510,7 @@ object GUI extends SimpleSwingApplication {
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
           päivitäOminaisuudet
+          päivitäAinelista
           
         }
         
@@ -525,6 +529,7 @@ object GUI extends SimpleSwingApplication {
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
           päivitäOminaisuudet
+          päivitäAinelista
         }
         
         case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
