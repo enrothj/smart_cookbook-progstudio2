@@ -92,7 +92,7 @@ object GUI extends SimpleSwingApplication {
          syöte match {
            case Some(nimi) => {
              try {
-               aine = Varasto.aineNimeltä(nimi.toLowerCase)
+               aine = UI.avaaAine(nimi)
                päivitäOminaisuudet()
                aineikkuna.open()
              } catch {
