@@ -471,4 +471,33 @@ object UI extends App {
     uusiTeksti.mkString("")
   }
   
+  /*
+   *  Metodi laskee aineen tiheyden muodossa g/ml, kun sille syötetään aineen massa ja tilavuus.
+   *  Syöte annetaan merkkijonona muodossa [massan arvo] [massayksikkö] [tilavuuden arvo] [tilavuusyksikkö].
+   */
+  def tiheyslaskuri(komento: String): Double = {
+    
+    try {
+      val komennonOsat = komento.toLowerCase.split(" ")
+      require(komennonOsat.length == 4)
+      
+      val massa    = komennonOsat(0).toDouble
+      val mYksikkö = komennonOsat(1)
+      val tilavuus = komennonOsat(2).toDouble
+      val tYksikkö = komennonOsat(3)
+      
+      Muuntaja.laskeTiheys(massa, mYksikkö, tilavuus, tYksikkö)
+      
+    } catch {
+      case e: NumberFormatException    => println("Annettiin virheellinen lukuarvo: " + komento); 0.0
+      case e: IllegalArgumentException => println("Annettiin virheellinen syöte: " + komento); 0.0
+      case e: KappaleMuunnos           => println("Kappalemuodosta ei voi laskea tiheyttä"); 0.0
+      case e: VirheellinenMittayksikkö => println(e.kuvaus); 0.0
+    }
+    
+    
+  }
+  
+  
+  
 }

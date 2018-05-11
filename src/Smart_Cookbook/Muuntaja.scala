@@ -159,4 +159,22 @@ object Muuntaja {
   // muunna käyttää laske-metodia, mutta saa tiheyden ja aloitusmittayksikön annetulta Aine-oliolta.
   def muunna(aine: Aine, määrä: Double, yksikkö: String): Double = laske(aine.tiheys, aine.mittayksikkö, määrä, yksikkö)
   
+  // Metodi laskee tiheyden annetuilla parametreilla.
+  def laskeTiheys(massa: Double, mYksikkö: String, tilavuus: Double, tYksikkö: String): Double = {
+    
+    // Tarkistetaan ovatko annetut mittayksiköt sopivat
+    if (!onkoMassa(mYksikkö)) throw new VirheellinenMittayksikkö(mYksikkö + " ei ole tunnistettu massan mittayksikkö.", mYksikkö)
+    if (onkoMassa(tYksikkö)) throw new VirheellinenMittayksikkö(tYksikkö + " ei ole tunnistettu tilavuuden mittayksikkö.", tYksikkö)
+    
+    // Määrien tulee olla > 0.0
+    require(massa > 0.0 && tilavuus > 0.0)
+    
+    // Muutetaan annetut arvot yksikköihin g ja ml
+    val massag     = massaMassa(mYksikkö, "g", massa)
+    val tilavuusml = tilavuusTilavuus(tYksikkö, "ml", tilavuus)
+    
+    // Tiheys saadaan laskemalla m / V, eli massag / tilavuusml.
+    massag / tilavuusml
+  }
+  
 }
