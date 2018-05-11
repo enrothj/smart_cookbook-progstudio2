@@ -456,6 +456,7 @@ object GUI extends SimpleSwingApplication {
   val aineAllergeeni  = new Button("Hallitse allergeeneja")
   val aineOminaisuus  = new Button("Hallitse muita ominaisuuksia")
   val aineRaakaAineet = new Button("Aineen raaka-aineet")
+  val näytäKuvaus     = new Button("Näytä kuvaus")
   
   // Komponenttien asemointi
   val aineNapit         = new BoxPanel(Orientation.Vertical)
@@ -463,6 +464,7 @@ object GUI extends SimpleSwingApplication {
   aineNapit.contents   += aineAllergeeni
   aineNapit.contents   += aineOminaisuus
   aineNapit.contents   += aineRaakaAineet
+  aineNapit.contents   += näytäKuvaus
   
   val ainePaneeli       = new BoxPanel(Orientation.Horizontal)
   ainePaneeli.contents += ominaisuuslista
@@ -472,6 +474,7 @@ object GUI extends SimpleSwingApplication {
   aineikkuna.contents   = ainePaneeli
   aineikkuna.minimumSize = (new Dimension(600, 400))
   aineikkuna.centerOnScreen()
+  
   
   // Tämä metodi päivittää aineen ominaisuuslistan.
   def päivitäOminaisuudet() = {
@@ -489,6 +492,7 @@ object GUI extends SimpleSwingApplication {
   aineikkuna.listenTo(aineAllergeeni)
   aineikkuna.listenTo(aineOminaisuus)
   aineikkuna.listenTo(aineRaakaAineet)
+  aineikkuna.listenTo(näytäKuvaus)
   aineikkuna.reactions += {
     
     case painallus: ButtonClicked =>
@@ -558,6 +562,7 @@ object GUI extends SimpleSwingApplication {
         
         case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
         
+        case "Näytä kuvaus" => Dialog.showMessage(aineikkuna, aine.kuvaus)
       }
     
   }

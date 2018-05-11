@@ -453,6 +453,9 @@ object UI extends App {
     
   }
   
+  
+  
+  
   // Metodi korjaa annetun nimen ohjelman vaatimaan formaattiin, eli välilyönnittömäksi pienikirjaimiseksi merkkijonoksi.
   private def korjaaNimi(nimi: String): String = {
     
