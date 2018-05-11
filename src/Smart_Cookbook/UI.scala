@@ -146,6 +146,7 @@ object UI extends App {
       val mitat: Array[String] = if (määräJaMitta.length > 0) määräJaMitta.trim.toLowerCase.split(",") else Array("0.0","0.0","kpl")
       val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else 0.0
       val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else 0.0
+      println(mitat(2) + " " + Muuntaja.tunnistettu(mitat(2)))
       val mittayksikkö         = if (Muuntaja.tunnistettu(mitat(2))) mitat(2) else "kpl"
       
       require(tiheys >= 0.0 && määrä >= 0.0)
@@ -454,6 +455,15 @@ object UI extends App {
     val uusiNimi = kirjaimet.map(x => if (x == ' ') '_' else x)
     
     uusiNimi.mkString("")
+  }
+  
+  // Metodi poista välilyönnit annetusta merkkijonosta.
+  private def poistaVälit(s: String) = {
+    
+    var kirjaimet = s.toLowerCase.toCharArray
+    val uusiTeksti = kirjaimet.filter(_ != ' ')
+    
+    uusiTeksti.mkString("")
   }
   
 }
