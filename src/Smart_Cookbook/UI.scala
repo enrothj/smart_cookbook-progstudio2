@@ -41,7 +41,7 @@ object UI extends App {
   }
   
   
-  // Metodi palauttaa taulukon, GUI:n hakutuloksia varten
+  // Metodi palauttaa taulukon, GUI:n hakutuloksia varten. HUOM TARPEETON TÄLLÄ HETKELLÄ, koska GUI ei käytä enää Table-olioita
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
 
     // Tarkistetaan, että annettu maxPuuttuvatAineet vastaa muotoa Int (jos se on ylipäätään annettu).
@@ -137,7 +137,7 @@ object UI extends App {
     uusiKuvaus: String,
     määräJaMitta: String) {
     
-    val nimi = uusiNimi
+    val nimi = korjaaNimi(uusiNimi)
     val allergeenilista: Buffer[String] = if (allergeenit.length > 0) allergeenit.trim.toLowerCase.split(",").toBuffer else Buffer()
     val kuvaus = uusiKuvaus
     
@@ -436,5 +436,13 @@ object UI extends App {
     
   }
   
+  // Metodi korjaa annetun nimen ohjelman vaatimaan formaattiin, eli välilyönnittömäksi pienikirjaimiseksi merkkijonoksi.
+  private def korjaaNimi(nimi: String): String = {
+    
+    var kirjaimet = nimi.toLowerCase.toCharArray
+    val uusiNimi = kirjaimet.map(x => if (x == ' ') '_' else x)
+    
+    uusiNimi.mkString("")
+  }
   
 }
