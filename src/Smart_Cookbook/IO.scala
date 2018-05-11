@@ -101,12 +101,14 @@ object IO {
           rivinro += 1
         }
         
-        else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) haetaan kaikki eri ainesosat, jotka kuuluvat aineeseen.
+        /*else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) haetaan kaikki eri ainesosat, jotka kuuluvat aineeseen.
           
           val aines = rivi.split(",").toVector
-          ainesosat += Tuple3(Varasto.varasto.keys.find(_.nimi == aines(0)).get, aines(1).toDouble, aines(2))
+          ainesosat += Tuple3(Varasto.aineNimeltä(aines(0)), aines(1).toDouble, aines(2))
+          * TÄMÄN OSION TOIMINNALLISUUS SIIRRETTY METODIIN LUEAINESOSAT
           
-        } else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+          
+        }*/ else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
         
         else if (rivinro == 4) { // Tältä riviltä löytyy lista Aineen sisältämistä allergeeneista.
           allergeenit = rivi.split(",").toBuffer
@@ -124,7 +126,7 @@ object IO {
       
       case e: VirheellinenData => println("Annettiin väärää dataa")
       
-      case _: Throwable => println("Tapahtui odottamaton virhe")
+      //case _: Throwable => println("Tapahtui odottamaton virhe")
       
     }
     
@@ -175,7 +177,7 @@ object IO {
       
       case e: OlematonAinesosa => println(e.kuvaus)
       
-      case _: Throwable => println("Tapahtui odottamaton virhe")
+      //case _: Throwable => println("Tapahtui odottamaton virhe")
       
     }
     
@@ -191,23 +193,25 @@ object IO {
     
     val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
     
-    // "reseptit/" + aine.nimi + ".txt"
     
     try {
       
       val riveja = tiedosto.getLines().toVector
       
-      for (rivi <- riveja) {                                  // käydään jokainen tekstitiedoston rivi läpi
+      // Ensin luodaan kaikki "jaakaappi.txt"-tiedostolla olevat Aineet.
+      for (rivi <- riveja) {                                  // käydään jokainen tekstitiedoston rivi läpi (jokaisella rivillä aineen nimi ja sen määrä)
         
         val tiedot = rivi.split(",")
         
         val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
         val määrä        = tiedot(1).toDouble
         
-        Varasto.uusiAine( lue(aineSijainti), määrä )          // Kutsutaan Varaston uusiAine-metodia, jolla lisätään aineSijainnin mukainen Aine-olio Varaston muistiin.
+        // Kutsutaan Varaston uusiAine-metodia, jolla lisätään metodin lue avulla aineSijainnin määrittelemä Aine-olio Varaston muistiin.
+        Varasto.uusiAine( lue(aineSijainti), määrä )          
         
       } 
       
+      // Kun jokainen aine on lisätty Varastoon, yritetään lisätä jokaiselle aineelle sen mahdolliset ainesosat.
       for (aine <- Varasto.varasto.keys) {
         lueAinesosat("reseptit/" + aine.nimi + ".txt")
       }
