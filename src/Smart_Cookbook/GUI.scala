@@ -99,7 +99,7 @@ object GUI extends SimpleSwingApplication {
              }
            }
            
-           case None => päivitä
+           case None => päivitäAinelista()
          }
          
         }
@@ -359,7 +359,7 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitä
+          päivitäAinelista()
         }
         
         case "Poista aine varastosta"      => {// tästä käytetään metodia UI.poistaAine
@@ -392,7 +392,7 @@ object GUI extends SimpleSwingApplication {
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitä
+          päivitäAinelista()
           
         }
         
@@ -533,23 +533,8 @@ object GUI extends SimpleSwingApplication {
     
   }
   
-  
-  // Tällä metodilla päivitetään kaikki ikkunat - yleensä tietojen muuttuessa.
-  def päivitä() = {
-    
-    UI.täytäVarasto()
 
-    if (aine != null) päivitäOminaisuudet()
-    
-    aineikkuna.repaint()
-    varIkkuna.repaint()
-    reseptiIkkuna.repaint()
-    //ainelistaTiedot = UI.ainelista
-    ainelista.repaint()
-    pääikkuna.repaint()
-    
-  }
-  
-  this.päivitä()
+
+
   
 }
