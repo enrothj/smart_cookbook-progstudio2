@@ -52,7 +52,7 @@ object UI extends App {
     }
     // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
     
-    val allergeenit = if (allergeeniSuodatin.length > 0) allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer else Buffer[String]()
+    val allergeenit = if (allergeeniSuodatin.length > 0) poistaVälit(allergeeniSuodatin).split(",").toBuffer else Buffer[String]()
     
     var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
     
@@ -96,7 +96,7 @@ object UI extends App {
     }
     // Ensin  muutetaan parametrina saadut tekstit hae-metodille sopivaan muotoon.
     
-    val allergeenit = if (allergeeniSuodatin.length > 0) allergeeniSuodatin.trim.toLowerCase.split(",").toBuffer else Buffer[String]()
+    val allergeenit = if (allergeeniSuodatin.length > 0) poistaVälit(allergeeniSuodatin).split(",").toBuffer else Buffer[String]()
     
     var nPuuttuvat: Int = if (maxPuuttuvatAineet.length > 0) maxPuuttuvatAineet.toInt else 20
     
@@ -138,12 +138,12 @@ object UI extends App {
     määräJaMitta: String) {
     
     val nimi = korjaaNimi(uusiNimi)
-    val allergeenilista: Buffer[String] = if (allergeenit.length > 0) allergeenit.trim.toLowerCase.split(",").toBuffer else Buffer()
+    val allergeenilista: Buffer[String] = if (allergeenit.length > 0) poistaVälit(allergeenit).split(",").toBuffer else Buffer()
     val kuvaus = uusiKuvaus
     
     try {
       // Tunnistetaan annetut parametrit tekstistä ja tarkistetaan niiden formaatti
-      val mitat: Array[String] = if (määräJaMitta.length > 0) määräJaMitta.trim.toLowerCase.split(",") else Array("0.0","0.0","kpl")
+      val mitat: Array[String] = if (määräJaMitta.length > 0) poistaVälit(määräJaMitta).split(",") else Array("0.0","0.0","kpl")
       val tiheys               = if (!mitat(0).isEmpty()) mitat(0).toDouble else 0.0
       val määrä                = if (!mitat(1).isEmpty()) mitat(1).toDouble else 0.0
       println(mitat(2) + " " + Muuntaja.tunnistettu(mitat(2)))
