@@ -1,2 +1,6 @@
 väliraportti 13.3.
 ei muutoksia tehty, ohjelma edelleen toimiva, mutta parantelematon
+
+väliraportti 26.3.
+ei muutoksia tehty, ohjelma edelleen toimiva
+tutkin parhaillaan scala swing -kirjastoa graafisen käyttöliittymän parantelemiseksi
