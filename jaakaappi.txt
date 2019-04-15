@@ -6,3 +6,4 @@ vehnäjauho,0.0
 bolognesekastike,0.0
 tomaattikastike,500.0
 spagetti,800.0
+ruisleipa,70.0
