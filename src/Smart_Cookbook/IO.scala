@@ -81,13 +81,7 @@ object IO {
   // metodi lukee tekstitiedoston ja luo tietojen perusteella uuden Aine-olion
   def lue(tiedostonimi: String): Aine = {
     
-    // Tarkistetaan, että annetun niminen tiedosto on olemassa.
-    require( Files.exists(Paths.get(tiedostonimi)) )
-    
     var nimi: String = ""; var kuvaus: String = ""
-    
-    
-    val tiedosto = Source.fromFile(tiedostonimi)
     
     var tiheys: Double = 0.0
     var määrä: Double = 0.0
@@ -97,6 +91,10 @@ object IO {
     var allergeenit: Buffer[String] = Buffer()
     
     try {
+      // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+      require( Files.exists(Paths.get(tiedostonimi)) )
+      
+      val tiedosto = Source.fromFile(tiedostonimi)
       
       val riveja = tiedosto.getLines().toVector
       
@@ -137,6 +135,11 @@ object IO {
       
     }
     
+    if (nimi == "") {
+      virhe("Uuden aineen luonti epäonnistui", GUI.pääikkuna)
+      return null
+    }
+    
     new Aine(nimi, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
   }
@@ -144,17 +147,16 @@ object IO {
   
   // metodi lueAinesosat täyttää aineen ainesosat-muuttujan tekstitiedoston tiedoilla
   def lueAinesosat(tiedostonimi: String) = {
-    // Tarkistetaan, että annetun niminen tiedosto on olemassa.
-    require( Files.exists(Paths.get(tiedostonimi)) )
-        
-    val tiedosto = Source.fromFile(tiedostonimi)
-     
+    
     var aine: Aine = null
     var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()
-
     
     try {
-      
+      // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+      require( Files.exists(Paths.get(tiedostonimi)) )
+        
+      val tiedosto = Source.fromFile(tiedostonimi)
+     
       val riveja = tiedosto.getLines().toVector
       
       var rivinro = 1 // Muuttujan avulla tiedetään, mitä tietoja kyseiseltä tiedoston riviltä pitäisi löytyä, esimerkiksi ensimmäiseltä riviltä
@@ -162,7 +164,7 @@ object IO {
       
       for (rivi <- riveja) {
         if (rivinro == 1) {
-          aine = Varasto.varasto.keys.find(_.nimi == rivi).getOrElse(throw new VirheellinenData("Kyseistä ainetta ei ole tiedossa", rivi))
+          aine = Varasto.varasto.keys.find(_.nimi == rivi).getOrElse(throw new VirheellinenData("Kyseistä ainetta "+rivi+" ei ole tiedossa", rivi))
           rivinro += 1 // Ensimmäiseltä riviltä haetaan kyseessä oleva aine.
         }
         
@@ -180,15 +182,16 @@ object IO {
       }
     } catch {
       
-      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      case e: IllegalArgumentException => virhe("Annettua tiedostoa " +tiedostonimi+" ei ole olemassa tai se on korruptoitunut.", GUI.pääikkuna);
       
-      case e: VirheellinenData => println("Annettiin väärää dataa")
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
       
-      case e: OlematonAinesosa => println(e.kuvaus)
+      case e: OlematonAinesosa => virhe(e.kuvaus, GUI.pääikkuna)
       
     }
-    
-    aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisältö tekstitiedostoa vastaavaksi.
+    if (aine != null) {
+      aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisältö tekstitiedostoa vastaavaksi.
+    }
   }
   
   
@@ -197,17 +200,14 @@ object IO {
    */
   
   def lataa() = {
-    
-    // Jos jääkaappitiedostoa ei ole olemassa, se luodaan
-    if ( Files.exists(Paths.get("jaakaappi.txt")) ) {
-      tallenna()
-    }
-    
-    val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
-    
-    
     try {
-      
+      // Jos jääkaappitiedostoa ei ole olemassa, se luodaan
+      if ( Files.exists(Paths.get("jaakaappi.txt")) ) {
+        tallenna()
+      }
+    
+      val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
+    
       val riveja = tiedosto.getLines().toVector
       
       // Ensin luodaan kaikki "jaakaappi.txt"-tiedostolla olevat Aineet.
@@ -219,7 +219,9 @@ object IO {
         val määrä        = tiedot(1).toDouble
         
         // Kutsutaan Varaston uusiAine-metodia, jolla lisätään metodin lue avulla aineSijainnin määrittelemä Aine-olio Varaston muistiin.
-        Varasto.uusiAine( lue(aineSijainti), määrä )          
+        val aine = lue(aineSijainti)
+        if (aine == null) throw new VirheellinenData("Ainetta " + tiedot(0) + " ei onnistuttu luomaan", tiedot(0)) 
+        Varasto.uusiAine( aine, määrä )          
         
       } 
       
@@ -230,9 +232,9 @@ object IO {
       
     } catch {
       
-      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      case e: IllegalArgumentException => virhe("Jääkaappi-tiedostossa on virheellistä dataa.", GUI.pääikkuna);
       
-      case e: VirheellinenData => println("Annettiin väärää dataa")
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
       
 
       
@@ -246,6 +248,8 @@ object IO {
     
     new File(sijainti).delete()
   }
+  
+  private def virhe(viesti: String, ikkuna: scala.swing.Window) = GUI.virheviesti(viesti, ikkuna)
   
   
 }
