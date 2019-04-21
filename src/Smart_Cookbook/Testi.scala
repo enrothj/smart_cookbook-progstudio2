@@ -24,6 +24,26 @@ class Testi extends FlatSpec {
     assert( sb.aineetYhteensä.length === 4 ) 
   }
   
+  "IO kirjoita" should "tallentaa annettu aine tekstitiedostolle" in {
+    ???
+  }
+  
+  "IO tallenna" should "luoda tekstitiedosto, jossa on kaikki aineet" in {
+    ???
+  }
+  
+  "IO lue" should "hakea aineet annetusta tekstitiedostosta oikeine määrineen" in {
+    ???
+  }
+  
+  "IO lue" should "heittää poikkeus, kun tekstitiedoston tieto on vääränlaista" in {
+    ???
+  }
+  
+  "IO lue" should "heittää poikkeus, kun annettua tiedostoa ei ole olemassa" in {
+    ???
+  }
+  
   
   
 }
