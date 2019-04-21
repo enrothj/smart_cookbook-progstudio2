@@ -158,10 +158,10 @@ object UI extends App {
       tallennaTiedot()
       
     } catch {
-      case e: IllegalArgumentException       => println("annettu väärät parametrit: " + e.toString())
-      case e: NumberFormatException          => println("Jokin mitoista on väärässä formaatissa")
-      case e: VirheellinenMittayksikkö       => println("Annettiin tunnistamaton mittayksikkö")
-      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
+      case e: IllegalArgumentException       => virhe("annettu väärät parametrit: " + e.toString(), GUI.aineikkuna)
+      case e: NumberFormatException          => virhe("Jokin mitoista on väärässä formaatissa", GUI.aineikkuna)
+      case e: VirheellinenMittayksikkö       => virhe("Annettiin tunnistamaton mittayksikkö:" +e.virheData, GUI.aineikkuna)
+      case e: ArrayIndexOutOfBoundsException => virhe("Johonkin kenttään annettiin väärä määrä tietoja.", GUI.aineikkuna)
     }
     
     
@@ -256,10 +256,10 @@ object UI extends App {
       onnistui
       
     } catch {
-      case e: NumberFormatException => println("Annettu määrä on väärässä formaatissa"); onnistui
-      case e: IllegalArgumentException => println("Annettiin tuntematon operaattori"); onnistui
-      case e: OlematonAinePoikkeus  => println("Ohjelma ei tunne ainetta " + e.virheData); onnistui
-      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja."); onnistui
+      case e: NumberFormatException => virhe("Annettu määrä on väärässä formaatissa", GUI.reseptiIkkuna); onnistui
+      case e: IllegalArgumentException => virhe("Annettiin tuntematon operaattori. Hyväksytyt operaattorit ovat +, - ja =", GUI.reseptiIkkuna); onnistui
+      case e: OlematonAinePoikkeus  => virhe("Ohjelma ei tunne ainetta " + e.virheData, GUI.reseptiIkkuna); onnistui
+      case e: ArrayIndexOutOfBoundsException => virhe("Johonkin kenttään annettiin väärä määrä tietoja.", GUI.reseptiIkkuna); onnistui
     }
   }
   
@@ -331,10 +331,10 @@ object UI extends App {
       
     } catch {
       
-      case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
-      case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
-      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
-      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
+      case e: OlematonAinePoikkeus     => virhe("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa", GUI.aineikkuna)
+      case e: NumberFormatException    => virhe("Annettu määrä on väärässä formaatissa", GUI.aineikkuna)
+      case e: IllegalArgumentException => virhe("Annettiin vääränlainen syöte", GUI.aineikkuna)
+      case e: ArrayIndexOutOfBoundsException => virhe("Johonkin kenttään annettiin väärä määrä tietoja.", GUI.aineikkuna)
     }
     
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
@@ -387,9 +387,9 @@ object UI extends App {
       
       
     } catch {
-      case e: OlematonAinePoikkeus => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
-      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
-      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
+      case e: OlematonAinePoikkeus           => virhe("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa", GUI.aineikkuna)
+      case e: IllegalArgumentException       => virhe("Annettiin vääränlainen syöte", GUI.aineikkuna)
+      case e: ArrayIndexOutOfBoundsException => virhe("Johonkin kenttään annettiin väärä määrä tietoja.", GUI.aineikkuna)
     }
     
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
@@ -433,10 +433,10 @@ object UI extends App {
       
     } catch {
       
-      case e: OlematonAinePoikkeus     => println("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa")
-      case e: NumberFormatException    => println("Annettu määrä on väärässä formaatissa")
-      case e: IllegalArgumentException => println("Annettiin vääränlainen syöte")
-      case e: ArrayIndexOutOfBoundsException => println("Johonkin kenttään annettiin väärä määrä tietoja.")
+      case e: OlematonAinePoikkeus           => virhe("Annettua ainetta " + e.virheData + " ei ole ohjelman tiedoissa", GUI.aineikkuna)
+      case e: NumberFormatException          => virhe("Annettu määrä on väärässä formaatissa", GUI.aineikkuna)
+      case e: IllegalArgumentException       => virhe("Annettiin vääränlainen syöte", GUI.aineikkuna)
+      case e: ArrayIndexOutOfBoundsException => virhe("Johonkin kenttään annettiin väärä määrä tietoja.", GUI.aineikkuna)
     }
     // tallennetaan tiedot tekstitiedostoille, etteivät tiedot katoa
     tallennaTiedot()
@@ -492,15 +492,15 @@ object UI extends App {
       Muuntaja.laskeTiheys(massa, mYksikkö, tilavuus, tYksikkö)
       
     } catch {
-      case e: NumberFormatException    => println("Annettiin virheellinen lukuarvo: " + komento); 0.0
-      case e: IllegalArgumentException => println("Annettiin virheellinen syöte: " + komento); 0.0
-      case e: KappaleMuunnos           => println("Kappalemuodosta ei voi laskea tiheyttä"); 0.0
-      case e: VirheellinenMittayksikkö => println(e.kuvaus); 0.0
+      case e: NumberFormatException    => virhe("Annettiin virheellinen lukuarvo: " + komento, GUI.pääikkuna); 0.0
+      case e: IllegalArgumentException => virhe("Annettiin virheellinen syöte: " + komento, GUI.pääikkuna); 0.0
+      case e: KappaleMuunnos           => virhe("Kappalemuodosta ei voi laskea tiheyttä", GUI.pääikkuna); 0.0
+      case e: VirheellinenMittayksikkö => virhe(e.kuvaus, GUI.pääikkuna); 0.0
     }
     
     
   }
   
-  
+  private def virhe(viesti: String, ikkuna: scala.swing.Window) = GUI.virheviesti(viesti, ikkuna)
   
 }
