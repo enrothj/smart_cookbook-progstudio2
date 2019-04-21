@@ -1,0 +1,54 @@
+
+
+Arvioija: Valtteri Nurminen Nurminen (valtteri.e.nurminen@aalto.fi)
+Arvosana: 3
+= Hyvää =
+
+Versionhallintaa on käytetty projektissa hyvin - työn edistyessä versionhallintaan on tehty jatkuvasti pieniä commit:eja. Tämä on hyvä käytäntö. Commit-viestisi ovat myös pääasiassa lyhyitä ja selkeitä niinkuin pitääkin.
+
+Dokumentti on melko hyvä - kaikki vaaditut kohdat löytyvät ja dokumentin perusteella ohjelmasta saa hyvän yleiskuvan. Ohjelman rakennetta on myös kuvattu hyvin.
+Siinä on myös rehellisesti ja riittävän kattavasti kerrottu ohjelman ominaisuuksista ja puutteista.
+
+Koodin rakenne on selkeä.
+Koodi on miellyttävän väljää, mikä helpottaa luettavuutta.
+Muuttujat, metodit ja luokat on nimetty selkeästi.
+Ohjelma on jaettu järkeviin kokonaisuuksiin.
+Ohjelmassa on selkeä modulaarinen rakenne.
+Koodi on pääasiassa selkeää ja hyvin kommentoitua.
+Käyttöliittymä ja logiikka on erotettu toisistaan.
+Tiedostoformaatti on hyvin kuvattu, vaikka formaatti ei olekaan aivan selkeimmästä päästä ainakaan ihmiselle luettavuuden näkökulmasta.
+Yksinkertaiset, mutta riittävät tiedostomuodot.
+Rekursiota on käytetty fiksusti.
+Olit kirjoittanut muutaman testin (tarkemmin sanottuna 2 testiä).
+
+Virheiden käsittely tehty hyvin, käyttäjälle ilmoitetaan virheellisistä syötteistä (tosin monesti vain konsolissa) eikä ohjelma yleensä kaadu.
+
+= Kehitettävää =
+
+Olisin kaivannut tietorakenteita ja algoritmeja käsitteleviin osioihin perusteellisempaa käsittelyä.
+Vaihtoehtoisia ratkaisumalleja olisi voinut pohtia enemmän ja perustella valittua.
+Osa valitsemistasi parhaista ja heikoista kohdista keskittyvät pitkälti ei-ohjelmoinnillisiin seikkoihin.
+
+Älä käytä ääkkösiä koodissa. Ne aiheuttavat usein ongelmia eri käyttöjärjestelmissä ja aputyökaluissa.
+Kaikkien listan alkioiden iterointi operaatioissa, missä halutaan tutkia vain yhtä on hyvin tehotonta. Mm. hajautustaulu (Map) olisi voinut olla paljon parempi valinta.
+
+Vältä Any-tyypin käyttämistä! Sen antaminen tyyppiparametriksi johtaa siihen, että kokoelman sisältämät alkiot voivat olla keskenään hyvinkin erityyppisiä etkä pysty käyttämään näiden alkioiden metodeja tai julkisia muuttujia typecastaamatta niitä oikeiksi tyypeikseen.
+
+Käyttöliittymän ulkoasussa ja toiminnallisuudessa olisi kehittämistä - nyt ohjelman käyttö perustui turhan paljon tekstikomentotyyppisiin syötteisiin, jotka vain annettiin graafisen käyttöliittymän kautta.
+
+Käyttöliittymä ei anna palautetta, jos yritetään tehdä jotakin väärin. Sen sijaan virheviestit tulostuvat konsoliin, mikä on käyttäjän näkökulmasta outoa. Tärkeintä on kuitenkin se, että ohjelma ei kaadu ja siinä mielessä toiminta on mielekästä.
+Testit eivät missään nimessä ole riittävät kattamaan ohjelman toimintoja merkittävällä tavalla.
+Ohjelma kaatuu herkästi virheellisiin syötetiedostoihin.
+
+= Kommentteja =
+
+Lopullinen toteutus on tehty vaikeustasolla keskivaikea.
+Perustelut ohjelman toteutuksessa tehdyille valinnoille ovat hieman hatarat, mutta olemassa.
+Karu mutta toimiva käyttöliittymä.
+
+Ohjelma sisältää tehtävänannon vaatiman toiminnallisuuden. Siinä ei ole juuri puutteita eikä erityisiä parannuksia vaatimuksiin nähden.
+
+
+= Arvosanan perustelut =
+
+Työ on toteutettu keskivaikealla vaikeustasolla, jonka oletusarvosana on 3. Tehtävänanto toteutuu melko hyvin, vaikka aivan kaikki ominaisuudet eivät toimi täydellisesti. Ohjelman laatu on kohtuullisen hyvä - se ei yleensä kaadu virheellisiin syötteisiin ja testaustakin on tehty (tosin hyvin puutteellisesti). Dokumentaatiossa on käsitelty pyydetyt asiat kohtuuullisesti. Näillä havainnoilla en näe syytä laskea arvosanaa ja näin ollen projektin loppuarvosanaksi tulee 3.
