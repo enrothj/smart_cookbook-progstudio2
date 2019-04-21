@@ -4,6 +4,8 @@ import scala.io.Source
 import scala.collection.mutable.Buffer
 import java.io.PrintWriter
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
  * IO-yksittäisolio käsittelee tekstitiedostoja, joille tallennetaan Varaston ja Aine-olioiden tietoja. Sen metodeilla voidaan
@@ -79,7 +81,11 @@ object IO {
   // metodi lukee tekstitiedoston ja luo tietojen perusteella uuden Aine-olion
   def lue(tiedostonimi: String): Aine = {
     
+    // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+    require( Files.exists(Paths.get(tiedostonimi)) )
+    
     var nimi: String = ""; var kuvaus: String = ""
+    
     
     val tiedosto = Source.fromFile(tiedostonimi)
     
@@ -138,6 +144,8 @@ object IO {
   
   // metodi lueAinesosat täyttää aineen ainesosat-muuttujan tekstitiedoston tiedoilla
   def lueAinesosat(tiedostonimi: String) = {
+    // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+    require( Files.exists(Paths.get(tiedostonimi)) )
         
     val tiedosto = Source.fromFile(tiedostonimi)
      
@@ -189,6 +197,11 @@ object IO {
    */
   
   def lataa() = {
+    
+    // Jos jääkaappitiedostoa ei ole olemassa, se luodaan
+    if ( Files.exists(Paths.get("jaakaappi.txt")) ) {
+      tallenna()
+    }
     
     val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
     
