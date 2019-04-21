@@ -202,7 +202,7 @@ object IO {
   def lataa() = {
     try {
       // Jos jääkaappitiedostoa ei ole olemassa, se luodaan
-      if ( Files.exists(Paths.get("jaakaappi.txt")) ) {
+      if ( !Files.exists(Paths.get("jaakaappi.txt")) ) {
         tallenna()
       }
     
