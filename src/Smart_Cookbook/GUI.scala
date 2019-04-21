@@ -567,7 +567,11 @@ object GUI extends SimpleSwingApplication {
     
   }
   
-
+  // Muut luokat ja metodit voivat kutsua tätä metodia näyttääkseen käyttäjälle viestin, että jotain meni pieleen.
+  // viesti-parametrissä kerrotaan mikä meni pieleen, ja ikkuna-parametri määrittää missä käyttöliittymän ikkunassa viesti näytetään 
+  def virheviesti(viesti: String, ikkuna: Window) = {
+    Dialog.showMessage(ikkuna, viesti, "Virhe")
+  }
 
 
   
