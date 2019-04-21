@@ -42,7 +42,7 @@ object UI extends App {
   
   
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten. HUOM TARPEETON TÄLLÄ HETKELLÄ, koska GUI ei käytä enää Table-olioita
-  def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[Any]] = {
+  def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[(String, Double)]] = {
 
     // Tarkistetaan, että annettu maxPuuttuvatAineet vastaa muotoa Int (jos se on ylipäätään annettu).
     try {
@@ -70,9 +70,9 @@ object UI extends App {
     if (allergeenit.length > 0) hakutulos = Hakukone.suodataAllergeenit(allergeenit, hakutulos)
       
     val tulostaulukko = {  // Taulukko, jossa on kaikki löydetyt aineet ja niiden määrät
-      var tulokset: Buffer[Array[Any]] = Buffer()
+      var tulokset: Buffer[Array[(String, Double)]] = Buffer()
       for (aine <- hakutulos) {
-        tulokset += Array(aine.nimi, Varasto.varasto(aine))
+        tulokset += Array((aine.nimi, Varasto.varasto(aine)))
       }
       tulokset.toArray
     }

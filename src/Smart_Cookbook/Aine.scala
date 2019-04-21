@@ -68,14 +68,14 @@ class Aine(val nimi: String,
    *  mittayksikkö
    *  ainesosat
    */
-  def tietoTaulukko: Array[Array[Any]] = {
-    var sarakkeet: Buffer[Array[Any]] = Buffer()
+  def tietoTaulukko: Array[Array[String]] = {
+    var sarakkeet: Buffer[Array[String]] = Buffer()
     
     // Lisätään jokainen tietorivi muodossa Array(ominaisuus, arvo)
     sarakkeet += Array("nimi", this.nimi)
     sarakkeet += Array("allergeenit", this.listaaAllergeenit)
-    sarakkeet += Array("tiheys (g/ml)", this.tiheys)
-    sarakkeet += Array("määrä", this.määrä)
+    sarakkeet += Array("tiheys (g/ml)", this.tiheys.toString())
+    sarakkeet += Array("määrä", this.määrä.toString())
     sarakkeet += Array("mittayksikkö", this.mittayksikkö)
     sarakkeet += Array("ainesosat", this.listaaAinesosat)
     
