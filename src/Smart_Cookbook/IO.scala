@@ -127,9 +127,9 @@ object IO {
         
     } catch {
       
-      case e: IllegalArgumentException => println("Annettiin väärä parametri");
+      case e: IllegalArgumentException => virhe("Annettiin väärä parametri", GUI.pääikkuna);
       
-      case e: VirheellinenData => println("Annettiin väärää dataa")
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
       
       //case _: Throwable => println("Tapahtui odottamaton virhe")
       
