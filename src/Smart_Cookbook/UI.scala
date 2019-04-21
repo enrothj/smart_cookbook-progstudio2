@@ -18,7 +18,7 @@ object UI extends App {
     
   }
   
-  def ainelista: Array[Array[Any]] = if (!Varasto.varasto.isEmpty) Varasto.listaaAineet else Array(Array("Varastossa ei ole aineita", 0.0, ""))
+  def ainelista: Array[Array[(String, Double, String)]] = if (!Varasto.varasto.isEmpty) Varasto.listaaAineet else Array(Array(("Varastossa ei ole aineita", 0.0, "")))
   
   // Metodi palauttaa varaston tiedot merkkijonona. Jokaisella rivillä on aine, sen määrä ja sen allergeenit
   def listaaVarasto: String = {

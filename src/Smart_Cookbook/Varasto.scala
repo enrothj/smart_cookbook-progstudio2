@@ -60,16 +60,16 @@ object Varasto {
   
   
   // Metodi listaaAineet palauttaa kaksiulotteisen taulukon, jossa on jokaisen aineen nimi, määrä ja allergeenit. Käytetään käyttöliittymän pääikkunan listaa varten
-  def listaaAineet: Array[Array[Any]] = {
+  def listaaAineet: Array[Array[(String, Double, String)]] = {
     
-    var rivit: Buffer[Array[Any]] = Buffer()
+    var rivit: Buffer[Array[(String, Double, String)]] = Buffer()
     
     for (aine <- varasto) {
       val aineenNimi        = aine._1.nimi
       val aineenMäärä       = aine._2
       val aineenAllergeenit = aine._1.allergeenit.mkString(", ")
       
-      val taulukko = Array(aineenNimi, aineenMäärä, aineenAllergeenit)
+      val taulukko = Array((aineenNimi, aineenMäärä, aineenAllergeenit))
       
       rivit += taulukko
     }
