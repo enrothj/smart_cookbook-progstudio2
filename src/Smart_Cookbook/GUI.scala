@@ -541,7 +541,7 @@ object GUI extends SimpleSwingApplication {
                                        + "+ [ainesosan nimi] [maara] [mittayksikko]\n"
                                        + "- [ainesosan nimi]\n"
                                        + "= [ainesosan nimi] [maara] [mittayksikko]",
-                           initial = "[+/-/=] [ainesosan nimi]  [maara] [mittayksikko]")
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.hallitseAinesosia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
@@ -562,7 +562,7 @@ object GUI extends SimpleSwingApplication {
                                        + "+ [allergeenin nimi]\n"
                                        + "- [allergeenin nimi]\n"
                                        + "= [allergeeni1] [allergeeni2] [allergeeni3] [jne.]",
-                           initial = "[+/-/=] [allergeenin nimi]")
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.hallitseAllergeeneja(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
@@ -580,8 +580,9 @@ object GUI extends SimpleSwingApplication {
           
           var muutettiin: Boolean = false
           val syote = Dialog.showInput(aineikkuna, "Tasta voi muuttaa aineen ominaisuuksia. Syota muutettava ominaisuus ja sopiva uusi arvo.\n"
-                                       + "Muutettavia ominaisuuksia ovat yksikko, tiheys (Double), maara (Double) ja kuvaus.",
-                           initial = "[ominaisuus] [uusi arvo]")
+                                       + "Muutettavia ominaisuuksia ovat yksikko, tiheys (Double), maara (Double) ja kuvaus.\n"
+                                       +"[ominaisuus] [uusi arvo]",
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.hallitseOminaisuuksia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
