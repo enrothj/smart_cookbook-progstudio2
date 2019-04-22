@@ -80,8 +80,8 @@ object Hakukone {
       else false // Kappalemittaista ainetta voi verrata vain kappalemittaiseen.
       
     } catch {
-      case e: OlematonAinePoikkeus => println(nimi + " ei ole ohjelman tiedossa oleva aine. Hypataan yli..."); false
-      case e: KappaleMuunnos       => println(e.kuvaus + " (" + e.virheData + " --> " + mitta + ")"); false
+      case e: OlematonAinePoikkeus => virhe(nimi + " ei ole ohjelman tiedossa oleva aine. Hypataan yli..."); false
+      case e: KappaleMuunnos       => virhe(e.kuvaus + " (" + e.virheData + " --> " + mitta + ")"); false
     }
   }
   
@@ -147,6 +147,6 @@ object Hakukone {
     nimenSisaltavat.toVector
   }
   
-
+  private def virhe(viesti: String) = GUI.virheviesti(viesti, GUI.hakuikkuna)
   
 }
