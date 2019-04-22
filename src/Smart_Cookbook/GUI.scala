@@ -511,7 +511,7 @@ object GUI extends SimpleSwingApplication {
   
   
   // Tama metodi paivittaa aineen ominaisuuslistan.
-  def paivitaOminaisuudet() = {
+  def paivitaOminaisuudet() = if (aine != null) {
     ainetiedot = aine.tietotaulukkoTekstina
     ominaisuuslista.text = ainetiedot
     ominaisuuslista.repaint()
