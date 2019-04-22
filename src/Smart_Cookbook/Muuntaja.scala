@@ -156,7 +156,7 @@ object Muuntaja {
     uusiMaara
   }
   
-  // muunna kayttaa laske-metodia, mutta saa tiheyden ja aloitusmittayksikon annetulta Aine-oliolta.
+  // muunna kayttaa laske-metodia, mutta saa tiheyden ja aloitusmittayksikon annetulta Aine-oliolta. yksikko-parametri vastaa laske-metodin yksikko2-parametria
   def muunna(aine: Aine, maara: Double, yksikko: String): Double = laske(aine.tiheys, aine.mittayksikko, maara, yksikko)
   
   // Metodi laskee tiheyden annetuilla parametreilla.
