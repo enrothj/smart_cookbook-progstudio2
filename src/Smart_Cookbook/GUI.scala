@@ -96,8 +96,11 @@ object GUI extends SimpleSwingApplication {
            case Some(nimi) => {
              try {
                aine = UI.avaaAine(nimi)
-               paivitaOminaisuudet()
-               aineikkuna.open()
+               if (aine != null) {
+                 paivitaOminaisuudet()
+                 aineikkuna.open()
+               }
+
              } catch {
                case e: OlematonAinePoikkeus => Dialog.showMessage(aineikkuna, e.kuvaus)
                
