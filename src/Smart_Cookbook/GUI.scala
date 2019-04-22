@@ -259,19 +259,33 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Paakomponentit:
-  val uusiNimi     = new TextField("Aineen nimi")
-  val allergeenit  = new TextField("Allergeenit")
-  val maaraJaMitta = new TextField("tiheys, maara, mittayksikko") // tiheys, maara ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
-  val uusiKuvaus   = new TextField("Aineen kuvaus")
+  val nimiSelite   = new TextPane{text= "Aineen nimi"; editable = false}
+  val uusiNimi     = new TextField()
+  val allSelite    = new TextPane{text= "Allergeenit"; editable = false}
+  val allergeenit  = new TextField()
+  val mittaSelite  = new TextPane{
+                       text= {
+                         "Tiheys, määrä, mittayksikkö, jotka erotetaan pilkulla (esim.  0.0,5.0,\"kpl\"  )\n"+ 
+                         "Sallitut painomitat ovat g, kg, lb, oz ja kpl.\nSallitut tilavuudet ovat ml, dl, l, tl, rkl, cup ja pint."
+                          }
+                        editable = false
+                     }
+  val maaraJaMitta = new TextField() // tiheys, maara ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
+  val kuvausSelite = new TextPane{text= "Aineen kuvaus"; editable = false}
+  val uusiKuvaus   = new TextField()
   
   val resTallenna  = new Button("Tallenna")
   val resPeruuta   = new Button("Peruuta")
   
   // Paneeli tekstikentille
   val resTekstit       = new BoxPanel(Orientation.Vertical)
+  resTekstit.contents += nimiSelite
   resTekstit.contents += uusiNimi
+  resTekstit.contents += allSelite
   resTekstit.contents += allergeenit
+  resTekstit.contents += mittaSelite
   resTekstit.contents += maaraJaMitta
+  resTekstit.contents += kuvausSelite
   resTekstit.contents += uusiKuvaus
   
   // Paneeli napeille
