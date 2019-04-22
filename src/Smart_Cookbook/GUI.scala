@@ -112,8 +112,10 @@ object GUI extends SimpleSwingApplication {
         case "Tiheyslaskuri"    => { // Tama avaa tiheyslaskurin, jolla voidaan helpommin selvittaa aineen tiheys
           
           // Pyydetaan syote kayttajalta
-          val syote = Dialog.showInput(aineikkuna, "Laske tiheys antamalla aineen massa ja tilavuus. Tiheys palautetaan ohjelman kayttamassa yksikossa g/ml.", "Tiheyslaskuri",
-                              initial = "[massan arvo] [massayksikko] [tilavuuden arvo] [tilavuusyksikko]")
+          val syote = Dialog.showInput(aineikkuna, "Laske tiheys antamalla aineen massa ja tilavuus. Tiheys palautetaan ohjelman kayttamassa yksikossa g/ml.\n"+
+              "[massan arvo] [massayksikko] [tilavuuden arvo] [tilavuusyksikko]",
+              "Tiheyslaskuri",
+              initial = "")
          syote match {
             
            case Some(komento) => {
