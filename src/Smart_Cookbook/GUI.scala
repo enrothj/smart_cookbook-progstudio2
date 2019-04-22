@@ -392,8 +392,9 @@ object GUI extends SimpleSwingApplication {
         case "Muuta aineen maaraa"         => { // Tasta kaytetaan metodia UI.muutaMaaraa
           
           var muutettiin: Boolean = false  // Tahan muuttujaan tallennetaan tieto onnistuneesta muutoksesta.
-          val syote = Dialog.showInput(varIkkuna, "Syota haluamasi komento: \n+ lisaa\n- vahentaa\n= asettaa maaran",
-                           initial = "[aineen nimi] [+/-/=] [haluttu maara]")
+          val syote = Dialog.showInput(varIkkuna, "Syota haluamasi komento: \n+ lisaa\n- vahentää\n= asettaa määrän\n"+
+                           "[aineen nimi] [+/-/=] [haluttu määrä]",
+                           initial = "")
           syote match {
             case Some(komento) => muutettiin = UI.muutaMaaraa(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
             case None          => 
@@ -405,9 +406,10 @@ object GUI extends SimpleSwingApplication {
         case "Muuta aineen mittayksikkoa"  => { // tasta kaytetaan metodia UI.muutaYksikko
           
           var muutettiin: Boolean = false
-          val syote = Dialog.showInput(varIkkuna, "Anna aineen nimi ja haluamasi mittayksikko (lyhennettyna).\n" +
-                                                 "HUOM: Kappalemuotoon voi muuttaa vain aineen omista tiedoista",
-                           initial = "[aineen nimi] [haluttu mittayksikko]")
+          val syote = Dialog.showInput(varIkkuna, "Anna aineen nimi ja haluamasi mittayksikko (lyhennettynä).\n" +
+                                                 "HUOM: Kappalemuotoon voi muuttaa vain aineen omista tiedoista\n"+
+                                                 "[aineen nimi] [haluttu mittayksikko]",
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.muutaYksikko(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
@@ -422,8 +424,8 @@ object GUI extends SimpleSwingApplication {
         case "Poista aine varastosta"      => {// tasta kaytetaan metodia UI.poistaAine
           
           var muutettiin: Boolean = false
-          val syote = Dialog.showInput(varIkkuna, "Anna poistettavan aineen nimi",
-                           initial = "[aineen nimi]")
+          val syote = Dialog.showInput(varIkkuna, "Anna poistettavan aineen nimi\n[aineen nimi]",
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.poistaAine(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
@@ -439,8 +441,9 @@ object GUI extends SimpleSwingApplication {
           var muutettiin: Boolean = false
           val syote = Dialog.showInput(varIkkuna, "Kirjoita 'nollaa' tai 'tyhjenna'.\n"
                                        + "Nollaa asettaa jokaisen aineen maaraksi 0.0\n"
-                                       + "Tyhjenna poistaa kaikki aineet ohjelman Varastosta",
-                           initial = "HUOM: Tyhjentaminen ei poista olemassaolevia tekstitiedostoja.")
+                                       + "Tyhjenna poistaa kaikki aineet ohjelman Varastosta\n"
+                                       + "HUOM: Tyhjentaminen ei poista olemassaolevia tekstitiedostoja.",
+                           initial = "")
                            
           syote match {
             case Some(komento) => muutettiin = UI.tyhjennys(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
