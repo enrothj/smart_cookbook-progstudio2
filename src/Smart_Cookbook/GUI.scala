@@ -146,11 +146,23 @@ object GUI extends SimpleSwingApplication {
    */
   
   // Paakomponentit:
-  val hakuSelitys = new Label("Hae lista aineista, jotka tayttavat haluamasi hakukriteerit. Kentat ovat:")
   
-  val aineenNimi           = new TextField("Aineen nimi")               // Tama kentta taytetaan, jos halutaan tietyn niminen aine
-  val allergeeniSuodatin   = new TextField("Suodatettavat allergeenit") // Tahan kenttaan taytetaan valtettavat allergeenit, erotettuna pilkulla
-  val maxPuuttuvatAineet   = new TextField("Max puuttuvat aineet")      // Tahan kenttaan maaritellaan kuinka monta ainesosaa saa puuttua varastosta
+  val hakuohje = new TextPane{
+    text = "Tässä ikkunassa voit hakea listan aineista, jotka täyttävät haluamasi hakukriteerit.\n" +
+            "Jos haluat hakea tietyn nimisen aineen, kirjoita nimikenttään. Jos haluat poistaa\n" +
+            "hakutuloksista aineet, jotka sisältävät tiettyjä allergeenejä, kirjoita ne toiseen \n" +
+            "kenttään, pilkuilla erotettuna (esim. \"maito,vehnä\" ). Kolmanteen kenttään voit\n" +
+            "kirjoittaa kuinka monta ainetta saa puuttua löydetyistä resepteistä. Kirjoita 0, \n" +
+            "jos haluat, että aineen voi valmistaa varastossa jo olevista aineksista."
+    editable = false
+  }
+  val hakuNimi = new TextPane{text="Aineen nimi"; editable=false}
+  val hakuSuodatin = new TextPane{text="Suodatettavat allergeenit"; editable=false}
+  val hakuMaxPuuttuvat = new TextPane{text="Puuttuvien aineiden enimmäismäärä"; editable=false}
+  
+  val aineenNimi           = new TextField      // Tama kentta taytetaan, jos halutaan tietyn niminen aine
+  val allergeeniSuodatin   = new TextField      // Tahan kenttaan taytetaan valtettavat allergeenit, erotettuna pilkulla
+  val maxPuuttuvatAineet   = new TextField      // Tahan kenttaan maaritellaan kuinka monta ainesosaa saa puuttua varastosta
   
   /*
    *  Tata nappia painettaessa ohjelma yrittaa hakea ainelistan annetuilla parametreilla. Tulokset avataan 
@@ -162,9 +174,12 @@ object GUI extends SimpleSwingApplication {
   
   // Paneeli, jossa ovat hakukentat
   val hakuTekstit          = new BoxPanel(Orientation.Vertical)
-  hakuTekstit.contents    += hakuSelitys
+  hakuTekstit.contents    += hakuohje
+  hakuTekstit.contents    += hakuNimi
   hakuTekstit.contents    += aineenNimi
+  hakuTekstit.contents    += hakuSuodatin
   hakuTekstit.contents    += allergeeniSuodatin
+  hakuTekstit.contents    += hakuMaxPuuttuvat
   hakuTekstit.contents    += maxPuuttuvatAineet  // Tama on kaytannossa ainoa, johon voi antaa virheellisen syotteen.
   
   // Paneeli, jossa ovat hakunapit
@@ -178,7 +193,7 @@ object GUI extends SimpleSwingApplication {
   hakuToiminnot.contents += hakuNapit
   
   // Hakuikkuna
-  val hakuikkuna        = new Frame
+  val hakuikkuna        = new Frame{title="Hakuikkuna"}
   hakuikkuna.contents   = hakuToiminnot
   hakuikkuna.centerOnScreen()
   
