@@ -202,7 +202,13 @@ object UI extends App {
     }
   }
   
-  def avaaAine(nimi: String): Aine = Varasto.aineNimelta(korjaaNimi(nimi))
+  def avaaAine(nimi: String): Aine = {
+    try {
+      Varasto.aineNimelta(korjaaNimi(nimi))
+    } catch {
+      case e: OlematonAinePoikkeus => IO.lue("reseptit/"+nimi+"txt")
+    }
+  }
   
   def asetaMaara(aine: Aine, maara: Double) = Varasto.asetaMaara(aine, maara)
   
