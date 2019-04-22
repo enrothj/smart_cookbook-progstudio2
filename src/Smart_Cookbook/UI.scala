@@ -5,12 +5,12 @@ import scala.collection.mutable.Buffer
 object UI extends App {
   
   // metodi kutsuu IO-olion metodia lataa, joka tayttaa Varaston varasto-muuttujaan kaikki tunnetut Aine-oliot
-  def taytaVarasto() = IO.lataa
+  def taytaVarasto() = IO.lataa("jaakaappi.txt")
   
   // Metodi tallentaa Varaston tiedot ja tunnetut Aine-oliot tekstitiedostoille, kutsumalla IO:n metodeja.
   def tallennaTiedot() = {
     
-    IO.tallenna() // metodi tallentaa varasto-muuttujan tiedot
+    IO.tallenna("jaakaappi.txt") // metodi tallentaa varasto-muuttujan tiedot
     
     for (aine <- Varasto.varasto.keys) { // tallennetaan jokainen Aine-olio
       IO.kirjoita(aine)
