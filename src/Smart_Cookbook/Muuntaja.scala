@@ -23,6 +23,8 @@ package Smart_Cookbook
  *  
  *  Ohjelma kayttaa myos 'yksikkoa' "kpl" kuvaamaan annoksia tai kappaleita. Naita ei kuitenkaan ole tarkoitus muuntaa muihin mittayksikoihin,
  *  joten jos naita syottaa Muuntajalle, ohjelma heittaa KappaleMuunnos-poikkeuksen.
+ *  
+ *  Ohjelma käyttää muunnoksissa tiheyden yksikköä g/ml. (1 g/ml = 1 kg/l, mm. veden tiheys)
  */
 
 
