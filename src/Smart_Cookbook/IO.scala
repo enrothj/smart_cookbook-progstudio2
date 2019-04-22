@@ -92,7 +92,7 @@ object IO {
     
     try {
       // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
-      require( Files.exists(Paths.get(tiedostonimi)) )
+      if ( !Files.exists(Paths.get(tiedostonimi)) ) throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
       
       val tiedosto = Source.fromFile(tiedostonimi)
       
@@ -127,7 +127,9 @@ object IO {
         
     } catch {
       
-      case e: IllegalArgumentException => virhe("Annettiin vaara parametri", GUI.paaikkuna);
+      case e: OlematonAinePoikkeus => virhe(e.kuvaus, GUI.paaikkuna);
+      
+      case e: IllegalArgumentException => virhe("Ainetiedosto "+tiedostonimi+" on korruptoitunut.", GUI.paaikkuna);
       
       case e: VirheellinenData => virhe(e.kuvaus, GUI.paaikkuna)
       
