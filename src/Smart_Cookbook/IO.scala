@@ -61,9 +61,9 @@ object IO {
   /*
    * Metodi tallenna tallentaa Varaston sisaltamat tiedot tekstitiedostolle. Jokaselle riville tulee aineen nimi ja sen maara, esim. "spagetti bolognese, 4.0".
    */
-  def tallenna() = {
+  def tallenna(sijainti: String) = {
     
-    val tiedosto = new PrintWriter("jaakaappi.txt")
+    val tiedosto = new PrintWriter(sijainti)
     
     try {
       
@@ -199,14 +199,14 @@ object IO {
    * Metodi lataa hakee tiedot Varastolle tekstitiedostolta.
    */
   
-  def lataa() = {
+  def lataa(sijainti: String) = {
     try {
       // Jos jaakaappitiedostoa ei ole olemassa, se luodaan
-      if ( !Files.exists(Paths.get("jaakaappi.txt")) ) {
-        tallenna()
+      if ( !Files.exists(Paths.get(sijainti)) ) {
+        tallenna(sijainti)
       }
     
-      val tiedosto = Source.fromFile("jaakaappi.txt")           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
+      val tiedosto = Source.fromFile(sijainti)           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
     
       val riveja = tiedosto.getLines().toVector
       
