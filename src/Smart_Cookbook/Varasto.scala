@@ -4,10 +4,10 @@ import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
 
 /**
- * Varasto-olio pitää kirjaa ohjelman tuntemista aineista ja niiden määristä, eli mallintaa käytännössä käyttäjän jääkaappia. 
- * Merkittävin osa on varasto-muuttuja. Se on hakemisto,johon on tallennettu kaikki Aine-oliot ja niitä vastaavat määrät
- * (aineen oletusmittayksikössä). Varaston tiedot täytetään aina, kun ohjelma käynnistetään, ja tiedot tallennetaan tekstitiedostolle 
- * suljettaessa. Oliolla on paljon metodeja näiden tietojen hallitsemista varten.
+ * Varasto-olio pitaa kirjaa ohjelman tuntemista aineista ja niiden maarista, eli mallintaa kaytannossa kayttajan jaakaappia. 
+ * Merkittavin osa on varasto-muuttuja. Se on hakemisto,johon on tallennettu kaikki Aine-oliot ja niita vastaavat maarat
+ * (aineen oletusmittayksikossa). Varaston tiedot taytetaan aina, kun ohjelma kaynnistetaan, ja tiedot tallennetaan tekstitiedostolle 
+ * suljettaessa. Oliolla on paljon metodeja naiden tietojen hallitsemista varten.
  * 
  */
 
@@ -15,7 +15,7 @@ import scala.collection.mutable.Buffer
 
 object Varasto {
 
-  var varasto: Map[Aine, Double] = Map() // Muuttuja tallentaa kaikki jääkaapin sisältämät aineet ja niiden määrän.
+  var varasto: Map[Aine, Double] = Map() // Muuttuja tallentaa kaikki jaakaapin sisaltamat aineet ja niiden maaran.
   
   
   /*
@@ -23,53 +23,53 @@ object Varasto {
    */
   def onOlemassa(nimi: String): Boolean = varasto.exists(_._1.nimi == nimi)
   
-  def aineNimeltä(nimi: String): Aine = if (onOlemassa(nimi)) varasto.keys.find(_.nimi == nimi).get else throw new OlematonAinePoikkeus("Aine " + nimi + " ei ole ohjelman tiedossa.", nimi)
+  def aineNimelta(nimi: String): Aine = if (onOlemassa(nimi)) varasto.keys.find(_.nimi == nimi).get else throw new OlematonAinePoikkeus("Aine " + nimi + " ei ole ohjelman tiedossa.", nimi)
   
-  // Näillä metodeilla voidaan lisätä uusi aine varastoon tai poistaa olemassa oleva.
-  def uusiAine(aine: Aine, määrä: Double = 0.0) = {
-    if (!varasto.keys.exists(_.nimi == aine.nimi)) varasto(aine) = määrä // Jos annetun nimistä ainetta ei ole olemassa, luodaan uusi
+  // Nailla metodeilla voidaan lisata uusi aine varastoon tai poistaa olemassa oleva.
+  def uusiAine(aine: Aine, maara: Double = 0.0) = {
+    if (!varasto.keys.exists(_.nimi == aine.nimi)) varasto(aine) = maara // Jos annetun nimista ainetta ei ole olemassa, luodaan uusi
     else {
-      poistaAine(aine.nimi) // Jos annetun niminen aine on olemassa, poistetaan vanha versio, ja lisätään uusi tilalle.
+      poistaAine(aine.nimi) // Jos annetun niminen aine on olemassa, poistetaan vanha versio, ja lisataan uusi tilalle.
       varasto(aine) = 0.0
     }
   }
   
   def poistaAine(nimi: String) = {
-    if (!onOlemassa(nimi)) throw new OlematonAinePoikkeus("Kyseistä ainetta ei ole ohjelman muistissa.", nimi)
+    if (!onOlemassa(nimi)) throw new OlematonAinePoikkeus("Kyseista ainetta ei ole ohjelman muistissa.", nimi)
     else varasto -= Hakukone.haeNimi(nimi).get
   }
   
   
-  // Näillä metodeilla voidaan kasvattaa tai vähentää aineen määrää varastossa. Aineen määrän varastossa on aina oltava >= 0.0.
-  def lisaaAinetta(aine: Aine, määrä: Double) = varasto(aine) = varasto.get(aine).getOrElse(0.0) + määrä
+  // Nailla metodeilla voidaan kasvattaa tai vahentaa aineen maaraa varastossa. Aineen maaran varastossa on aina oltava >= 0.0.
+  def lisaaAinetta(aine: Aine, maara: Double) = varasto(aine) = varasto.get(aine).getOrElse(0.0) + maara
   
-  def vahennaAinetta(aine: Aine, määrä: Double) = varasto(aine) = if (varasto(aine) > määrä) varasto(aine) - määrä else 0.0 // Jos vähennettävä määrä on suurempi kuin varastoitu, varastoon jää 0.0
+  def vahennaAinetta(aine: Aine, maara: Double) = varasto(aine) = if (varasto(aine) > maara) varasto(aine) - maara else 0.0 // Jos vahennettava maara on suurempi kuin varastoitu, varastoon jaa 0.0
   
   
-  // Tällä metodilla voidaan asettaa tietty arvo tietyn aineen määrälle (>= 0.0)
-  def asetaMäärä(aine: Aine, määrä: Double) = {
-    require(määrä >= 0.0)
-    varasto(aine) = määrä
+  // Talla metodilla voidaan asettaa tietty arvo tietyn aineen maaralle (>= 0.0)
+  def asetaMaara(aine: Aine, maara: Double) = {
+    require(maara >= 0.0)
+    varasto(aine) = maara
   }
   
-  // Tämä metodi asettaa kaikkien varaston aineiden määräksi 0.0
+  // Tama metodi asettaa kaikkien varaston aineiden maaraksi 0.0
   def nollaa() = varasto.mapValues(x => 0.0)
   
-  // Tämä metodi poistaa kaikki varaston tiedot
-  def tyhjennä() = varasto.empty
+  // Tama metodi poistaa kaikki varaston tiedot
+  def tyhjenna() = varasto.empty
   
   
-  // Metodi listaaAineet palauttaa kaksiulotteisen taulukon, jossa on jokaisen aineen nimi, määrä ja allergeenit. Käytetään käyttöliittymän pääikkunan listaa varten
+  // Metodi listaaAineet palauttaa kaksiulotteisen taulukon, jossa on jokaisen aineen nimi, maara ja allergeenit. Kaytetaan kayttoliittyman paaikkunan listaa varten
   def listaaAineet: Array[Array[(String, Double, String)]] = {
     
     var rivit: Buffer[Array[(String, Double, String)]] = Buffer()
     
     for (aine <- varasto) {
       val aineenNimi        = aine._1.nimi
-      val aineenMäärä       = aine._2
+      val aineenMaara       = aine._2
       val aineenAllergeenit = aine._1.allergeenit.mkString(", ")
       
-      val taulukko = Array((aineenNimi, aineenMäärä, aineenAllergeenit))
+      val taulukko = Array((aineenNimi, aineenMaara, aineenAllergeenit))
       
       rivit += taulukko
     }
@@ -78,17 +78,17 @@ object Varasto {
   }
   
   /*
-   * Metodilla muutaYksikkö voidaan muuttaa Aine-olion mittayksikkö, siten, että samalla lasketaan sen määrä varastossa uudessa mittayksikössä.
-   * Aineen aiempi yksikkö ei saa olla "kpl" eikä myöskään kohdeyksikkö, koska kappaleista ei voi tehdä muunnoksia.
+   * Metodilla muutaYksikko voidaan muuttaa Aine-olion mittayksikko, siten, etta samalla lasketaan sen maara varastossa uudessa mittayksikossa.
+   * Aineen aiempi yksikko ei saa olla "kpl" eika myoskaan kohdeyksikko, koska kappaleista ei voi tehda muunnoksia.
    */
-  def muutaYksikkö(aine: Aine, yksikkö: String) = {
-    require(Muuntaja.tunnistettu(yksikkö) || aine.mittayksikkö != "kpl")
+  def muutaYksikko(aine: Aine, yksikko: String) = {
+    require(Muuntaja.tunnistettu(yksikko) || aine.mittayksikko != "kpl")
     
-    aine.määrä        = Muuntaja.muunna(aine, aine.määrä, yksikkö)    // Asetetaan aineen uusi määrä uuden yksikön mukaiseksi
+    aine.maara        = Muuntaja.muunna(aine, aine.maara, yksikko)    // Asetetaan aineen uusi maara uuden yksikon mukaiseksi
     
-    asetaMäärä( aine, Muuntaja.muunna(aine, varasto(aine), yksikkö) ) // Muutetaan aineen määrä varastossa uuden yksikön mukaiseksi
+    asetaMaara( aine, Muuntaja.muunna(aine, varasto(aine), yksikko) ) // Muutetaan aineen maara varastossa uuden yksikon mukaiseksi
     
-    aine.mittayksikkö = yksikkö                                       // Muutetaan aineen perusmittayksiköksi annettu yksikkö.
+    aine.mittayksikko = yksikko                                       // Muutetaan aineen perusmittayksikoksi annettu yksikko.
   }
   
   

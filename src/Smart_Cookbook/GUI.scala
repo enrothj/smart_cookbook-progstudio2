@@ -12,19 +12,19 @@ import scala.collection.Seq
 
 object GUI extends SimpleSwingApplication {
   
-  // ensin täytetään ohjelman tiedot tekstitiedostoilta
-  UI.täytäVarasto()
+  // ensin taytetaan ohjelman tiedot tekstitiedostoilta
+  UI.taytaVarasto()
   
 
   
   /*
-   * Pääikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Näitä painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
-   * Nappien alla on lista ohjelman aineista, niiden määrästä varastossa ja niiden allergeeneista.
+   * Paaikkunassa on kolme nappia: Reseptihaku, Luo Resepti ja Varaston hallinta. Naita painamalla avataan ikkunoita, joilla voi toteuttaa ko. toimintoja.
+   * Nappien alla on lista ohjelman aineista, niiden maarasta varastossa ja niiden allergeeneista.
    */
   
-  // Pääkomponentit:
+  // Paakomponentit:
   
-  // Näillä napeilla avataan kolme muuta ikkunaa.
+  // Nailla napeilla avataan kolme muuta ikkunaa.
   val reseptihakuNappi = new Button("Reseptihaku")
   val luoReseptiNappi  = new Button("Luo Resepti")
   val varHallintaNappi = new Button("Varaston Hallinta")
@@ -32,54 +32,54 @@ object GUI extends SimpleSwingApplication {
   val avaaAineNappi    = new Button("Avaa aine")
   val tiheyslaskuri    = new Button("Tiheyslaskuri")
   
-  // Lista aineista, niiden määrästä ja niiden allergeeneista
+  // Lista aineista, niiden maarasta ja niiden allergeeneista
   val ainelista = new TextArea()
   ainelista.text = UI.listaaVarasto
   ainelista.editable = false
   
 
   
-  /*val sarakenimet                         = Seq("Aine", "Määrä", "Allergeenit")
+  /*val sarakenimet                         = Seq("Aine", "Maara", "Allergeenit")
   var ainelistaTiedot: Array[Array[Any]]  = UI.ainelista
   val ainelista                           = new Table(ainelistaTiedot, sarakenimet)
   */
   
   // Komponenttien asemointi
-  val päänapit = new BoxPanel(Orientation.Horizontal)
-  päänapit.contents += reseptihakuNappi
-  päänapit.contents += luoReseptiNappi
-  päänapit.contents += varHallintaNappi
-  päänapit.contents += avaaAineNappi
-  päänapit.contents += tiheyslaskuri
-  päänapit.contents += sulkunappi
+  val paanapit = new BoxPanel(Orientation.Horizontal)
+  paanapit.contents += reseptihakuNappi
+  paanapit.contents += luoReseptiNappi
+  paanapit.contents += varHallintaNappi
+  paanapit.contents += avaaAineNappi
+  paanapit.contents += tiheyslaskuri
+  paanapit.contents += sulkunappi
   
-  val pääaineet = new BoxPanel(Orientation.Vertical)
-  pääaineet.contents += ainelista
+  val paaaineet = new BoxPanel(Orientation.Vertical)
+  paaaineet.contents += ainelista
   
   val napitJaLista = new BoxPanel(Orientation.Vertical)
-  napitJaLista.contents += päänapit
-  napitJaLista.contents += pääaineet
+  napitJaLista.contents += paanapit
+  napitJaLista.contents += paaaineet
   
-  val pääikkuna = new MainFrame
-  pääikkuna.contents = napitJaLista
-  pääikkuna.title    = "Älykäs reseptikirja"
-  pääikkuna.minimumSize     = new Dimension(700, 400)
-  pääikkuna.centerOnScreen()
+  val paaikkuna = new MainFrame
+  paaikkuna.contents = napitJaLista
+  paaikkuna.title    = "alykas reseptikirja"
+  paaikkuna.minimumSize     = new Dimension(700, 400)
+  paaikkuna.centerOnScreen()
   
-  def top = pääikkuna
+  def top = paaikkuna
   
-  def päivitäAinelista() = ainelista.text = UI.listaaVarasto; ainelista.repaint(); pääikkuna.repaint()
+  def paivitaAinelista() = ainelista.text = UI.listaaVarasto; ainelista.repaint(); paaikkuna.repaint()
 
   // TAPAHTUMAT:
   
-  pääikkuna.listenTo(reseptihakuNappi)
-  pääikkuna.listenTo(luoReseptiNappi)
-  pääikkuna.listenTo(varHallintaNappi)
-  pääikkuna.listenTo(sulkunappi)
-  pääikkuna.listenTo(avaaAineNappi)
-  pääikkuna.listenTo(tiheyslaskuri)
+  paaikkuna.listenTo(reseptihakuNappi)
+  paaikkuna.listenTo(luoReseptiNappi)
+  paaikkuna.listenTo(varHallintaNappi)
+  paaikkuna.listenTo(sulkunappi)
+  paaikkuna.listenTo(avaaAineNappi)
+  paaikkuna.listenTo(tiheyslaskuri)
   
-  pääikkuna.reactions += {
+  paaikkuna.reactions += {
     case painallus: ButtonClicked => 
       val nappi = painallus.source
       nappi.text match {
@@ -90,13 +90,13 @@ object GUI extends SimpleSwingApplication {
         // "Sulje Ohjelma"-nappi tallentaa ohjelman tiedot ja sulkee ohjelman.
         case "Sulje Ohjelma"     => UI.tallennaTiedot(); GUI.quit()
         
-        case "Avaa aine"         => { // Tätä nappia painamalla aukeaa syötedialogi, josta voidaan avata halutun aineen ikkuna.
-         val syöte = Dialog.showInput(pääikkuna, "Syötä aineen nimi.", initial = "")
-         syöte match {
+        case "Avaa aine"         => { // Tata nappia painamalla aukeaa syotedialogi, josta voidaan avata halutun aineen ikkuna.
+         val syote = Dialog.showInput(paaikkuna, "Syota aineen nimi.", initial = "")
+         syote match {
            case Some(nimi) => {
              try {
                aine = UI.avaaAine(nimi)
-               päivitäOminaisuudet()
+               paivitaOminaisuudet()
                aineikkuna.open()
              } catch {
                case e: OlematonAinePoikkeus => Dialog.showMessage(aineikkuna, e.kuvaus)
@@ -104,24 +104,24 @@ object GUI extends SimpleSwingApplication {
              }
            }
            
-           case None => päivitäAinelista()
+           case None => paivitaAinelista()
          }
          
         }
         
-        case "Tiheyslaskuri"    => { // Tämä avaa tiheyslaskurin, jolla voidaan helpommin selvittää aineen tiheys
+        case "Tiheyslaskuri"    => { // Tama avaa tiheyslaskurin, jolla voidaan helpommin selvittaa aineen tiheys
           
-          // Pyydetään syöte käyttäjältä
-          val syöte = Dialog.showInput(aineikkuna, "Laske tiheys antamalla aineen massa ja tilavuus. Tiheys palautetaan ohjelman käyttämässä yksikössä g/ml.", "Tiheyslaskuri",
-                              initial = "[massan arvo] [massayksikkö] [tilavuuden arvo] [tilavuusyksikkö]")
-         syöte match {
+          // Pyydetaan syote kayttajalta
+          val syote = Dialog.showInput(aineikkuna, "Laske tiheys antamalla aineen massa ja tilavuus. Tiheys palautetaan ohjelman kayttamassa yksikossa g/ml.", "Tiheyslaskuri",
+                              initial = "[massan arvo] [massayksikko] [tilavuuden arvo] [tilavuusyksikko]")
+         syote match {
             
            case Some(komento) => {
              
              val tiheys = UI.tiheyslaskuri(komento)
              
              if (tiheys > 0.0) {
-               Dialog.showMessage(pääikkuna, "Laskettu tiheys: " + tiheys + " g/ml")
+               Dialog.showMessage(paaikkuna, "Laskettu tiheys: " + tiheys + " g/ml")
              }
                               
            }
@@ -136,43 +136,43 @@ object GUI extends SimpleSwingApplication {
   }
   
   /** RESEPTIHAKU-IKKUNA
-   * Reseptihaussa voidaan hakea aineita tekstinä annetuilla kriteereillä. Voidaan antaa haluttuja kriteerejä, 
-   * kuten jonkin aineen nimi, tai vältettäviä kriteerejä, kuten allergeenien nimiä. Haussa voidaan myös määritellä
-   * halutaanko etsiä ainoastaan aineita, joita on jo varastossa, tai voidaan muodostaa varaston sisältämistä 
+   * Reseptihaussa voidaan hakea aineita tekstina annetuilla kriteereilla. Voidaan antaa haluttuja kriteereja, 
+   * kuten jonkin aineen nimi, tai valtettavia kriteereja, kuten allergeenien nimia. Haussa voidaan myos maaritella
+   * halutaanko etsia ainoastaan aineita, joita on jo varastossa, tai voidaan muodostaa varaston sisaltamista 
    * aineista, vaiko kaikista ohjelman tuntemista aineista.
    * 
-   * Ikkunassa on kolme tekstikenttää: haku nimen mukaan, vältettävät allergeenit ja kuinka monta ainesosaa saa
+   * Ikkunassa on kolme tekstikenttaa: haku nimen mukaan, valtettavat allergeenit ja kuinka monta ainesosaa saa
    * puuttua varastosta aineen valmistamiseksi. Ikkunan alaosassa on kaksi nappia: "Hae aineita" ja "Peruuta".
    */
   
-  // Pääkomponentit:
-  val hakuSelitys = new Label("Hae lista aineista, jotka täyttävät haluamasi hakukriteerit. Kentät ovat:")
+  // Paakomponentit:
+  val hakuSelitys = new Label("Hae lista aineista, jotka tayttavat haluamasi hakukriteerit. Kentat ovat:")
   
-  val aineenNimi           = new TextField("Aineen nimi")               // Tämä kenttä täytetään, jos halutaan tietyn niminen aine
-  val allergeeniSuodatin   = new TextField("Suodatettavat allergeenit") // Tähän kenttään täytetään vältettävät allergeenit, erotettuna pilkulla
-  val maxPuuttuvatAineet   = new TextField("Max puuttuvat aineet")      // Tähän kenttään määritellään kuinka monta ainesosaa saa puuttua varastosta
+  val aineenNimi           = new TextField("Aineen nimi")               // Tama kentta taytetaan, jos halutaan tietyn niminen aine
+  val allergeeniSuodatin   = new TextField("Suodatettavat allergeenit") // Tahan kenttaan taytetaan valtettavat allergeenit, erotettuna pilkulla
+  val maxPuuttuvatAineet   = new TextField("Max puuttuvat aineet")      // Tahan kenttaan maaritellaan kuinka monta ainesosaa saa puuttua varastosta
   
   /*
-   *  Tätä nappia painettaessa ohjelma yrittää hakea ainelistan annetuilla parametreilla. Tulokset avataan 
+   *  Tata nappia painettaessa ohjelma yrittaa hakea ainelistan annetuilla parametreilla. Tulokset avataan 
    *  hakutulosikkunaan.
    */
   val ainehakunappi        = new Button("Hae aineita") 
   val hakuperuutus         = new Button("Peruuta")
   
   
-  // Paneeli, jossa ovat hakukentät
+  // Paneeli, jossa ovat hakukentat
   val hakuTekstit          = new BoxPanel(Orientation.Vertical)
   hakuTekstit.contents    += hakuSelitys
   hakuTekstit.contents    += aineenNimi
   hakuTekstit.contents    += allergeeniSuodatin
-  hakuTekstit.contents    += maxPuuttuvatAineet  // Tämä on käytännössä ainoa, johon voi antaa virheellisen syötteen.
+  hakuTekstit.contents    += maxPuuttuvatAineet  // Tama on kaytannossa ainoa, johon voi antaa virheellisen syotteen.
   
   // Paneeli, jossa ovat hakunapit
   val hakuNapit           = new BoxPanel(Orientation.Horizontal)
   hakuNapit.contents     += ainehakunappi
   hakuNapit.contents     += hakuperuutus
   
-  // Näiden paneelien yhdistys
+  // Naiden paneelien yhdistys
   val hakuToiminnot       = new BoxPanel(Orientation.Vertical)
   hakuToiminnot.contents += hakuTekstit
   hakuToiminnot.contents += hakuNapit
@@ -189,25 +189,25 @@ object GUI extends SimpleSwingApplication {
     case painallus: ButtonClicked => 
       val nappi = painallus.source
       nappi.text match {
-        case "Hae aineita" => { // Tämä nappi kutsuu UI:n metodia täyttääkseen hakutulosikkunan tulostaulukon.
+        case "Hae aineita" => { // Tama nappi kutsuu UI:n metodia tayttaakseen hakutulosikkunan tulostaulukon.
           try {
             
             //hakutulokset = UI.haeAineetTaulukkoon(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)   /// TODO: !!!! KORJAA HAKUTOIMINTO !!!!!
             
-            // Ensin haetaan annetuilla hakukriteereillä. Saadut tulokset tallennetaan hakutulokset-muuttujaan. (Hakutaulukon tiedot)
+            // Ensin haetaan annetuilla hakukriteereilla. Saadut tulokset tallennetaan hakutulokset-muuttujaan. (Hakutaulukon tiedot)
             hakutulokset = UI.haeAineet(aineenNimi.text, allergeeniSuodatin.text, maxPuuttuvatAineet.text)
             
-            // Jos haku ei löytänyt aineita, ilmestyy dialogi, joka ilmoittaa siitä käyttäjälle.
+            // Jos haku ei loytanyt aineita, ilmestyy dialogi, joka ilmoittaa siita kayttajalle.
             if (hakutulokset.isEmpty) Dialog.showMessage(hakuikkuna, "Hakusi ei tuottanut tuloksia") 
             
-            // Muussa tapauksessa avataan hakutulosikkuna löydetyillä tiedoilla.
+            // Muussa tapauksessa avataan hakutulosikkuna loydetyilla tiedoilla.
             else {
-              päivitäHakutulokset
+              paivitaHakutulokset
               hakutulosIkkuna.open()
             }
             
           } catch {
-            case e: IllegalArgumentException => Dialog.showMessage(hakuikkuna, e.toString()) // Dialogi kertoo, että annettu parametri ei ole numero.
+            case e: IllegalArgumentException => Dialog.showMessage(hakuikkuna, e.toString()) // Dialogi kertoo, etta annettu parametri ei ole numero.
           }
 
         }
@@ -219,7 +219,7 @@ object GUI extends SimpleSwingApplication {
   
   // HAKUTULOS-IKKUNA
   
-  /*val hakusarakkeet: Seq[String] = Seq("Aine", "määrä")
+  /*val hakusarakkeet: Seq[String] = Seq("Aine", "maara")
   var hakutulokset: Array[Array[Any]] = Array()
   var hakutaulukko = new Table(hakutulokset, hakusarakkeet)
   * 
@@ -240,7 +240,7 @@ object GUI extends SimpleSwingApplication {
   hakutulosIkkuna.minimumSize = new Dimension(400, 200)
   hakutulosIkkuna.centerOnScreen()
   
-  def päivitäHakutulokset = {    
+  def paivitaHakutulokset = {    
     hakutaulukko.text = hakutulokset
     hakutaulukko.repaint()
     hakutulosIkkuna.repaint()
@@ -248,8 +248,8 @@ object GUI extends SimpleSwingApplication {
   
   
   /** RESEPTINLUONTI-IKKUNA
-   * Reseptinluonti-ikkunassa voidaan luoda uusia Aine-olioita ohjelman muistiin. Ikkunassa määritellään tekstikenttiin
-   * aineen nimi, allergeenit, tiheys, määrä ja mittayksikkö, sekä kuvaus (valmistusohje jne.). Raaka-aineet lisätään
+   * Reseptinluonti-ikkunassa voidaan luoda uusia Aine-olioita ohjelman muistiin. Ikkunassa maaritellaan tekstikenttiin
+   * aineen nimi, allergeenit, tiheys, maara ja mittayksikko, seka kuvaus (valmistusohje jne.). Raaka-aineet lisataan
    * erikseen Aine-ikkunasta.
    * 
    * Ainoa pakollinen parametri on nimi aineelle
@@ -258,10 +258,10 @@ object GUI extends SimpleSwingApplication {
    * annetuilla tiedoilla. Peruuta-nappi sulkee ikkunan.
    */
   
-  // Pääkomponentit:
+  // Paakomponentit:
   val uusiNimi     = new TextField("Aineen nimi")
   val allergeenit  = new TextField("Allergeenit")
-  val määräJaMitta = new TextField("tiheys, määrä, mittayksikkö") // tiheys, määrä ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
+  val maaraJaMitta = new TextField("tiheys, maara, mittayksikko") // tiheys, maara ja mitta erotetaan pilkulla (esim. " 0.0,5.0,"kpl")
   val uusiKuvaus   = new TextField("Aineen kuvaus")
   
   val resTallenna  = new Button("Tallenna")
@@ -271,7 +271,7 @@ object GUI extends SimpleSwingApplication {
   val resTekstit       = new BoxPanel(Orientation.Vertical)
   resTekstit.contents += uusiNimi
   resTekstit.contents += allergeenit
-  resTekstit.contents += määräJaMitta
+  resTekstit.contents += maaraJaMitta
   resTekstit.contents += uusiKuvaus
   
   // Paneeli napeille
@@ -279,7 +279,7 @@ object GUI extends SimpleSwingApplication {
   resNapit.contents     += resTallenna
   resNapit.contents     += resPeruuta
   
-  // Näiden paneelien yhdistys
+  // Naiden paneelien yhdistys
   val resToiminnot       = new BoxPanel(Orientation.Vertical)
   resToiminnot.contents += resTekstit
   resToiminnot.contents += resNapit
@@ -298,18 +298,18 @@ object GUI extends SimpleSwingApplication {
       val nappi = painallus.source
       nappi.text match {
         
-        case "Tallenna" => { // Ohjelma yrittää tallentaa annetuilla tiedoilla uuden aineen.
+        case "Tallenna" => { // Ohjelma yrittaa tallentaa annetuilla tiedoilla uuden aineen.
           try {
-            require(uusiNimi.text.length > 0) // Aineella tulee olla vähintään nimi.
+            require(uusiNimi.text.length > 0) // Aineella tulee olla vahintaan nimi.
             
-            UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, määräJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
+            UI.luoAine(uusiNimi.text, allergeenit.text, uusiKuvaus.text, maaraJaMitta.text) // Luodaan uusi aine annetuilla parametreilla
             
-            // Jos aineen luonti onnistuu, päivitetään ainelista ja suljetaan ikkuna.
-            päivitäAinelista() 
+            // Jos aineen luonti onnistuu, paivitetaan ainelista ja suljetaan ikkuna.
+            paivitaAinelista() 
             reseptiIkkuna.close()
             
           } catch {
-            case e: IllegalArgumentException => Dialog.showMessage(reseptiIkkuna, "Aineella tulee olla vähintään nimi.")
+            case e: IllegalArgumentException => Dialog.showMessage(reseptiIkkuna, "Aineella tulee olla vahintaan nimi.")
           }
         }
         
@@ -320,22 +320,22 @@ object GUI extends SimpleSwingApplication {
   
   
   /** VARASTONHALLINTA-IKKUNA
-   * Varastonhallintaikkunassa on kourallinen nappeja, joista aukeaa ponnahdusikkunoita, joihin voi antaa syötteitä. Napit
-   * ovat aineen määrän muuttamiseen, yksikön muuttamiseen, aineen poistamiseen varastosta sekä varaston tyhjentämiseen tai
+   * Varastonhallintaikkunassa on kourallinen nappeja, joista aukeaa ponnahdusikkunoita, joihin voi antaa syotteita. Napit
+   * ovat aineen maaran muuttamiseen, yksikon muuttamiseen, aineen poistamiseen varastosta seka varaston tyhjentamiseen tai
    * nollaamiseen.
    */
   
-  // Pääkomponentit
-  val varMäärä   = new Button("Muuta aineen määrää")
-  val varYksikkö = new Button("Muuta aineen mittayksikköä")
+  // Paakomponentit
+  val varMaara   = new Button("Muuta aineen maaraa")
+  val varYksikko = new Button("Muuta aineen mittayksikkoa")
   val varPoista  = new Button("Poista aine varastosta")
-  val varNollaa  = new Button("Tyhjennä tai nollaa varasto")
+  val varNollaa  = new Button("Tyhjenna tai nollaa varasto")
   
   
   // Komponenttien asemointi
   val varPaneeli       = new BoxPanel(Orientation.Vertical)
-  varPaneeli.contents += varMäärä
-  varPaneeli.contents += varYksikkö
+  varPaneeli.contents += varMaara
+  varPaneeli.contents += varYksikko
   varPaneeli.contents += varPoista
   varPaneeli.contents += varNollaa
   
@@ -347,8 +347,8 @@ object GUI extends SimpleSwingApplication {
   
   // TAPAHTUMAT: 
   
-  varIkkuna.listenTo(varMäärä)
-  varIkkuna.listenTo(varYksikkö)
+  varIkkuna.listenTo(varMaara)
+  varIkkuna.listenTo(varYksikko)
   varIkkuna.listenTo(varPoista)
   varIkkuna.listenTo(varNollaa)
   
@@ -358,44 +358,44 @@ object GUI extends SimpleSwingApplication {
       
       nappi.text match {
         
-        case "Muuta aineen määrää"         => { // Tästä käytetään metodia UI.muutaMäärää
+        case "Muuta aineen maaraa"         => { // Tasta kaytetaan metodia UI.muutaMaaraa
           
-          var muutettiin: Boolean = false  // Tähän muuttujaan tallennetaan tieto onnistuneesta muutoksesta.
-          val syöte = Dialog.showInput(varIkkuna, "Syötä haluamasi komento: \n+ lisää\n- vähentää\n= asettaa määrän",
-                           initial = "[aineen nimi] [+/-/=] [haluttu määrä]")
-          syöte match {
-            case Some(komento) => muutettiin = UI.muutaMäärää(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
+          var muutettiin: Boolean = false  // Tahan muuttujaan tallennetaan tieto onnistuneesta muutoksesta.
+          val syote = Dialog.showInput(varIkkuna, "Syota haluamasi komento: \n+ lisaa\n- vahentaa\n= asettaa maaran",
+                           initial = "[aineen nimi] [+/-/=] [haluttu maara]")
+          syote match {
+            case Some(komento) => muutettiin = UI.muutaMaaraa(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
         }
         
-        case "Muuta aineen mittayksikköä"  => { // tästä käytetään metodia UI.muutaYksikkö
+        case "Muuta aineen mittayksikkoa"  => { // tasta kaytetaan metodia UI.muutaYksikko
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(varIkkuna, "Anna aineen nimi ja haluamasi mittayksikkö (lyhennettynä).\n" +
+          val syote = Dialog.showInput(varIkkuna, "Anna aineen nimi ja haluamasi mittayksikko (lyhennettyna).\n" +
                                                  "HUOM: Kappalemuotoon voi muuttaa vain aineen omista tiedoista",
-                           initial = "[aineen nimi] [haluttu mittayksikkö]")
+                           initial = "[aineen nimi] [haluttu mittayksikko]")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.muutaYksikkö(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
+          syote match {
+            case Some(komento) => muutettiin = UI.muutaYksikko(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitäAinelista()
+          paivitaAinelista()
         }
         
-        case "Poista aine varastosta"      => {// tästä käytetään metodia UI.poistaAine
+        case "Poista aine varastosta"      => {// tasta kaytetaan metodia UI.poistaAine
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(varIkkuna, "Anna poistettavan aineen nimi",
+          val syote = Dialog.showInput(varIkkuna, "Anna poistettavan aineen nimi",
                            initial = "[aineen nimi]")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.poistaAine(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
+          syote match {
+            case Some(komento) => muutettiin = UI.poistaAine(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
             case None          => 
           }
           
@@ -403,22 +403,22 @@ object GUI extends SimpleSwingApplication {
           
         }
           
-        case "Tyhjennä tai nollaa varasto" => { // Tästä voi nollata tai tyhjentää Varaston.
+        case "Tyhjenna tai nollaa varasto" => { // Tasta voi nollata tai tyhjentaa Varaston.
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(varIkkuna, "Kirjoita 'nollaa' tai 'tyhjennä'.\n"
-                                       + "Nollaa asettaa jokaisen aineen määräksi 0.0\n"
-                                       + "Tyhjennä poistaa kaikki aineet ohjelman Varastosta",
-                           initial = "HUOM: Tyhjentäminen ei poista olemassaolevia tekstitiedostoja.")
+          val syote = Dialog.showInput(varIkkuna, "Kirjoita 'nollaa' tai 'tyhjenna'.\n"
+                                       + "Nollaa asettaa jokaisen aineen maaraksi 0.0\n"
+                                       + "Tyhjenna poistaa kaikki aineet ohjelman Varastosta",
+                           initial = "HUOM: Tyhjentaminen ei poista olemassaolevia tekstitiedostoja.")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.tyhjennys(komento); päivitäAinelista() // Jos annettiin komento, yritetään suorittaa muutos
+          syote match {
+            case Some(komento) => muutettiin = UI.tyhjennys(komento); paivitaAinelista() // Jos annettiin komento, yritetaan suorittaa muutos
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(varIkkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitäAinelista()
+          paivitaAinelista()
           
         }
         
@@ -432,12 +432,12 @@ object GUI extends SimpleSwingApplication {
    * Aine-ikkuna aukeaa, kun valitaan jokin aine jostakin ikkunasta. Aine-ikkunassa voidaan katsastaa ja hallita Aine-olioiden 
    * ominaisuuksia. Ikkunassa on taulukko, jossa on listattuna aineen ominaisuuksia ja niiden arvoja.
    * 
-   * Ominaisuustaulukon lisäksi ikkunassa on napit ainesosien, allergeenien, ja muiden ominaisuuksien hallitsemiseen.
+   * Ominaisuustaulukon lisaksi ikkunassa on napit ainesosien, allergeenien, ja muiden ominaisuuksien hallitsemiseen.
    * "Raaka-aineet"-napilla ohjelma antaa listan aineen raaka-aineista.
    * 
    */
   
-  // Pääkomponentit
+  // Paakomponentit
   var aine: Aine = null
   var ainetiedot: String = ""
   val ominaisuuslista = new TextArea()
@@ -445,7 +445,7 @@ object GUI extends SimpleSwingApplication {
   ominaisuuslista.editable = false
   ominaisuuslista.minimumSize = (new Dimension(200, 300))
   
-  /*var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjää täynnä", 0.0))
+  /*var ainetiedot: Array[Array[Any]] = Array(Array("Tyhjaa taynna", 0.0))
   val aineSarakenimet: Seq[String]  = Seq("Ominaisuus", "Arvo")
   var ominaisuuslista               = new Table(ainetiedot, aineSarakenimet)
   * 
@@ -456,7 +456,7 @@ object GUI extends SimpleSwingApplication {
   val aineAllergeeni  = new Button("Hallitse allergeeneja")
   val aineOminaisuus  = new Button("Hallitse muita ominaisuuksia")
   val aineRaakaAineet = new Button("Aineen raaka-aineet")
-  val näytäKuvaus     = new Button("Näytä kuvaus")
+  val naytaKuvaus     = new Button("Nayta kuvaus")
   
   // Komponenttien asemointi
   val aineNapit         = new BoxPanel(Orientation.Vertical)
@@ -464,7 +464,7 @@ object GUI extends SimpleSwingApplication {
   aineNapit.contents   += aineAllergeeni
   aineNapit.contents   += aineOminaisuus
   aineNapit.contents   += aineRaakaAineet
-  aineNapit.contents   += näytäKuvaus
+  aineNapit.contents   += naytaKuvaus
   
   val ainePaneeli       = new BoxPanel(Orientation.Horizontal)
   ainePaneeli.contents += ominaisuuslista
@@ -476,9 +476,9 @@ object GUI extends SimpleSwingApplication {
   aineikkuna.centerOnScreen()
   
   
-  // Tämä metodi päivittää aineen ominaisuuslistan.
-  def päivitäOminaisuudet() = {
-    ainetiedot = aine.tietotaulukkoTekstinä
+  // Tama metodi paivittaa aineen ominaisuuslistan.
+  def paivitaOminaisuudet() = {
+    ainetiedot = aine.tietotaulukkoTekstina
     ominaisuuslista.text = ainetiedot
     ominaisuuslista.repaint()
     aineikkuna.repaint()
@@ -492,83 +492,83 @@ object GUI extends SimpleSwingApplication {
   aineikkuna.listenTo(aineAllergeeni)
   aineikkuna.listenTo(aineOminaisuus)
   aineikkuna.listenTo(aineRaakaAineet)
-  aineikkuna.listenTo(näytäKuvaus)
+  aineikkuna.listenTo(naytaKuvaus)
   aineikkuna.reactions += {
     
     case painallus: ButtonClicked =>
       val nappi = painallus.source
-      päivitäOminaisuudet()
+      paivitaOminaisuudet()
       nappi.text match {
         
-        case "Hallitse ainesosia" => { // Tästä kutsutaan metodia UI.hallitseAinesosia
+        case "Hallitse ainesosia" => { // Tasta kutsutaan metodia UI.hallitseAinesosia
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(aineikkuna, "Tästä voi lisätä (+), poistaa (-) tai muuttaa ainesosia (=). Syöteformaatit:\n"
-                                       + "+ [ainesosan nimi] [määrä] [mittayksikkö]\n"
+          val syote = Dialog.showInput(aineikkuna, "Tasta voi lisata (+), poistaa (-) tai muuttaa ainesosia (=). Syoteformaatit:\n"
+                                       + "+ [ainesosan nimi] [maara] [mittayksikko]\n"
                                        + "- [ainesosan nimi]\n"
-                                       + "= [ainesosan nimi] [määrä] [mittayksikkö]",
-                           initial = "[+/-/=] [ainesosan nimi]  [määrä] [mittayksikkö]")
+                                       + "= [ainesosan nimi] [maara] [mittayksikko]",
+                           initial = "[+/-/=] [ainesosan nimi]  [maara] [mittayksikko]")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.hallitseAinesosia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+          syote match {
+            case Some(komento) => muutettiin = UI.hallitseAinesosia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitäOminaisuudet
-          päivitäAinelista
+          paivitaOminaisuudet
+          paivitaAinelista
           
         }
         
-        case "Hallitse allergeeneja" => {  // Tästä kutsutaan metodia UI.hallitseAllergeeneja
+        case "Hallitse allergeeneja" => {  // Tasta kutsutaan metodia UI.hallitseAllergeeneja
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(aineikkuna, "Tästä voi lisätä (+) tai poistaa (-) allergeeneja tai antaa uusi allergeenilista (=). Syöteformaatit:\n"
+          val syote = Dialog.showInput(aineikkuna, "Tasta voi lisata (+) tai poistaa (-) allergeeneja tai antaa uusi allergeenilista (=). Syoteformaatit:\n"
                                        + "+ [allergeenin nimi]\n"
                                        + "- [allergeenin nimi]\n"
                                        + "= [allergeeni1] [allergeeni2] [allergeeni3] [jne.]",
                            initial = "[+/-/=] [allergeenin nimi]")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.hallitseAllergeeneja(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+          syote match {
+            case Some(komento) => muutettiin = UI.hallitseAllergeeneja(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitäOminaisuudet
-          päivitäAinelista
+          paivitaOminaisuudet
+          paivitaAinelista
           
         }
         
         case "Hallitse muita ominaisuuksia" => {
           
           var muutettiin: Boolean = false
-          val syöte = Dialog.showInput(aineikkuna, "Tästä voi muuttaa aineen ominaisuuksia. Syötä muutettava ominaisuus ja sopiva uusi arvo.\n"
-                                       + "Muutettavia ominaisuuksia ovat yksikkö, tiheys (Double), määrä (Double) ja kuvaus.",
+          val syote = Dialog.showInput(aineikkuna, "Tasta voi muuttaa aineen ominaisuuksia. Syota muutettava ominaisuus ja sopiva uusi arvo.\n"
+                                       + "Muutettavia ominaisuuksia ovat yksikko, tiheys (Double), maara (Double) ja kuvaus.",
                            initial = "[ominaisuus] [uusi arvo]")
                            
-          syöte match {
-            case Some(komento) => muutettiin = UI.hallitseOminaisuuksia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta käyttäjän ei tarvitse syöttää sitä.
+          syote match {
+            case Some(komento) => muutettiin = UI.hallitseOminaisuuksia(aine.nimi + " " + komento) // HUOM: metodi tarvitsee aineen nimen, mutta kayttajan ei tarvitse syottaa sita.
             case None          => 
           }
           
           if (muutettiin) Dialog.showMessage(aineikkuna, "Tiedot muutettiin onnistuneesti.") // Ilmoitetaan jos muutos onnistui
           
-          päivitäOminaisuudet
-          päivitäAinelista
+          paivitaOminaisuudet
+          paivitaAinelista
         }
         
-        case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Näytetään dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
+        case "Aineen raaka-aineet" => Dialog.showMessage(aineikkuna, UI.listaaRaakaAineet(aine)) // Naytetaan dialogi, jossa listattuna kaikki ainesosat ja raaka-aineet
         
-        case "Näytä kuvaus" => Dialog.showMessage(aineikkuna, aine.kuvaus)
+        case "Nayta kuvaus" => Dialog.showMessage(aineikkuna, aine.kuvaus)
       }
     
   }
   
-  // Muut luokat ja metodit voivat kutsua tätä metodia näyttääkseen käyttäjälle viestin, että jotain meni pieleen.
-  // viesti-parametrissä kerrotaan mikä meni pieleen, ja ikkuna-parametri määrittää missä käyttöliittymän ikkunassa viesti näytetään 
+  // Muut luokat ja metodit voivat kutsua tata metodia nayttaakseen kayttajalle viestin, etta jotain meni pieleen.
+  // viesti-parametrissa kerrotaan mika meni pieleen, ja ikkuna-parametri maarittaa missa kayttoliittyman ikkunassa viesti naytetaan 
   def virheviesti(viesti: String, ikkuna: Window) = {
     Dialog.showMessage(ikkuna, viesti, "Virhe")
   }

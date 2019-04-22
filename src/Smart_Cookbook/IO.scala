@@ -8,20 +8,20 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 /**
- * IO-yksittäisolio käsittelee tekstitiedostoja, joille tallennetaan Varaston ja Aine-olioiden tietoja. Sen metodeilla voidaan
- * tallentaa Varaston tiedot yhdelle tekstitiedostolle ("jaakaappi.txt"), josta ne ladataan ohjelmaa käynnistettäessä. Aine-
- * oliot tallennetaan omille tekstitiedostoilleen "reseptit/"-kansioon. Näistä tiedostoista luodaan Aine-oliot, kun Varastoa 
- * ladataan ohjelmaa käytettäessä.
+ * IO-yksittaisolio kasittelee tekstitiedostoja, joille tallennetaan Varaston ja Aine-olioiden tietoja. Sen metodeilla voidaan
+ * tallentaa Varaston tiedot yhdelle tekstitiedostolle ("jaakaappi.txt"), josta ne ladataan ohjelmaa kaynnistettaessa. Aine-
+ * oliot tallennetaan omille tekstitiedostoilleen "reseptit/"-kansioon. Naista tiedostoista luodaan Aine-oliot, kun Varastoa 
+ * ladataan ohjelmaa kaytettaessa.
  */
 
 
 object IO {
    
   /*
-   * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sieltä se voidaan lukea myöhemmin tarvittaessa.
-   * Ensimmäiselle riville tulee Aineen nimi. Toiselle riville tulee aineen tiheys, määrä ja mittayksikkö. Seuraaville riveille tulevat ainesosat, 
-   * jokainen omalle rivilleen. Ainesosien jälkeen seuraavalla rivillä on tähtimerkki ("*") erottimena, jonka jälkeen seuraavalla rivillä on Aineen 
-   * allergeenit. Viimeisillä riveillä on Aineen kuvaus.
+   * Metodi tallentaa Aineen tekstitiedostolle, Reseptikirjan reseptikansioon. Sielta se voidaan lukea myohemmin tarvittaessa.
+   * Ensimmaiselle riville tulee Aineen nimi. Toiselle riville tulee aineen tiheys, maara ja mittayksikko. Seuraaville riveille tulevat ainesosat, 
+   * jokainen omalle rivilleen. Ainesosien jalkeen seuraavalla rivilla on tahtimerkki ("*") erottimena, jonka jalkeen seuraavalla rivilla on Aineen 
+   * allergeenit. Viimeisilla riveilla on Aineen kuvaus.
    * 
    * Esimerkki:
    *   Spagetti bolognese
@@ -30,7 +30,7 @@ object IO {
    *   kastike,800.0,g
    *   *
    *   liha,tomaatti
-   *   Spagetti bolognese, neljä annosta. Paista jauheliha... jne.
+   *   Spagetti bolognese, nelja annosta. Paista jauheliha... jne.
    * 
    */
   def kirjoita(aine: Aine) = {
@@ -40,14 +40,14 @@ object IO {
     try {
       tiedosto.println(aine.nimi)                                                // 1. rivi: aineen kuvaus
       
-      tiedosto.println(aine.tiheys + "," + aine.määrä + "," + aine.mittayksikkö) // 2. rivi: tiheys,määrä,mittayksikkö
+      tiedosto.println(aine.tiheys + "," + aine.maara + "," + aine.mittayksikko) // 2. rivi: tiheys,maara,mittayksikko
       
-      for (aines <- aine.ainesosat) {                                            // seuraavat rivit: ainesosa, sen määrä, sen mittayksikkö (jokainen omalla rivillään)
+      for (aines <- aine.ainesosat) {                                            // seuraavat rivit: ainesosa, sen maara, sen mittayksikko (jokainen omalla rivillaan)
         tiedosto.println(aines._1 + "," + aines._2 + "," + aines._3)
       }
-      tiedosto.println("*")                                                      // ainesosien loppu erotetaan tähtimerkillä      
+      tiedosto.println("*")                                                      // ainesosien loppu erotetaan tahtimerkilla      
       
-      tiedosto.println(aine.allergeenit.mkString(","))                           // allergeenit tähtimerkin jälkeen olevalle riville
+      tiedosto.println(aine.allergeenit.mkString(","))                           // allergeenit tahtimerkin jalkeen olevalle riville
       
       tiedosto.println(aine.kuvaus)                                              // Viimeiselle riville aineen kuvaus
       
@@ -59,7 +59,7 @@ object IO {
     
   
   /*
-   * Metodi tallenna tallentaa Varaston sisältämät tiedot tekstitiedostolle. Jokaselle riville tulee aineen nimi ja sen määrä, esim. "spagetti bolognese, 4.0".
+   * Metodi tallenna tallentaa Varaston sisaltamat tiedot tekstitiedostolle. Jokaselle riville tulee aineen nimi ja sen maara, esim. "spagetti bolognese, 4.0".
    */
   def tallenna() = {
     
@@ -84,113 +84,113 @@ object IO {
     var nimi: String = ""; var kuvaus: String = ""
     
     var tiheys: Double = 0.0
-    var määrä: Double = 0.0
-    var mittayksikkö: String = ""
+    var maara: Double = 0.0
+    var mittayksikko: String = ""
     
     var ainesosat: Buffer[Tuple3[Aine, Double, String]] = Buffer()
     var allergeenit: Buffer[String] = Buffer()
     
     try {
-      // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+      // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
       require( Files.exists(Paths.get(tiedostonimi)) )
       
       val tiedosto = Source.fromFile(tiedostonimi)
       
       val riveja = tiedosto.getLines().toVector
       
-      var rivinro = 1 // Muuttujan avulla tiedetään, mitä tietoja kyseiseltä tiedoston riviltä pitäisi löytyä, esimerkiksi ensimmäiseltä riviltä
-                      // tulisi löytyä Aineen nimi.
+      var rivinro = 1 // Muuttujan avulla tiedetaan, mita tietoja kyseiselta tiedoston rivilta pitaisi loytya, esimerkiksi ensimmaiselta rivilta
+                      // tulisi loytya Aineen nimi.
       
       for (rivi <- riveja) {
-        if (rivinro == 1) {nimi = rivi; rivinro += 1} // Ensimmäiseltä riviltä haetaan aineen nimi
+        if (rivinro == 1) {nimi = rivi; rivinro += 1} // Ensimmaiselta rivilta haetaan aineen nimi
         
-        else if (rivinro == 2) {                       // Toiselta riviltä haetaan aineen tiheys, määrä ja mittayksikkö.
+        else if (rivinro == 2) {                       // Toiselta rivilta haetaan aineen tiheys, maara ja mittayksikko.
           val tiedot   = rivi.split(",").toVector
           tiheys       = tiedot(0).toDouble
-          määrä        = tiedot(1).toDouble
-          mittayksikkö = tiedot(2)
+          maara        = tiedot(1).toDouble
+          mittayksikko = tiedot(2)
           
           rivinro += 1
         }
         
-        else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+        else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tahtimerkki tarkoittaa, etta enaa ei kasitella ainesosia, vaan siirrytaan allergeeneihin.
         
-        else if (rivinro == 4) { // Tältä riviltä löytyy lista Aineen sisältämistä allergeeneista.
+        else if (rivinro == 4) { // Talta rivilta loytyy lista Aineen sisaltamista allergeeneista.
           allergeenit = rivi.split(",").toBuffer
           rivinro += 1
         }
         
-        else kuvaus += rivi // Viimeisillä riveillä on Aineen kuvaus.
+        else kuvaus += rivi // Viimeisilla riveilla on Aineen kuvaus.
 
         
       }
         
     } catch {
       
-      case e: IllegalArgumentException => virhe("Annettiin väärä parametri", GUI.pääikkuna);
+      case e: IllegalArgumentException => virhe("Annettiin vaara parametri", GUI.paaikkuna);
       
-      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.paaikkuna)
       
       //case _: Throwable => println("Tapahtui odottamaton virhe")
       
     }
     
     if (nimi == "") {
-      virhe("Uuden aineen luonti epäonnistui", GUI.pääikkuna)
+      virhe("Uuden aineen luonti epaonnistui", GUI.paaikkuna)
       return null
     }
     
-    new Aine(nimi, allergeenit, kuvaus, tiheys, määrä, mittayksikkö) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
+    new Aine(nimi, allergeenit, kuvaus, tiheys, maara, mittayksikko) // Lopulta metodi palauttaa Aine-olion saatujen tietojen perusteella.
     
   }
   
   
-  // metodi lueAinesosat täyttää aineen ainesosat-muuttujan tekstitiedoston tiedoilla
+  // metodi lueAinesosat tayttaa aineen ainesosat-muuttujan tekstitiedoston tiedoilla
   def lueAinesosat(tiedostonimi: String) = {
     
     var aine: Aine = null
     var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()
     
     try {
-      // Tarkistetaan, että annetun niminen tiedosto on olemassa.
+      // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
       require( Files.exists(Paths.get(tiedostonimi)) )
         
       val tiedosto = Source.fromFile(tiedostonimi)
      
       val riveja = tiedosto.getLines().toVector
       
-      var rivinro = 1 // Muuttujan avulla tiedetään, mitä tietoja kyseiseltä tiedoston riviltä pitäisi löytyä, esimerkiksi ensimmäiseltä riviltä
-                      // tulisi löytyä Aineen nimi.
+      var rivinro = 1 // Muuttujan avulla tiedetaan, mita tietoja kyseiselta tiedoston rivilta pitaisi loytya, esimerkiksi ensimmaiselta rivilta
+                      // tulisi loytya Aineen nimi.
       
       for (rivi <- riveja) {
         if (rivinro == 1) {
-          aine = Varasto.varasto.keys.find(_.nimi == rivi).getOrElse(throw new VirheellinenData("Kyseistä ainetta "+rivi+" ei ole tiedossa", rivi))
-          rivinro += 1 // Ensimmäiseltä riviltä haetaan kyseessä oleva aine.
+          aine = Varasto.varasto.keys.find(_.nimi == rivi).getOrElse(throw new VirheellinenData("Kyseista ainetta "+rivi+" ei ole tiedossa", rivi))
+          rivinro += 1 // Ensimmaiselta rivilta haetaan kyseessa oleva aine.
         }
         
-        else if (rivinro == 2) {rivinro += 1}  // Toisella rivillä on aineen tiheys, määrä ja mittayksikkö, joten mennään seuraavalle riville
+        else if (rivinro == 2) {rivinro += 1}  // Toisella rivilla on aineen tiheys, maara ja mittayksikko, joten mennaan seuraavalle riville
         
-        else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveiltä (tähtimerkkiin asti) löytyvät kaikki eri ainesosat, jotka kuuluvat aineeseen.
+        else if (rivinro == 3 && rivi != "*") { // Seuraavilta riveilta (tahtimerkkiin asti) loytyvat kaikki eri ainesosat, jotka kuuluvat aineeseen.
           
           val aines = rivi.split(",").toVector
-          val raakaAine = Varasto.varasto.keys.find(_.nimi == aines(0)).getOrElse(throw new OlematonAinesosa("Aines nimeltä " + aines(0) + " ei ole (enää) ohjelman tiedoissa.", rivi))
+          val raakaAine = Varasto.varasto.keys.find(_.nimi == aines(0)).getOrElse(throw new OlematonAinesosa("Aines nimelta " + aines(0) + " ei ole (enaa) ohjelman tiedoissa.", rivi))
           
           ainekset += Tuple3(Varasto.varasto.keys.find(_.nimi == aines(0)).get, aines(1).toDouble, aines(2))
           
-        } else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tähtimerkki tarkoittaa, että enää ei käsitellä ainesosia, vaan siirrytään allergeeneihin.
+        } else if (rivinro == 3 && rivi == "*") rivinro += 1 // Tahtimerkki tarkoittaa, etta enaa ei kasitella ainesosia, vaan siirrytaan allergeeneihin.
         
       }
     } catch {
       
-      case e: IllegalArgumentException => virhe("Annettua tiedostoa " +tiedostonimi+" ei ole olemassa tai se on korruptoitunut.", GUI.pääikkuna);
+      case e: IllegalArgumentException => virhe("Annettua tiedostoa " +tiedostonimi+" ei ole olemassa tai se on korruptoitunut.", GUI.paaikkuna);
       
-      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.paaikkuna)
       
-      case e: OlematonAinesosa => virhe(e.kuvaus, GUI.pääikkuna)
+      case e: OlematonAinesosa => virhe(e.kuvaus, GUI.paaikkuna)
       
     }
     if (aine != null) {
-      aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisältö tekstitiedostoa vastaavaksi.
+      aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisalto tekstitiedostoa vastaavaksi.
     }
   }
   
@@ -201,7 +201,7 @@ object IO {
   
   def lataa() = {
     try {
-      // Jos jääkaappitiedostoa ei ole olemassa, se luodaan
+      // Jos jaakaappitiedostoa ei ole olemassa, se luodaan
       if ( !Files.exists(Paths.get("jaakaappi.txt")) ) {
         tallenna()
       }
@@ -211,30 +211,30 @@ object IO {
       val riveja = tiedosto.getLines().toVector
       
       // Ensin luodaan kaikki "jaakaappi.txt"-tiedostolla olevat Aineet.
-      for (rivi <- riveja) {                                  // käydään jokainen tekstitiedoston rivi läpi (jokaisella rivillä aineen nimi ja sen määrä)
+      for (rivi <- riveja) {                                  // kaydaan jokainen tekstitiedoston rivi lapi (jokaisella rivilla aineen nimi ja sen maara)
         
         val tiedot = rivi.split(",")
         
         val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
-        val määrä        = tiedot(1).toDouble
+        val maara        = tiedot(1).toDouble
         
-        // Kutsutaan Varaston uusiAine-metodia, jolla lisätään metodin lue avulla aineSijainnin määrittelemä Aine-olio Varaston muistiin.
+        // Kutsutaan Varaston uusiAine-metodia, jolla lisataan metodin lue avulla aineSijainnin maarittelema Aine-olio Varaston muistiin.
         val aine = lue(aineSijainti)
         if (aine == null) throw new VirheellinenData("Ainetta " + tiedot(0) + " ei onnistuttu luomaan", tiedot(0)) 
-        Varasto.uusiAine( aine, määrä )          
+        Varasto.uusiAine( aine, maara )          
         
       } 
       
-      // Kun jokainen aine on lisätty Varastoon, yritetään lisätä jokaiselle aineelle sen mahdolliset ainesosat.
+      // Kun jokainen aine on lisatty Varastoon, yritetaan lisata jokaiselle aineelle sen mahdolliset ainesosat.
       for (aine <- Varasto.varasto.keys) {
         lueAinesosat("reseptit/" + aine.nimi + ".txt")
       }
       
     } catch {
       
-      case e: IllegalArgumentException => virhe("Jääkaappi-tiedostossa on virheellistä dataa.", GUI.pääikkuna);
+      case e: IllegalArgumentException => virhe("Jaakaappi-tiedostossa on virheellista dataa.", GUI.paaikkuna);
       
-      case e: VirheellinenData => virhe(e.kuvaus, GUI.pääikkuna)
+      case e: VirheellinenData => virhe(e.kuvaus, GUI.paaikkuna)
       
 
       
