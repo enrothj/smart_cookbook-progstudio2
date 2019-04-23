@@ -3,4 +3,4 @@ spagetti_bolognese
 spagetti,300.0,g
 *
 liha, tomaatti, gluteeni
-spagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti bolognese valmistetaan spagetista ja bolognesekastikkeesta
+spagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,300.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti,400.0,gbolognesekastike,800.0,gspagetti bolognese valmistetaan spagetista ja bolognesekastikkeesta

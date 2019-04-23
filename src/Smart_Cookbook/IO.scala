@@ -237,15 +237,16 @@ object IO {
       for (rivi <- riveja) {                                  // kaydaan jokainen tekstitiedoston rivi lapi (jokaisella rivilla aineen nimi ja sen maara)
         
         val tiedot = rivi.split(",")
+        if (tiedot.length == 2) { // Jos data on korruptoitunutta kyseisellä rivillä, ei tehdä mitään
         
-        val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
-        val maara        = tiedot(1).toDouble
+          val aineSijainti = "reseptit/" + tiedot(0) + ".txt"   // Aine-tiedoston sijainti
+          val maara        = tiedot(1).toDouble
         
-        // Kutsutaan Varaston uusiAine-metodia, jolla lisataan metodin lue avulla aineSijainnin maarittelema Aine-olio Varaston muistiin.
-        val aine = lue(aineSijainti)
-        if (aine == null) throw new VirheellinenData("Ainetta " + tiedot(0) + " ei onnistuttu luomaan", tiedot(0)) 
-        Varasto.uusiAine( aine, maara )          
-        
+          // Kutsutaan Varaston uusiAine-metodia, jolla lisataan metodin lue avulla aineSijainnin maarittelema Aine-olio Varaston muistiin.
+          val aine = lue(aineSijainti)
+          if (aine == null) throw new VirheellinenData("Ainetta " + tiedot(0) + " ei onnistuttu luomaan", tiedot(0)) 
+          Varasto.uusiAine( aine, maara )          
+        }
       } 
       
       // Kun jokainen aine on lisatty Varastoon, yritetaan lisata jokaiselle aineelle sen mahdolliset ainesosat.
