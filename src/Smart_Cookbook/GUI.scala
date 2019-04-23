@@ -25,12 +25,13 @@ object GUI extends SimpleSwingApplication {
   // Paakomponentit:
   
   // Nailla napeilla avataan kolme muuta ikkunaa.
-  val reseptihakuNappi = new Button("Reseptihaku")
-  val luoReseptiNappi  = new Button("Luo Resepti")
-  val varHallintaNappi = new Button("Varaston Hallinta")
-  val sulkunappi       = new Button("Sulje Ohjelma")
-  val avaaAineNappi    = new Button("Avaa aine")
-  val tiheyslaskuri    = new Button("Tiheyslaskuri")
+  val reseptihakuNappi  = new Button("Reseptihaku")
+  val luoReseptiNappi   = new Button("Luo Resepti")
+  val varHallintaNappi  = new Button("Varaston Hallinta")
+  val sulkunappi        = new Button("Sulje Ohjelma")
+  val avaaAineNappi     = new Button("Avaa aine")
+  val reseptitKansiosta = new Button("Reseptit kansiosta")
+  val tiheyslaskuri     = new Button("Tiheyslaskuri")
   
   // Lista aineista, niiden maarasta ja niiden allergeeneista
   val ainelista = new TextArea()
@@ -51,6 +52,7 @@ object GUI extends SimpleSwingApplication {
   paanapit.contents += varHallintaNappi
   paanapit.contents += avaaAineNappi
   paanapit.contents += tiheyslaskuri
+  paanapit.contents += reseptitKansiosta
   paanapit.contents += sulkunappi
   
   val paaaineet = new BoxPanel(Orientation.Vertical)
@@ -78,6 +80,7 @@ object GUI extends SimpleSwingApplication {
   paaikkuna.listenTo(sulkunappi)
   paaikkuna.listenTo(avaaAineNappi)
   paaikkuna.listenTo(tiheyslaskuri)
+  paaikkuna.listenTo(reseptitKansiosta)
   
   paaikkuna.reactions += {
     case painallus: ButtonClicked => 
@@ -132,6 +135,25 @@ object GUI extends SimpleSwingApplication {
            }
            case None => 
           
+          }
+        }
+        
+        // "Reseptit kansiosta"-napilla voidaan täyttää varasto annetun kansion Aineilla
+        case "Reseptit kansiosta" => {
+          val syote = Dialog.showInput(paaikkuna, "Anna kansion sijainti.", initial = "reseptit/")
+          
+          syote match {
+            case Some(komento) => {
+              val onnistui = UI.haeReseptit(komento)
+              if (onnistui) {
+                Dialog.showMessage(paaikkuna, "Reseptit haettiin onnistuneesti sijainnista "+komento+".")
+                paivitaAinelista();
+              }
+              else          Dialog.showMessage(paaikkuna, "Reseptejä ei saatu sijainnista " +komento+".")
+              
+            }
+            
+            case None =>
           }
         }
         
