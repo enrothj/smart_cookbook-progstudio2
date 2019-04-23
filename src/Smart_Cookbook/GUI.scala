@@ -64,7 +64,7 @@ object GUI extends SimpleSwingApplication {
   
   val paaikkuna = new MainFrame
   paaikkuna.contents = napitJaLista
-  paaikkuna.title    = "alykas reseptikirja"
+  paaikkuna.title    = "Alykas reseptikirja"
   paaikkuna.minimumSize     = new Dimension(700, 400)
   paaikkuna.centerOnScreen()
   
