@@ -224,7 +224,7 @@ object UI extends App {
     try {
       Varasto.aineNimelta(korjaaNimi(nimi))
     } catch {
-      case e: OlematonAinePoikkeus => IO.lue("reseptit/"+nimi+"txt") // Jos aine ei ole varastossa, se yritetään löytää reseptikansiosta
+      case e: OlematonAinePoikkeus => IO.lue("reseptit/"+nimi+".txt") // Jos aine ei ole varastossa, se yritetään löytää reseptikansiosta
     }
   }
   
