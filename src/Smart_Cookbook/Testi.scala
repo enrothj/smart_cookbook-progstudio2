@@ -9,7 +9,7 @@ import java.nio.file.Paths
 
 class Testi extends FlatSpec {
   
-  // !HUOM! Yksikkötestien ajo tyhjentää "jääkaappi.txt"-tiedoston 
+  // !HUOM! Yksikkötestien ajo tyhjentää "jääkaappi.txt"-tiedoston !HUOM!
   
   // Esimerkkiruoka-aineita raaka-aineineen.
   
@@ -28,7 +28,8 @@ class Testi extends FlatSpec {
   val kastike   = Aine("bolognese kastike", Buffer("tomaatti", "liha"), "Kastike", 800.0, 800.0, "g")
   val jauheliha = Aine("jauheliha", Buffer("liha"), "jauhelihaa", 0.8, 400.0, "g")
   val tomaattik = Aine("tomaattikastike", Buffer("tomaatti"), "tomaattikastike", 300.0, 3.0, "dl")
-  val sima      = Aine("Sima", Buffer(), "Pullollinen simaa", 1.0, 1.0, "l")
+  
+  val sima       = Aine("Sima", Buffer(), "Pullollinen simaa", 1.0, 1.0, "l")
   lazy val jauho = Varasto.aineNimelta("jauho")
   
   // Lisätään ainesosat aineille
@@ -96,6 +97,7 @@ class Testi extends FlatSpec {
     val simatesti = IO.lue("reseptit/sima.txt")
     assert( simatesti.maara === sima.maara )
   }
+  
   /* Näissä oli jo omat catch-mekanisminsa
   "IO lue" should "heittaa poikkeus, kun annettua tiedostoa ei ole olemassa" in {
     intercept[OlematonAinePoikkeus] {
