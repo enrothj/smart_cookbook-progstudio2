@@ -243,6 +243,23 @@ object IO {
     }
   }
   
+  // Metodi, jolla voidaan hakea kaikki reseptikansiossa olevat aineet.
+  // Varasto käyttää metodia täyttämään varaston tiedot resepteistä, vaikka niitä ei olisi tallennettu jaakaappi.txt:n
+  
+  def lueReseptit(sijainti: String): Buffer[Aine] = {
+    val kansio = new File(sijainti)
+    
+    val tiedostot = kansio.listFiles()
+    
+    var reseptit = Buffer[Aine]()
+    
+    for (resepti <- tiedostot) {
+      reseptit += lue( resepti.getPath() )
+    }
+    
+    reseptit
+  }
+  
   // Metodi poistaa aine-tekstitiedoston
   def poistaAine(nimi: String) = {
     
