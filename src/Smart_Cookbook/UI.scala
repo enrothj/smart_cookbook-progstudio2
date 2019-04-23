@@ -97,6 +97,8 @@ object UI extends App {
 
   }
   
+  
+  // Tätä metodia käytetään aineiden hakuun
   def haeAineet(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): String = {
     
     //Tarkistetaan, etta puuttuvien aineiden kentta on joko Int tai tyhja.
