@@ -47,7 +47,7 @@ object UI extends App {
       Varasto.lisaaReseptit(sijainti)
       true
     } catch {
-      case e: IllegalArgumentException => virhe("Sijainti \"$s{sijainti} ei ole kansio." ,GUI.paaikkuna); false
+      case e: IllegalArgumentException => virhe("Sijainti "+ sijainti + " ei ole kansio." ,GUI.paaikkuna); false
     }
   }
   
