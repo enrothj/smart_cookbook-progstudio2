@@ -9,6 +9,8 @@ import java.nio.file.Paths
 
 class Testi extends FlatSpec {
   
+  // !HUOM! Yksikkötestien ajo tyhjentää "jääkaappi.txt"-tiedoston 
+  
   // Esimerkkiruoka-aineita raaka-aineineen.
   
   /*
