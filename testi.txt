@@ -1,1 +1,2 @@
-lihapulla,1.0
+jauho,1.0
+jauheliha,5.0
