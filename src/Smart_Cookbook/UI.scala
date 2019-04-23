@@ -186,6 +186,7 @@ object UI extends App {
   def muutaYksikko(komento: String): Boolean = {
     
     try {
+      
       val komennonOsat = komento.toLowerCase.split(" ")
       val nimi         = komennonOsat(0)
       val yksikko      = komennonOsat(1)
@@ -197,8 +198,11 @@ object UI extends App {
         tallennaTiedot()
         true
         } else false 
+        
     } catch {
-      case e: KappaleMuunnos => println("Kappalemuotoa kasitellessa mittayksikko pitaa muuttaa aineikkunan kautta."); false
+      case e: KappaleMuunnos           => virhe("Kappalemuotoa kasitellessa mittayksikko pitaa muuttaa aineikkunan kautta.", GUI.paaikkuna); false
+      case e: VirheellinenMittayksikko => virhe(e.kuvaus+" "+e.virheData, GUI.paaikkuna); false
+      case e: IllegalArgumentException => virhe("Annettiin vääränlaista dataa:" + komento, GUI.paaikkuna); false
     }
   }
   
@@ -206,7 +210,7 @@ object UI extends App {
     try {
       Varasto.aineNimelta(korjaaNimi(nimi))
     } catch {
-      case e: OlematonAinePoikkeus => IO.lue("reseptit/"+nimi+"txt")
+      case e: OlematonAinePoikkeus => IO.lue("reseptit/"+nimi+"txt") // Jos aine ei ole varastossa, se yritetään löytää reseptikansiosta
     }
   }
   
