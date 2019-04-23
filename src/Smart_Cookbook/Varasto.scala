@@ -105,7 +105,11 @@ object Varasto {
     val kokoelma = IO.lueReseptit(sijainti)
     
     for (aine <- kokoelma) {
-      if (!onOlemassa(aine.nimi)) uusiAine(aine) // Uusi aine lisätään vain, jos se ei ole jo varastossa.
+      try {
+        if (!onOlemassa(aine.nimi)) uusiAine(aine) // Uusi aine lisätään vain, jos se ei ole jo varastossa.
+      } catch {
+        case e: NullPointerException =>
+      }
     }
   }
   

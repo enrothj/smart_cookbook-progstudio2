@@ -1,7 +1,5 @@
 bolognesekastike
 5.0,800.0,g
-jauheliha,400.0,g
-tomaattikastike,3.0,dl
 *
 tomaatti, liha
-jauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauhelihasta ja tomaattikastikkeesta tehty kastike
+jauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,3.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauheliha,400.0,gtomaattikastike,5.0,dljauhelihasta ja tomaattikastikkeesta tehty kastike
