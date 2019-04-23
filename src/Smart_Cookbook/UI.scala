@@ -178,18 +178,21 @@ object UI extends App {
     
   }
   
+
+  
   // Nailla metodeilla kutsutaan Varasto-olion metodeja, jotta voidaan hallita sen tietoja.
   
 
   // Metodi tarkistaa onko annetun niminen aine olemassa ja poistaa sen, jos on. Palauttaa true, jos toimenpide onnistuu.
   def poistaAine(nimi: String): Boolean = {
-    if (Varasto.onOlemassa(nimi)) {
-      Varasto.poistaAine(nimi)
-      IO.poistaAine(nimi)
-      // tallennetaan tiedot tekstitiedostoille, etteivat tiedot katoa
+    try {
+      val poistettuVarastosta: Boolean = Varasto.poistaAine(nimi)
+      val poistettuTiedosto: Boolean   = IO.poistaAine(nimi)
       tallennaTiedot()
-      true
-      } else false
+      poistettuVarastosta && poistettuTiedosto
+    } catch {
+      case e: OlematonAinePoikkeus => virhe(e.kuvaus, GUI.paaikkuna); true
+    }
   }
   
   // Metodi tarkistaa onko annettun niminen aine olemassa, ja onko kohdeyksikko tunnistettu, ja muuttaa sitten aineen yksikon.

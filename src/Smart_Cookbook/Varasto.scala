@@ -34,9 +34,10 @@ object Varasto {
     }
   }
   
-  def poistaAine(nimi: String) = {
+  def poistaAine(nimi: String): Boolean = {
     if (!onOlemassa(nimi)) throw new OlematonAinePoikkeus("Kyseista ainetta ei ole ohjelman muistissa.", nimi)
     else varasto -= Hakukone.haeNimi(nimi).get
+    onOlemassa(nimi)
   }
   
   

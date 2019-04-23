@@ -264,11 +264,13 @@ object IO {
   }
   
   // Metodi poistaa aine-tekstitiedoston
-  def poistaAine(nimi: String) = {
+  def poistaAine(nimi: String): Boolean = {
     
     val sijainti: String = "reseptit/" + nimi + ".txt"
     
-    new File(sijainti).delete()
+    Files.deleteIfExists(Paths.get(sijainti))
+    
+    Files.exists(Paths.get(sijainti))
   }
   
   private def virhe(viesti: String, ikkuna: scala.swing.Window) = GUI.virheviesti(viesti, ikkuna)
