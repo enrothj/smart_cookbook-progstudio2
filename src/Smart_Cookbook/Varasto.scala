@@ -53,10 +53,14 @@ object Varasto {
   }
   
   // Tama metodi asettaa kaikkien varaston aineiden maaraksi 0.0
-  def nollaa() = varasto.mapValues(x => 0.0)
+  def nollaa() = {
+    for (aine <- varasto) {
+      varasto(aine._1) = 0.0
+    }
+  }
   
   // Tama metodi poistaa kaikki varaston tiedot
-  def tyhjenna() = varasto.empty
+  def tyhjenna() = varasto = varasto.empty
   
   
   // Metodi listaaAineet palauttaa kaksiulotteisen taulukon, jossa on jokaisen aineen nimi, maara ja allergeenit. Kaytetaan kayttoliittyman paaikkunan listaa varten
