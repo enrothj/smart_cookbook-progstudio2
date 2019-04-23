@@ -167,22 +167,22 @@ class Aine(val nimi: String,
     var aineet: Buffer[Tuple3[Aine, Double, String]] = Buffer[Tuple3[Aine, Double, String]]()  // aineet-muuttujaan kootaan kaikki raaka-aineet
     
     
-    if (!onRaakaAine) {                                                 // Jos kyseessa ei ole raaka-aine...
+    if (!this.onRaakaAine) {                                                 // Jos kyseessa ei ole raaka-aine...
 
       
       for (aine <- this.ainesosat) {                                    // ... kaydaan lapi ainesosat.
-        var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()   // ainekset- muuttujaan kerataan taman kyseisen aineen mahdolliset raaka-aineet.
+        var raakaAineet: Buffer[Tuple3[Aine, Double, String]] = Buffer()   // ainekset- muuttujaan kerataan taman kyseisen aineen mahdolliset raaka-aineet.
         
         if (aine._1.onRaakaAine) {                                      // Jos ainesosa on raaka-aine,
-          ainekset += aine                                              // lisataan aineet-muuttujaan reseptissa mainittu ainesosa-alkio (aine, maara, yksikko).
+          raakaAineet += aine                                              // lisataan aineet-muuttujaan reseptissa mainittu ainesosa-alkio (aine, maara, yksikko).
         } 
         
         else {
-          ainekset.union(aine._1.aineetYhteensa)                        // Jos aineella on omat ainesosansa, kutsutaan rekursiivisesti tata metodia ainesosalle.
-                                                                        // Lisataan raaka-aineet ainekset-muuttujaan.
+          raakaAineet = raakaAineet ++ aine._1.aineetYhteensa                        // Jos aineella on omat ainesosansa, kutsutaan rekursiivisesti tata metodia ainesosalle.
+                                                                       // Lisataan raaka-aineet ainekset-muuttujaan.
         }
         
-        aineet.union(ainekset)                                          // Lisataan nama raaka-aineet aineet-muuttujaan.               
+        aineet = aineet ++ raakaAineet                                          // Lisataan nama raaka-aineet aineet-muuttujaan.               
       }
       
     }
