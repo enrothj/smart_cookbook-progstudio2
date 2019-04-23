@@ -41,6 +41,17 @@ object UI extends App {
   }
   
   
+  // Metodilla voidaan hakea Aineita annetusta kansiosta
+  def haeReseptit(sijainti: String): Boolean = {
+    try {
+      Varasto.lisaaReseptit(sijainti)
+      true
+    } catch {
+      case e: IllegalArgumentException => virhe("Sijainti \"$s{sijainti} ei ole kansio." ,GUI.paaikkuna); false
+    }
+  }
+  
+  
   // Metodi palauttaa taulukon, GUI:n hakutuloksia varten. HUOM TARPEETON TaLLa HETKELLa, koska GUI ei kayta enaa Table-olioita
   def haeAineetTaulukkoon(nimi: String, allergeeniSuodatin: String, maxPuuttuvatAineet: String): Array[Array[(String, Double)]] = {
 
