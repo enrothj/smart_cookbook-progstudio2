@@ -243,11 +243,12 @@ object IO {
     }
   }
   
-  // Metodi, jolla voidaan hakea kaikki reseptikansiossa olevat aineet.
+  // Metodi, jolla voidaan hakea kaikki annetussa kansiossa olevat aineet.
   // Varasto käyttää metodia täyttämään varaston tiedot resepteistä, vaikka niitä ei olisi tallennettu jaakaappi.txt:n
   
   def lueReseptit(sijainti: String): Buffer[Aine] = {
     val kansio = new File(sijainti)
+    if ( !kansio.isDirectory() ) throw new IllegalArgumentException // Poikkeus heitetään, jos annettu sijainti ei ole kansio
     
     val tiedostot = kansio.listFiles()
     
