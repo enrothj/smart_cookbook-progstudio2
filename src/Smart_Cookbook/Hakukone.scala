@@ -29,20 +29,20 @@ object Hakukone {
       if (onValmiina(aine.nimi, 0.1, aine.mittayksikko, Varasto.varasto)) lista += aine
       
       // Ainetta voidaan valmistaa olemassa olevista aineksista
-      else if (voiValmistaa(aine, aine.maara, aine.mittayksikko, Varasto.varasto)) lista += aine
+      else if (voiValmistaa(aine, aine.maara, aine.mittayksikko)) lista += aine
       
       //Aine on raaka-aine JA n ei ole nolla. Eli toisin sanoen, aineita saa puuttua, ja tata ainetta ei voi valmistaa itse (esim. maito haetaan kaupasta yms. ei valmisteta).
       else if (aine.onRaakaAine && n > 0) lista += aine
       
       // Aine ei ole raaka-aine JA puuttuvien AINESOSIEN maara on korkeintaan n, eli:
       //  ainesten kokonaislkm - valmistettavissa olevat ainekset   oltava korkeintaan  sallittu maara puuttuvia aineksia
-      else if (ainekset.length - ainekset.filter(x => Hakukone.voiValmistaa(x, x.maara, x.mittayksikko, Varasto.varasto)).length <= n && !aine.onRaakaAine && n != 0) {
+      else if (ainekset.length - ainekset.filter(x => Hakukone.voiValmistaa(x, x.maara, x.mittayksikko)).length <= n && !aine.onRaakaAine && n != 0) {
         lista += aine
         }
       
       // Aine ei ole raaka-aine JA puuttuvien RAAKA-AINEIDEN maara on korkeintaan n, eli:
       //  raaka-aineiden kokonaislkm -                   valmistettavissa olevat raaka-aineet       <=  sallittu maara puuttuvia raaka-aineksia
-      else if (raakaAineet.length - raakaAineet.filter(x => Hakukone.voiValmistaa(x, x.maara, x.mittayksikko,  Varasto.varasto)).length <= n && !aine.onRaakaAine && n != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisataan listaan.
+      else if (raakaAineet.length - raakaAineet.filter(x => Hakukone.voiValmistaa(x, x.maara, x.mittayksikko)).length <= n && !aine.onRaakaAine && n != 0) {lista += aine; println("Aineen voi valmistaa raaka-aineistaan")} // Jos aineksia puuttuu korkeintaan n, aine lisataan listaan.
       
     }
     
@@ -91,14 +91,12 @@ object Hakukone {
   
   
   
-  def voiValmistaa(aine: Aine, maara: Double, yksikko: String, varasto: scala.collection.mutable.Map[Aine, Double]): Boolean = {
+  def voiValmistaa(aine: Aine, maara: Double, yksikko: String): Boolean = {
     val ainekset: Buffer[(Aine, Double, String)] = aine.ainesosat.toBuffer     // Kokoelma aineen ainesosista ja käytettävistä määristä. Jos niitä ei ole, ainetta ei voi valmistaa
-    if (ainekset.isEmpty) return false
+    if (ainekset.isEmpty) return onValmiina(aine.nimi, maara, yksikko, Varasto.varasto)
     
     var valmistettavissa: Buffer[(Aine, Double, String)] = Buffer()            // Ainesosat, jotka voidaan valmistaa varaston aineista
     var aineetRiittaa: Boolean = false
-    
-    var temp = varasto                                        // Luodaan väliaikainen kopio varastosta. Tätä käytetään, jos täytyy valmistaa aineksia raaka-aineista
     
     for (aines <- ainekset) {                                                        // Kaydaan lapi kaikki aineen ainesosat
       
@@ -106,18 +104,17 @@ object Hakukone {
       val rMaara   = aines._2
       val rYksikko = aines._3
       
-      if (onValmiina(rAine.nimi, rMaara, rYksikko, temp)) {
-        valmistettavissa += aines                                                                      // Jos ainesosaa on tarpeeksi valmiina varastossa, se lisataan valmistettavissa-muuttujaan
-        temp(rAine) = temp(rAine) - Muuntaja.laske(rAine.tiheys, rYksikko, rMaara, rAine.mittayksikko) // Otetaan käytetty määrä ainetta pois varastosta
+      if (onValmiina(rAine.nimi, rMaara, rYksikko, Varasto.varasto)) {
+        valmistettavissa += aines                           // Jos ainesosaa on tarpeeksi valmiina varastossa, se lisataan valmistettavissa-muuttujaan
       }
       
-      else if (voiValmistaa(rAine, rMaara, rYksikko, temp)) {                                          // Jos ei, metodia kutsutaan rekursiivisesti ainesosalle.
-        valmistettavissa += aines                                                                      // Jos ainesosa voidaan valmistaa omista ainesosistaan, se lisataan valmistettavissa-muuttujaan.
-        temp(rAine) = temp(rAine) - Muuntaja.laske(rAine.tiheys, rYksikko, rMaara, rAine.mittayksikko) // Otetaan käytetty määrä pois varastosta
+      else if (voiValmistaa(rAine, rMaara, rYksikko)) {     // Jos ei, metodia kutsutaan rekursiivisesti ainesosalle.
+        valmistettavissa += aines                            // Jos ainesosa voidaan valmistaa omista ainesosistaan, se lisataan valmistettavissa-muuttujaan.
+        
       }
     }
     
-    if (ainekset == valmistettavissa) aineetRiittaa = true                     // Jos valmistettavissa-muuttujassa on kaikki samat ainesosat kuin ainekset-muuttujassa, se voidaan valmistaa.
+    if (ainekset.length == valmistettavissa.length) aineetRiittaa = true   // Jos valmistettavissa-muuttujassa on kaikki samat ainesosat kuin ainekset-muuttujassa, se voidaan valmistaa.
     
     aineetRiittaa
   }
