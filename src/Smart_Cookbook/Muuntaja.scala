@@ -24,7 +24,8 @@ package Smart_Cookbook
  *  Ohjelma kayttaa myos 'yksikkoa' "kpl" kuvaamaan annoksia tai kappaleita. Naita ei kuitenkaan ole tarkoitus muuntaa muihin mittayksikoihin,
  *  joten jos naita syottaa Muuntajalle, ohjelma heittaa KappaleMuunnos-poikkeuksen.
  *  
- *  Ohjelma käyttää muunnoksissa tiheyden yksikköä g/ml. (1 g/ml = 1 kg/l, mm. veden tiheys)
+ *  Ohjelma käyttää muunnoksissa tiheyden yksikköä g/ml. (1 g/ml = 1 kg/l, mm. veden tiheys). Tiheys on aina tässä yksikössä, kun se ilmenee
+ *  ohjelmassa.
  */
 
 
@@ -122,7 +123,7 @@ object Muuntaja {
   
   def massaTilavuus(d: Double, massayksikko: String, tilavuusyksikko: String, m: Double): Double = {
     
-    val perustilavuus = d / (m * suhdeMassa(massayksikko, "g")) // Muuttujaan perustilavuus lasketaan aineen tilavuus ohjelman perusyksikossa "ml",
+    val perustilavuus = (m * suhdeMassa(massayksikko, "g")) / d  // Muuttujaan perustilavuus lasketaan aineen tilavuus ohjelman perusyksikossa "ml",
     val kohdetilavuus = tilavuusTilavuus("ml", tilavuusyksikko, perustilavuus) // josta se muutetaan kohdemittayksikkoon.
     
     kohdetilavuus
