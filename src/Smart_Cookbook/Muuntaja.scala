@@ -70,9 +70,10 @@ object Muuntaja {
    *  Metodi onkoMassa palauttaa arvon true, jos annettu parametri s on ohjelman tunnistama massan mittayksikko. Jos se on tilaavuden yksikko, metodi palauttaa false.
    *  Jos annettu ei ole listattu muuttujissa massat tai tilavuudet, metodi heittaa poikkeuksen.
    */
-  private def onkoMassa(s: String): Boolean = if (massat.contains(s)) true else if (tilavuudet.contains(s)) false 
-                                              else if (s == "kpl") throw new KappaleMuunnos("Yritettiin tarkistaa onko 'kpl' massan yksikko", s)
-                                              else throw new VirheellinenMittayksikko("Annettiin tuntematon mittayksikko.", s)
+  private def onkoMassa(s: String): Boolean = if (massat.contains(s))          true 
+                                              else if (tilavuudet.contains(s)) false 
+                                              else if (s == "kpl")             throw new KappaleMuunnos("Yritettiin tarkistaa onko 'kpl' massan yksikko", s)
+                                              else                             throw new VirheellinenMittayksikko("Annettiin tuntematon mittayksikko.", s)
   
   
   // Metodi tunnistettu tarkistaa onko annettu mittayksikko ohjelman tunnistama.
@@ -92,9 +93,9 @@ object Muuntaja {
   
   // metodi suhde tunnistaa onko kyseessa massa- vai tilavuusmuunnos, ja kayttaa sopivaa metodia palauttaakseen mittayksikoiden suhteen.
   def suhde(a: String, b: String): Double = {
-    if (onkoMassa(a) && onkoMassa(b)) suhdeMassa(a, b)                  // Jos parametrit a ja b loytyvat massayksikoiden listasta, kaytetaan suhdeMassat-metodia.
-    else if (!onkoMassa(a) && !onkoMassa(b)) suhdeTilavuus(a, b)  // Samoin tilavuuksien puolesta. Jos a ja b eivat tayta naita ehtoja, heitetaan poikkeus.
-    else throw new IllegalArgumentException("Parametrit olivat eri muotoa.")
+    if      (onkoMassa(a) && onkoMassa(b))    suhdeMassa(a, b)                  // Jos parametrit a ja b loytyvat massayksikoiden listasta, kaytetaan suhdeMassat-metodia.
+    else if (!onkoMassa(a) && !onkoMassa(b))  suhdeTilavuus(a, b)               // Samoin tilavuuksien puolesta. Jos a ja b eivat tayta naita ehtoja, heitetaan poikkeus.
+    else                                      throw new IllegalArgumentException("Parametrit olivat eri muotoa.")
   }
   
   /*
@@ -149,10 +150,10 @@ object Muuntaja {
      *  Uuden arvon laskemiseen kaytetaan xX-metodeita (esim. massaMassa).
      */
     val uusiMaara = {
-      if (onkoMassa(yksikko1) && onkoMassa(yksikko2)) massaMassa(yksikko1, yksikko2, maara)                  // Jos seka aloitusmittayksikko etta kohdemittayksikko ovat massan yksikoita, kaytetaan
-      else if (!onkoMassa(yksikko1) && !onkoMassa(yksikko2)) tilavuusTilavuus(yksikko1, yksikko2, maara)     // metodia massaMassa. Muut osat toimivat samalla periaatteella.
-      else if (onkoMassa(yksikko1) && !onkoMassa(yksikko2)) massaTilavuus(d, yksikko1, yksikko2, maara)
-      else tilavuusMassa(d, yksikko1, yksikko2, maara)                                                       // Jos edellisia kolmea ehtoa ei ole taytetty, kyseessa on tilavuus->massa -muunnos.
+      if (onkoMassa(yksikko1) && onkoMassa(yksikko2))          massaMassa(yksikko1, yksikko2, maara)        // Jos seka aloitusmittayksikko etta kohdemittayksikko ovat massan yksikoita, kaytetaan
+      else if (!onkoMassa(yksikko1) && !onkoMassa(yksikko2))   tilavuusTilavuus(yksikko1, yksikko2, maara)  // metodia massaMassa. Muut osat toimivat samalla periaatteella.
+      else if (onkoMassa(yksikko1) && !onkoMassa(yksikko2))    massaTilavuus(d, yksikko1, yksikko2, maara)
+      else                                                     tilavuusMassa(d, yksikko1, yksikko2, maara)  // Jos edellisia kolmea ehtoa ei ole taytetty, kyseessa on tilavuus->massa -muunnos.
     }
     
     uusiMaara
@@ -166,7 +167,7 @@ object Muuntaja {
     
     // Tarkistetaan ovatko annetut mittayksikot sopivat
     if (!onkoMassa(mYksikko)) throw new VirheellinenMittayksikko(mYksikko + " ei ole tunnistettu massan mittayksikko.", mYksikko)
-    if (onkoMassa(tYksikko)) throw new VirheellinenMittayksikko(tYksikko + " ei ole tunnistettu tilavuuden mittayksikko.", tYksikko)
+    if (onkoMassa(tYksikko))  throw new VirheellinenMittayksikko(tYksikko + " ei ole tunnistettu tilavuuden mittayksikko.", tYksikko)
     
     // Maarien tulee olla > 0.0
     require(massa > 0.0 && tilavuus > 0.0)
