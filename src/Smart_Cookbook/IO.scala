@@ -90,11 +90,13 @@ object IO {
     var ainesosat: Buffer[Tuple3[Aine, Double, String]] = Buffer()
     var allergeenit: Buffer[String] = Buffer()
     
-    try {
-      // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
-      if ( !Files.exists(Paths.get(tiedostonimi)) ) throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
+    // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
+    if ( !Files.exists(Paths.get(tiedostonimi)) ) throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
       
-      val tiedosto = Source.fromFile(tiedostonimi)
+    val tiedosto = Source.fromFile(tiedostonimi)
+    
+    try {
+      
       
       val riveja = tiedosto.getLines().toVector
       
@@ -106,6 +108,7 @@ object IO {
         
         else if (rivinro == 2) {                       // Toiselta rivilta haetaan aineen tiheys, maara ja mittayksikko.
           val tiedot   = rivi.split(",").toVector
+          if (tiedot.length != 3) throw new VirheellinenData("Tiedosto "+tiedostonimi+" on korruptoitunut.", tiedostonimi)
           tiheys       = tiedot(0).toDouble
           maara        = tiedot(1).toDouble
           mittayksikko = tiedot(2)
@@ -137,6 +140,8 @@ object IO {
       
       //case _: Throwable => println("Tapahtui odottamaton virhe")
       
+    } finally {
+      tiedosto.close()
     }
     
     if (nimi == "") {
@@ -155,11 +160,13 @@ object IO {
     var aine: Aine = null
     var ainekset: Buffer[Tuple3[Aine, Double, String]] = Buffer()
     
-    try {
-      // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
-      require( Files.exists(Paths.get(tiedostonimi)) )
+    // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
+    if ( !Files.exists(Paths.get(tiedostonimi)) ) throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
         
-      val tiedosto = Source.fromFile(tiedostonimi)
+    val tiedosto = Source.fromFile(tiedostonimi)
+    
+    try {
+      
      
       val riveja = tiedosto.getLines().toVector
       
@@ -192,7 +199,11 @@ object IO {
       
       case e: OlematonAinesosa => virhe(e.kuvaus, GUI.paaikkuna)
       
+    } finally {
+      tiedosto.close()
     }
+    
+    
     if (aine != null) {
       aine.ainesosat = ainekset.toArray   // Muutetaan ainesosat muuttujan sisalto tekstitiedostoa vastaavaksi.
     }
@@ -204,13 +215,16 @@ object IO {
    */
   
   def lataa(sijainti: String) = {
-    try {
-      // Jos jaakaappitiedostoa ei ole olemassa, se luodaan
-      if ( !Files.exists(Paths.get(sijainti)) ) {
-        tallenna(sijainti)
-      }
     
-      val tiedosto = Source.fromFile(sijainti)           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
+    // Jos jaakaappitiedostoa ei ole olemassa, se luodaan
+    if ( !Files.exists(Paths.get(sijainti)) ) {
+      tallenna(sijainti)
+    }
+    
+    val tiedosto = Source.fromFile(sijainti)           // haetaan tallennetut tiedot "jaakaappi.txt"-tiedostolta
+    
+    try {
+      
     
       val riveja = tiedosto.getLines().toVector
       
@@ -240,9 +254,10 @@ object IO {
       
       case e: VirheellinenData => virhe(e.kuvaus, GUI.paaikkuna)
       
-
-      
+    } finally {
+      tiedosto.close()
     }
+    
   }
   
   // Metodi, jolla voidaan hakea kaikki annetussa kansiossa olevat aineet.
@@ -268,9 +283,9 @@ object IO {
     
     val sijainti: String = "reseptit/" + nimi + ".txt"
     
-    Files.deleteIfExists(Paths.get(sijainti))
+    Files.delete(Paths.get(sijainti))
     
-    Files.exists(Paths.get(sijainti))
+    !Files.exists(Paths.get(sijainti))
   }
   
   private def virhe(viesti: String, ikkuna: scala.swing.Window) = GUI.virheviesti(viesti, ikkuna)
