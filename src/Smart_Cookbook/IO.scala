@@ -135,13 +135,13 @@ object IO {
         
     } catch {
       
-      case e: OlematonAinePoikkeus       => virhe(e.kuvaus, GUI.paaikkuna);
+      case e: OlematonAinePoikkeus       => virhe(e.kuvaus, GUI.paaikkuna); virheLuomisessa = true;
       
-      case e: IllegalArgumentException   => virhe("Ainetiedosto "+tiedostonimi+" on korruptoitunut.", GUI.paaikkuna);
+      case e: IllegalArgumentException   => virhe("Ainetiedosto "+tiedostonimi+" on korruptoitunut.", GUI.paaikkuna); virheLuomisessa = true;
       
-      case e: IndexOutOfBoundsException  => virhe("Ainetiedosto " + tiedostonimi+" on korruptoitunut.", GUI.paaikkuna)
+      case e: IndexOutOfBoundsException  => virhe("Ainetiedosto " + tiedostonimi+" on korruptoitunut.", GUI.paaikkuna); virheLuomisessa = true;
       
-      case e: VirheellinenData           => virhe(e.kuvaus, GUI.paaikkuna)
+      case e: VirheellinenData           => virhe(e.kuvaus, GUI.paaikkuna); virheLuomisessa = true;
       
       //case _: Throwable => println("Tapahtui odottamaton virhe")
       

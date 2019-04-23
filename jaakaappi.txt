@@ -1,1 +1,13 @@
+jauheliha,700.0
+bolognesekastike,0.0
+vesi,14.666666666666666
+spagetti_bolognese,0.0
+korppujauho,0.0
+makkara,50.0
+spagetti,0.0
+Sima,0.0
 jauho,0.0
+tomaattikastike,0.0
+vehnäjauho,300.0
+kananmuna,0.0
+lihapulla,0.0
