@@ -95,5 +95,17 @@ object Varasto {
     aine.mittayksikko = yksikko                                       // Muutetaan aineen perusmittayksikoksi annettu yksikko.
   }
   
+  /* Metodilla voidaan lisata aineita reseptikansiosta. Parametrina annetaan kansio, josta reseptit halutaan hakea.
+   *  Metodi saa Aine-kokoelman IO.lueReseptit metodin kautta.
+   * Metodia käytetään esim. jos jaakaappi.txt on tyhjennetty, mutta Varasto halutaan tayttaa uudelleen resepteista,
+   *  tai jos on saatu uusi resepti tekstitiedostona
+   */
+  def lisaaReseptit(sijainti: String) = {
+    val kokoelma = IO.lueReseptit(sijainti)
+    
+    for (aine <- kokoelma) {
+      if (!onOlemassa(aine.nimi)) uusiAine(aine) // Uusi aine lisätään vain, jos se ei ole jo varastossa.
+    }
+  }
   
 }
