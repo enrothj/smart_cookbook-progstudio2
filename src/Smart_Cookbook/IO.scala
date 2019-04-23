@@ -90,8 +90,13 @@ object IO {
     var ainesosat: Buffer[Tuple3[Aine, Double, String]] = Buffer()
     var allergeenit: Buffer[String] = Buffer()
     
+    var virheLuomisessa: Boolean = false // Tähän muuttujaan merkitään, jos tiedoston lukemisessa aiheutui jokin virhe
+    
     // Tarkistetaan, etta annetun niminen tiedosto on olemassa.
-    if ( !Files.exists(Paths.get(tiedostonimi)) ) throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
+    if ( !Files.exists(Paths.get(tiedostonimi)) ) {
+      virheLuomisessa = true
+      throw new OlematonAinePoikkeus("Reseptit kansiossa ei ole tiedostoa nimeltä " + tiedostonimi, tiedostonimi)
+    }
       
     val tiedosto = Source.fromFile(tiedostonimi)
     
@@ -144,7 +149,7 @@ object IO {
       tiedosto.close()
     }
     
-    if (nimi == "") {
+    if (nimi == "" || virheLuomisessa) {
       virhe("Uuden aineen luonti epaonnistui", GUI.paaikkuna)
       return null
     }
