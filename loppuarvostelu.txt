@@ -1,0 +1,25 @@
+Grade: 3
+= Hyvää =
+
+Loppudemossa olit hyvin selvillä ohjelman rajoituksista.
+Dokumentti on kelvollisen selkeä, ja siinä on kerrottu rehellisesti myös ohjelman puutteista.
+Sovellus tarjoaa tehtävänannossa pyydettyjä toimintoja.
+Sovellukseen on luotu omia poikkeusluokkia.
+Joitakin yksikkötestejä on kirjoitettu.
+Käyttäjän syötettä on tarkastettu jollain tasolla, mutta ei täsmällisesti.
+Tiedostojenkäsittelyssä on huomioitu virhetilanteita.
+
+
+= Kehitettävää =
+Palautetussa paketissa oli useampi kansio. Smart_cookbook-kansion sovellus onneksi käynnistyi, joten en alkanut ihmetellä muiden kansioiden olemassaoloa ja suhteita Smart_cookbook-kansioon. Kirjastotiedostot sijoitetaan yleensä projektin juureen src-kansion rinnalle luotavaan lib-kansioon.
+
+Koodia voisi muotoilla selkeämmäksi. Erityisesti rivien pituus ja rivinvaihtojen epäjohdonmukainen käyttö tekee lukemisesta vaikeaa. Kelvollisilla asetuksilla automaattinen muotoilu voisi auttaa asiaa helposti.
+
+Teknisesti ottaen ohjelmassa on graafinen käyttöliittymä, mutta käytännössä sen käyttö pohjautuu tekstikomentoihin ja -tulosteisiin. Käyttöliittymää ei siis ole toteutettu graafisen käyttöliittymän hengessä, ja se hyödyntää graafisten käyttöliittymien tarjoamia mahdollisuuksia vain heikosti. Käyttöliittymän ikkunoissa on ohjeistettu kirjoitettavien tekstikomentojen toimintaa hyvin. Toisaalta, käyttöliittymän luonteen huomioiden, näin on tietysti pakkokin tehdä, jotta ohjelmaa voisi ylipäätään käyttää. Esimerkiksi reseptiä luotaessa virheellinen syöte kyllä huomattiin ja virheilmoitus annettiin viestidialogilla, mutta reseptinluonti-ikkuna sulkeutui; ohjelma ei siis tässäkään toimi graafisen käyttöliittymän hengen mukaisesti. Lisäksi virheilmoitus ei yksilöinyt virheen syytä tarkasti, vaan jätti täsmällisen syyn löytämisen käyttäjän vastuulle. Myöskään ikkunat, joissa on vain muutama painike, eivät ole kovin järkeviä.
+
+
+= Kommentteja =
+
+Lopullinen toteutus on tehty vaikeustasolla keskivaikea, ja teknisesti tarkastellen työ täyttää kyseisen tason vaatimukset. Graafisen käyttöliittymän toteutus ei käytännössä juurikaan ole graafinen käyttöliittymä. Jos se olisi tulkittavissa sellaiseksi graafisten käyttöliittymien hengen mukaisesti, niin pienistä puutteista ei sakotettaisi. Tässä tapauksessa kuitenkin pudottaisin arvosanan oletuksena annettavasta 3:sta 2:een. Toisaalta, vaikeustasolla helppo arvostellen arvosana kohoaisi oletuksena annettavasta 2:sta numerolla, ja lopulliseksi arvosanaksi voidaan valita näistä vaihtoehdoista parempi, eli 3.
+
+Kaksi ensimmäistä väliraporttia oli palautettu ajoissa, minkä lisäksi GitLabia oli käytetty kehitystyön apuna. Näistä palkitaan lopullisen kurssiarvosanan tuottavaan painotettuun keskiarvoon lisättävillä 0.2 pisteellä.
